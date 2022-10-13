@@ -6,7 +6,11 @@
     "@date-io/date-fns": "^2.16.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+<<<<<<< HEAD
     "@mui/icons-material": "^5.10.9",
+=======
+    "@mui/icons-material": "^5.10.6",
+>>>>>>> 68cc306d024df1bdfeac424470b3ad4afbea7925
     "@mui/material": "^5.10.9",
     "@mui/x-data-grid": "^5.17.6",
     "@mui/x-date-pickers": "^5.0.4",
