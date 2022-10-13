@@ -8,7 +8,7 @@ import (
 
 type Location struct {
 	gorm.Model
-	Name      string
+	Lname     string
 	Activitys []Activity `grom:"foreignkey:LocationID"`
 }
 
