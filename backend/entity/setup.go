@@ -26,6 +26,10 @@ func SetupDatabase() {
 		&Behavior_Type{},
 		&Student{},
 		&Behavior_Point{},
+
+		&Academy{},
+		&Teacher{},
+		&Branch{},
 	)
 
 	db = database
@@ -112,6 +116,76 @@ func SetupDatabase() {
 		Behavior_Type: traffic,
 		Student:       vanessa,
 	})
+
+	//////////////////branch//////////////////////////////////
+
+	///////////////// Academy /////////
+
+	Engineering := Academy{
+		Name:          "Engineering",
+		Building_name: "Engineering building",
+	}
+	db.Model(&Academy{}).Create(&Engineering)
+
+	Science := Academy{
+		Name:          "Science",
+		Building_name: "Science building",
+	}
+	db.Model(&Academy{}).Create(&Science)
+
+	/////////////// branch /////////////
+	b1 := Branch{
+		Name:    "Computer Engineering",
+		Contact: "333-777-111",
+		Academy: Engineering,
+		Admin:   theerawat,
+	}
+	b2 := Branch{
+		Name:    "Bachelor of Science (Chemistry)",
+		Contact: "666-999-555",
+		Academy: Science,
+		Admin:   thanadet,
+	}
+	db.Model(&Branch{}).Create(&b1)
+	db.Model(&Branch{}).Create(&b2)
+
+	p1 := Prefix{
+		FullName:  "ศาสตรา์จารย์",
+		ShortName: "ศ.",
+	}
+	p2 := Prefix{
+		FullName:  "รองศาสตรา์จารย์",
+		ShortName: "รศ.",
+	}
+	p3 := Prefix{
+		FullName:  "ผู้ช่วยศาสตรา์จารย์",
+		ShortName: "ผศ.",
+	}
+	db.Model(&Prefix{}).Create(&p1)
+	db.Model(&Prefix{}).Create(&p2)
+	db.Model(&Prefix{}).Create(&p3)
+
+	Pornsak := Teacher{
+		TfirstName: "Pornsak",
+		TlastName:  "Songsang",
+		Temail:     "pornsakS@gmail.com",
+		Tcontact:   "111-222-3333",
+		Prefix:     p1,
+		Admin:      theerawat,
+		Branch:     b1,
+	}
+	db.Model(&Teacher{}).Create(&Pornsak)
+
+	Bird := Teacher{
+		TfirstName: "Bird",
+		TlastName:  "Thongchai",
+		Temail:     "birdT@hotmail.com",
+		Tcontact:   "444-555-6666",
+		Prefix:     p2,
+		Admin:      thanadet,
+		Branch:     b2,
+	}
+	db.Model(&Teacher{}).Create(&Bird)
 
 	fmt.Printf("\nEnd Querry\n")
 }

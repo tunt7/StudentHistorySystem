@@ -9,4 +9,5 @@ type Admin struct {
 	Aemail          string
 	Apassword       string
 	Behavior_Points []Behavior_Point `gorm:"foreignKey:AdminID"`
+	Teachers        []Teacher        `gorm:"foreignkey:AdminID"`
 }
