@@ -9,10 +9,6 @@ type Admin struct {
 	Aemail          string
 	Apassword       string
 	Behavior_Points []Behavior_Point `gorm:"foreignKey:AdminID"`
-<<<<<<< HEAD
 	Teacher         []Teacher        `gorm:"foreignKey:AdminID"`
 	Branch          []Branch         `gorm:"foreignKey:AdminID"`
-=======
-	Teachers        []Teacher        `gorm:"foreignkey:AdminID"`
->>>>>>> 734e7698cf3dc3bc2f860edf4abb07291dd9078b
 }

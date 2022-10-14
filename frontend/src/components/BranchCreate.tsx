@@ -24,11 +24,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-<<<<<<< HEAD
 function BHCreate() {
-=======
-function BranchCreate() {
->>>>>>> 734e7698cf3dc3bc2f860edf4abb07291dd9078b
     const [date, setDate] = React.useState<Date | null>(null);
     const [bh, setBh] = React.useState<Partial<BHInterface>>({});
     const [success, setSuccess] = React.useState(false);
@@ -48,11 +44,7 @@ function BranchCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-<<<<<<< HEAD
         const id = event.target.id as keyof typeof BHCreate;
-=======
-        const id = event.target.id as keyof typeof BranchCreate;
->>>>>>> 734e7698cf3dc3bc2f860edf4abb07291dd9078b
         const { value } = event.target;
         setBh({ ...bh, [id]: value });
     };
@@ -60,11 +52,7 @@ function BranchCreate() {
     function submit() {
         let data = {
             Point: typeof bh.Point === "string" ? parseInt(bh.Point) : 0,
-<<<<<<< HEAD
             Detail: bh.Detail ?? "",
-=======
-            Branch: bh.Branch ?? "",
->>>>>>> 734e7698cf3dc3bc2f860edf4abb07291dd9078b
             Date_Rec: date,
             AdminID: bh.AdminID ?? "",
             PointTypeID: bh.PointTypeID ?? "",
@@ -130,21 +118,13 @@ function BranchCreate() {
                     
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-<<<<<<< HEAD
                             <p>Detail</p>
-=======
-                            <p>Branch</p>
->>>>>>> 734e7698cf3dc3bc2f860edf4abb07291dd9078b
                             <TextField
                                 id="LastName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-<<<<<<< HEAD
                                 value={bh.Detail}
-=======
-                                value={bh.Branch}
->>>>>>> 734e7698cf3dc3bc2f860edf4abb07291dd9078b
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -259,8 +239,4 @@ function BranchCreate() {
     );
 }
 
-<<<<<<< HEAD
 export default BHCreate;
-=======
-export default BranchCreate;
->>>>>>> 734e7698cf3dc3bc2f860edf4abb07291dd9078b

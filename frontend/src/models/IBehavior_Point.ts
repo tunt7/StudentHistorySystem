@@ -9,4 +9,3 @@ export interface BHInterface {
 	BehaviorTypeID: string;
 	StudentID: string;
 }
-
