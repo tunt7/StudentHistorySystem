@@ -41,14 +41,38 @@ function Navbar() {
                                 <Divider />
                             </Typography>
                             <Typography variant="h6" component="div">
-                                <Link to="/behavior_points" onClick={() => setDrawerOpen(false)}>
-                                    Behavior Points
+                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                    Students
                                 </Link>
                                 <Divider />
                             </Typography>
                             <Typography variant="h6" component="div">
-                                <Link to="/testapi" onClick={() => setDrawerOpen(false)}>
-                                    Test API
+                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                    Branches
+                                </Link>
+                                <Divider />
+                            </Typography>
+                            <Typography variant="h6" component="div">
+                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                    Teacher
+                                </Link>
+                                <Divider />
+                            </Typography>
+                            <Typography variant="h6" component="div">
+                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                    Activities
+                                </Link>
+                                <Divider />
+                            </Typography>
+                            <Typography variant="h6" component="div">
+                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                    Activities History
+                                </Link>
+                                <Divider />
+                            </Typography>
+                            <Typography variant="h6" component="div">
+                                <Link to="/behavior_points" onClick={() => setDrawerOpen(false)}>
+                                    Behavior Points
                                 </Link>
                                 <Divider />
                             </Typography>
