@@ -32,7 +32,6 @@ func main() {
 	r.PATCH("/behavior_points", controller.UpdateBH)
 	r.DELETE("/behavior_points/:id", controller.DeleteBH)
 
-<<<<<<< HEAD
 	// Activity Routes
 	r.GET("/Activities", controller.ListActivity)
 	r.GET("/Activity/:id", controller.GetActivity)
@@ -41,8 +40,5 @@ func main() {
 	r.DELETE("/Activities/:id", controller.DeleteActivity)
 
 	// Run the server
-=======
-	// Run the server 8080
->>>>>>> ff648ec5e42102c7aa47c2504af851f9fd88b2b6
 	r.Run()
 }
