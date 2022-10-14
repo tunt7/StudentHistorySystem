@@ -26,8 +26,12 @@ function Behavior_Points() {
                 }
                 else {console.log("NO DATA")}
             });
-    };
-
+        };
+        
+        useEffect(() => {
+            getBh();
+        }, []);
+        
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 50 },
         { field: "sfirstname", headerName: "First Name", width: 120 },
@@ -39,9 +43,6 @@ function Behavior_Points() {
         { field: "aname", headerName: "Admin Name", width: 200 },
     ];
 
-    useEffect(() => {
-        getBh();
-    }, []);
 
     return (
         <div>

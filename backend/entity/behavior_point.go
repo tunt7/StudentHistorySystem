@@ -14,10 +14,13 @@ type Behavior_Point struct {
 
 	AdminID        *uint
 	Admin          Admin
+
 	PointTypeID    *uint
 	Point_Type     Point_Type
+	
 	BehaviorTypeID *uint
 	Behavior_Type  Behavior_Type
+
 	StudentID      *uint
 	Student        Student
 }

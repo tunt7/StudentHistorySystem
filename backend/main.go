@@ -33,6 +33,6 @@ func main() {
 	r.PATCH("/behavior_points", controller.UpdateBH)
 	r.DELETE("/behavior_points/:id", controller.DeleteBH)
 
-	// Run the server
+	// Run the server 8080
 	r.Run()
 }
