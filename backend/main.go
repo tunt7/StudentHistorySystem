@@ -20,7 +20,6 @@ func CORSMiddleware() gin.HandlerFunc {
 	}
 }
 
-
 func main() {
 	entity.SetupDatabase()
 	r := gin.Default()
@@ -32,6 +31,13 @@ func main() {
 	r.POST("/behavior_points", controller.CreateBH)
 	r.PATCH("/behavior_points", controller.UpdateBH)
 	r.DELETE("/behavior_points/:id", controller.DeleteBH)
+
+	// Activity Routes
+	r.GET("/Activities", controller.ListActivity)
+	r.GET("/Activity/:id", controller.GetActivity)
+	r.POST("/Activities", controller.CreateActivity)
+	r.PATCH("/Activities", controller.UpdateActivity)
+	r.DELETE("/Activities/:id", controller.DeleteActivity)
 
 	// Run the server
 	r.Run()

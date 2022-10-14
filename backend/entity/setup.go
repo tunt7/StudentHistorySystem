@@ -187,5 +187,38 @@ func SetupDatabase() {
 	}
 	db.Model(&Teacher{}).Create(&Bird)
 
+	// Location
+	L1 := Location{
+		Lname: "ลานกิจกรรม",
+	}
+	L2 := Location{
+		Lname: "หอประชุม",
+	}
+	db.Model(&Location{}).Create(&L1)
+	db.Model(&Location{}).Create(&L2)
+	// Activity
+	Ac1 := Activity{
+		Acname:   "Activity festival",
+		date_s:   time.Now(),
+		date_e:   time.Now(),
+		time_s:   time.Now(),
+		time_e:   time.Now(),
+		Location: L1,
+		Teacher:  Pornsak,
+		Admin:    theerawat,
+	}
+	db.Model(&Activity{}).Create(&Ac1)
+
+	Ac2 := Activity{
+		Acname:   "Freshman 2022",
+		date_s:   time.Now(),
+		date_e:   time.Now(),
+		time_s:   time.Now(),
+		time_e:   time.Now(),
+		Location: L1,
+		Teacher:  Bird,
+		Admin:    theerawat,
+	}
+	db.Model(&Activity{}).Create(&Ac2)
 	fmt.Printf("\nEnd Querry\n")
 }
