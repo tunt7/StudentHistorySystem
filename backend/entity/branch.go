@@ -12,6 +12,12 @@ type Academy struct {
 	Student       []Student `gorm:"foreignkey:AcademyID"`
 }
 
+type Course struct {
+	gorm.Model
+	Name   string
+	Branch []Branch `gorm:"foreignkey:CourseID"`
+}
+
 type Branch struct {
 	gorm.Model
 	Brname  string
@@ -22,6 +28,9 @@ type Branch struct {
 
 	AcademyID *uint
 	Academy   Academy
+
+	CourseID *uint
+	Course   Course
 
 	Teachers []Teacher `gorm:"foreignkey:BranchID"`
 	Student  []Student `gorm:"foreignkey:BranchID"`

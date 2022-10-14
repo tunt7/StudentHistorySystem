@@ -29,4 +29,5 @@ type Teacher struct {
 	Admin    Admin
 
 	Student []Student `gorm:"foreignKey:TeacherID"`
+	Activity []Activity `gorm:"foreignKey:TeacherID"`
 }
