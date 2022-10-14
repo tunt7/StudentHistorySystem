@@ -1,21 +1,26 @@
 package entity
 
 import (
-	//"time"
-
 	"gorm.io/gorm"
 )
 
 type Academy struct {
 	gorm.Model
-	Name          string
+	Acaname       string
 	Building_name string
-	Branch        []Branch `gorm:"foreignkey:AcademyID"`
+	Branch        []Branch  `gorm:"foreignkey:AcademyID"`
+	Student       []Student `gorm:"foreignkey:AcademyID"`
+}
+
+type Course struct {
+	gorm.Model
+	Name   string
+	Branch []Branch `gorm:"foreignkey:CourseID"`
 }
 
 type Branch struct {
 	gorm.Model
-	Name    string
+	Brname  string
 	Contact string
 
 	AdminID *uint
@@ -24,5 +29,9 @@ type Branch struct {
 	AcademyID *uint
 	Academy   Academy
 
-	Teachers []Teacher `gorm:"foreignkey:TeacherID"`
+	CourseID *uint
+	Course   Course
+
+	Teachers []Teacher `gorm:"foreignkey:BranchID"`
+	Student  []Student `gorm:"foreignkey:BranchID"`
 }

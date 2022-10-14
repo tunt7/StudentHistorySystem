@@ -24,7 +24,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function BranchCreate() {
+function BHCreate() {
     const [date, setDate] = React.useState<Date | null>(null);
     const [bh, setBh] = React.useState<Partial<BHInterface>>({});
     const [success, setSuccess] = React.useState(false);
@@ -44,7 +44,7 @@ function BranchCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof BranchCreate;
+        const id = event.target.id as keyof typeof BHCreate;
         const { value } = event.target;
         setBh({ ...bh, [id]: value });
     };
@@ -52,7 +52,7 @@ function BranchCreate() {
     function submit() {
         let data = {
             Point: typeof bh.Point === "string" ? parseInt(bh.Point) : 0,
-            Branch: bh.Branch ?? "",
+            Detail: bh.Detail ?? "",
             Date_Rec: date,
             AdminID: bh.AdminID ?? "",
             PointTypeID: bh.PointTypeID ?? "",
@@ -118,13 +118,13 @@ function BranchCreate() {
                     
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Branch</p>
+                            <p>Detail</p>
                             <TextField
                                 id="LastName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.Branch}
+                                value={bh.Detail}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -239,4 +239,4 @@ function BranchCreate() {
     );
 }
 
-export default BranchCreate;
+export default BHCreate;

@@ -1,9 +1,6 @@
 package entity
 
 import (
-	"fmt"
-	"time"
-
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -19,21 +16,10 @@ func SetupDatabase() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	// Migrate the schema
-	database.AutoMigrate(
-		&Admin{},
-		&Point_Type{},
-		&Behavior_Type{},
-		&Student{},
-		&Behavior_Point{},
-
-		&Academy{},
-		&Teacher{},
-		&Branch{},
-	)
 
 	db = database
 
+<<<<<<< HEAD
 	// -------SETUP DATA-------
 	// Admin
 	thanadet := Admin{
@@ -221,4 +207,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Activity{}).Create(&Ac2)
 	fmt.Printf("\nEnd Querry\n")
+=======
+>>>>>>> ff648ec5e42102c7aa47c2504af851f9fd88b2b6
 }

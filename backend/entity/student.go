@@ -8,39 +8,51 @@ import (
 
 type Student struct {
 	gorm.Model
-	Sfirstname      string
-	Slastname       string
-	Sdob            time.Time
-	Sparent         string
-	Admission_Date  time.Time
-	Address         string
-	Phone_Number    string
-	Graduate_School string
-	Grade           float64
-	Sidentity_card  string
-	BT_ID      		*uint
-	BLOOD_TYPE      BLOOD_TYPE
-	EL_ID      		*uint
-	Education_level Education_level
-	EQ_ID      		*uint
-	Education_Qualification	Education_Qualification
+	Sfirstname       string
+	Slastname        string
+	Sdob             time.Time
+	Sparent          string
+	Admission_Date   time.Time
+	Address          string
+	Phone_Number     string
+	Graduate_School  string
+	Grade            float64
+	Sidentity_number string
+
+	BTID                    *uint
+	Blood_Type              Blood_Type
+	ELID                    *uint
+	Education_Level         Education_Level
+	EQID                    *uint
+	Education_Qualification Education_Qualification
+
+	AcademyID *uint
+	Academy   Academy
+
+	BranchID *uint
+	Branch   Branch
+
+	TeacherID *uint
+	Teacher   Teacher
+
 	Behavior_Points []Behavior_Point `gorm:"foreignKey:StudentID"`
+	Ac_his          []Ac_his         `gorm:"foreignKey:StudentID"`
 }
 
-type BLOOD_TYPE struct {
+type Blood_Type struct {
 	gorm.Model
-	BT_NAME         string
-	Student         []Student `gorm:"foreignKey:BT_ID"`
+	Btname  string
+	Student []Student `gorm:"foreignKey:BTID"`
 }
 
-type Education_level struct {
+type Education_Level struct {
 	gorm.Model
-	EL_NAME         string
-	Student         []Student `gorm:"foreignKey:EL_ID"`
+	Elname  string
+	Student []Student `gorm:"foreignKey:ELID"`
 }
 
 type Education_Qualification struct {
 	gorm.Model
-	EQ_NAME        string
-	Student         []Student `gorm:"foreignKey:EQ_ID"`
+	Eqname  string
+	Student []Student `gorm:"foreignKey:EQID"`
 }

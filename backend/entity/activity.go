@@ -15,14 +15,16 @@ type Location struct {
 type Activity struct {
 	gorm.Model
 	Acname     string
-	date_s     time.Time
-	date_e     time.Time
-	time_s     time.Time
-	time_e     time.Time
+	Date_s     time.Time
+	Date_e     time.Time
+	Time_s     time.Time
+	Time_e     time.Time
 	TeacherID  *uint
 	Teacher    Teacher
 	LocationID *uint
 	Location   Location
 	AdminID    *uint
 	Admin      Admin
+
+	Ac_his []Ac_his `grom:"foreignkey:ActivityID"`
 }
