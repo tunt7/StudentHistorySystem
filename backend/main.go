@@ -25,12 +25,33 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
+	// Admin Routes
+	r.GET("/admins", controller.ListAdmin)
+	r.GET("/admin/:id", controller.GetAdmin)
+	r.POST("/admins", controller.CreateAdmin)
+	r.PATCH("/admins", controller.UpdateAdmin)
+	r.DELETE("/admins/:id", controller.DeleteAdmin)
+
 	// Behavior_Point Routes
 	r.GET("/behavior_points", controller.ListBH)
 	r.GET("/behavior_point/:id", controller.GetBH)
 	r.POST("/behavior_points", controller.CreateBH)
 	r.PATCH("/behavior_points", controller.UpdateBH)
 	r.DELETE("/behavior_points/:id", controller.DeleteBH)
+
+	// Behavior_Type Routes
+	r.GET("/behavior_types", controller.ListBehaviorType)
+	r.GET("/behavior_type/:id", controller.GetBehaviorType)
+	r.POST("/behavior_types", controller.CreateBehaviorType)
+	r.PATCH("/behavior_types", controller.UpdateBehaviorType)
+	r.DELETE("/behavior_types/:id", controller.DeleteBehaviorType)
+	
+	// Point_Type Routes
+	r.GET("/point_types", controller.ListPointType)
+	r.GET("/point_type/:id", controller.GetPointType)
+	r.POST("/point_types", controller.CreatePointType)
+	r.PATCH("/point_types", controller.UpdatePointType)
+	r.DELETE("/point_types/:id", controller.DeletePointType)
 
 	// Activity Routes
 	r.GET("/Activities", controller.ListActivity)
