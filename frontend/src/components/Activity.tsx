@@ -11,7 +11,7 @@ function Activity() {
     const [activity, setAc] = React.useState<AcInterface[]>([]);
 
     const getAc = async () => {
-        const apiUrl = "http://localhost:8080/Activities";
+        const apiUrl = "http://localhost:8080/Activities_show";
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -29,14 +29,15 @@ function Activity() {
     };
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ID", width: 50 },
-        { field: "Acname", headerName: "Name", width: 150 },
-        { field: "date_s", headerName: "Date start", width: 150 },
+        { field: "id", headerName: "ID", width: 30 },
+        { field: "acname", headerName: "Name", width: 120 },
+        { field: "date_s", headerName: "Date start", width: 200 },
         { field: "date_e", headerName: "Date end", width: 150 },
         { field: "time_s", headerName: "Time start", width: 150 },
         { field: "time_e", headerName: "Time end", width: 150 },
-        { field: "Lname", headerName: "Location", width: 100 },
-        { field: "TfirstName", headerName: "Teacher name", width: 150 },
+        { field: "lname", headerName: "Location", width: 100 },
+        { field: "tfirst_name", headerName: "Teacher firstname", width: 150 },
+        { field: "tlast_name", headerName: "Teacher lastname", width: 150 },
         { field: "aname", headerName: "Admin Name", width: 150 },
     ];
 
@@ -77,7 +78,7 @@ function Activity() {
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
                         rows={activity}
-                        getRowId={(row) => row.ID}
+                        //getRowId={(row) => row.ID}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
