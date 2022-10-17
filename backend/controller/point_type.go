@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tunt7/StudentHistorySystem/entity"
+	"github.com/tunt7/SA-Project/entity"
 )
 
 // POST /PointType
