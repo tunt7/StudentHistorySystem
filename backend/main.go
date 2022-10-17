@@ -60,12 +60,28 @@ func main() {
 	r.PATCH("/point_types", controller.UpdatePointType)
 	r.DELETE("/point_types/:id", controller.DeletePointType)
 
-	// Activity Routes
+		// Activity Routes
 	r.GET("/Activities", controller.ListActivity)
+	r.GET("/Activities_show", controller.ListActivityShow)
 	r.GET("/Activity/:id", controller.GetActivity)
 	r.POST("/Activities", controller.CreateActivity)
 	r.PATCH("/Activities", controller.UpdateActivity)
 	r.DELETE("/Activities/:id", controller.DeleteActivity)
+
+	// Location Routes
+	r.GET("/Locations", controller.ListLocation)
+	r.GET("/Location/:id", controller.GetLocation)
+	r.POST("/Locations", controller.CreateLocation)
+	r.PATCH("/Locations", controller.UpdateLocation)
+	r.DELETE("/Locations/:id", controller.DeleteLocation)
+
+	// Teacher Routes
+	r.GET("/Teachers", controller.ListT)
+	r.GET("/Teachers_show", controller.ListTshow)
+	r.GET("/Teacher/:id", controller.GetT)
+	r.POST("/Teachers", controller.CreateT)
+	r.PATCH("/Teachers", controller.UpdateT)
+	r.DELETE("/Teachers/:id", controller.DeleteT)
 
 	// Run the server
 	r.Run()
