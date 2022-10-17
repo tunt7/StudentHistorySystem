@@ -32,8 +32,19 @@ func GetT(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": t})
 }
 
-// GET /users
+// GET /resolutions
 func ListT(c *gin.Context) {
+	var pre []entity.Teacher
+	if err := entity.DB().Raw("SELECT * FROM teachers").Scan(&pre).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": pre})
+}
+
+// GET /users
+func ListTshow(c *gin.Context) {
 	// var bp []entity.Behavior_Point
 	result := []map[string]interface{}{}
 	entity.DB().Table("teachers").
