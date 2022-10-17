@@ -1,5 +1,5 @@
 export interface PreInterface {
-    id: string;
+    id: number;
 	full_name:string;
 	short_name:string;
 }
