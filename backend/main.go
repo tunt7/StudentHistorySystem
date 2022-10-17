@@ -31,6 +31,13 @@ func main() {
 	r.POST("/admins", controller.CreateAdmin)
 	r.PATCH("/admins", controller.UpdateAdmin)
 	r.DELETE("/admins/:id", controller.DeleteAdmin)
+	
+	// Student Routes
+	r.GET("/students", controller.ListSTD)
+	r.GET("/student/:id", controller.GetSTD)
+	r.POST("/students", controller.CreateSTD)
+	r.PATCH("/students", controller.UpdateSTD)
+	r.DELETE("/students/:id", controller.DeleteSTD)
 
 	// Behavior_Point Routes
 	r.GET("/behavior_points", controller.ListBH)
