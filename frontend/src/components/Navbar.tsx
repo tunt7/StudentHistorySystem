@@ -41,31 +41,31 @@ function Navbar() {
                                 <Divider />
                             </Typography>
                             <Typography variant="h6" component="div">
-                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                <Link to="/Student" onClick={() => setDrawerOpen(false)}>
                                     Students
                                 </Link>
                                 <Divider />
                             </Typography>
                             <Typography variant="h6" component="div">
-                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                <Link to="/Branch" onClick={() => setDrawerOpen(false)}>
                                     Branches
                                 </Link>
                                 <Divider />
                             </Typography>
                             <Typography variant="h6" component="div">
-                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                <Link to="/Teacher" onClick={() => setDrawerOpen(false)}>
                                     Teacher
                                 </Link>
                                 <Divider />
                             </Typography>
                             <Typography variant="h6" component="div">
-                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                <Link to="/Activity" onClick={() => setDrawerOpen(false)}>
                                     Activities
                                 </Link>
                                 <Divider />
                             </Typography>
                             <Typography variant="h6" component="div">
-                                <Link to="/" onClick={() => setDrawerOpen(false)}>
+                                <Link to="/Ac_his" onClick={() => setDrawerOpen(false)}>
                                     Activities History
                                 </Link>
                                 <Divider />
