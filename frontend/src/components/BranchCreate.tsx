@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { BHInterface } from "../models/IBehavior_Point";
+import { BranchInterface } from "../models/IBranch";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -26,7 +26,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function BHCreate() {
     const [date, setDate] = React.useState<Date | null>(null);
-    const [bh, setBh] = React.useState<Partial<BHInterface>>({});
+    const [Br, setBr] = React.useState<Partial<BranchInterface>>({});
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
 
@@ -46,18 +46,15 @@ function BHCreate() {
     ) => {
         const id = event.target.id as keyof typeof BHCreate;
         const { value } = event.target;
-        setBh({ ...bh, [id]: value });
+        setBr({ ...Br, [id]: value });
     };
 
     function submit() {
-        let data = {
-            Point: typeof bh.Point === "string" ? parseInt(bh.Point) : 0,
-            Detail: bh.Detail ?? "",
-            Date_Rec: date,
-            AdminID: bh.AdminID ?? "",
-            PointTypeID: bh.PointTypeID ?? "",
-            BehaviorTypeID: bh.BehaviorTypeID ?? "",
-            StudentID: bh.StudentID ?? "",
+        let data = {            
+            Name: Br.BrName ?? "",
+            Contact: Br.BrContact ?? "",
+            Academy: Br.BrAcademy ?? "",
+            AdminID: Br.AdminID ?? "",
         };
 
         const apiUrl = "http://localhost:8080/behavior_points";
@@ -105,11 +102,11 @@ function BHCreate() {
                     <Box sx={{ paddingX: 2, paddingY: 1 }}>
                         <Typography
                             component="h2"
-                            variant="h6"
+                            variant="h6" 
                             color="primary"
                             gutterBottom
                         >
-                            Create Behavior Point
+                            Create Branch
                         </Typography>
                     </Box>
                 </Box>
@@ -118,13 +115,13 @@ function BHCreate() {
                     
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Detail</p>
+                            <p>Name</p>
                             <TextField
                                 id="LastName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.Detail}
+                                value={Br.BrName}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -132,17 +129,17 @@ function BHCreate() {
                     
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Point</p>
+                            <p>Contact</p>
                             <TextField
                                 id="Point"
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
+                                InputProps={{ inputProps: { min: 1 } }} 
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                value={bh.Point || ""}
+                                value={Br.BrContact}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -150,13 +147,13 @@ function BHCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>AdminID</p>
+                            <p>Academy</p>
                             <TextField
                                 id="LastName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.AdminID}
+                                value={Br.BrAcademy}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -164,13 +161,13 @@ function BHCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>PointTypeID</p>
+                            <p>Course</p>
                             <TextField
                                 id="LastName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.PointTypeID}
+                                value={Br.BrCourse}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -178,46 +175,20 @@ function BHCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>BehaviorTypeID</p>
+                            <p>Admin</p>
                             <TextField
                                 id="LastName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.BehaviorTypeID}
+                                value={Br.AdminID}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>StudentID</p>
-                            <TextField
-                                id="LastName"
-                                variant="outlined"
-                                type="string"
-                                size="medium"
-                                value={bh.StudentID}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>Record Date</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    value={date}
-                                    onChange={(newValue) => {
-                                        setDate(newValue);
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
+ 
+                    
+                
 
                     
                     <Grid item xs={12}>
@@ -239,4 +210,4 @@ function BHCreate() {
     );
 }
 
-export default BHCreate;
+export default BHCreate; 
