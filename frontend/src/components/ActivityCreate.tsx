@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -11,12 +11,21 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { AcInterface } from "../models/IActivity";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Autocomplete from "@mui/material/Autocomplete";
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/fr';
+//npm install dayjs --save
+import { AcInterface } from "../models/IActivity";
+import { LInterface } from "../models/ILocation";
+import { TInterface } from "../models/ITeacher";
+import { AdminInterface } from "../models/IAdmin";
 
+const locales = ['fr'] as const;
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -24,11 +33,32 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function AcCreate() {
-    const [date, setDate] = React.useState<Date | null>(null);
-    const [Activity, setAc] = React.useState<Partial<AcInterface>>({});
+function ActivityCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState("");
+
+    const [locale, setLocale] = React.useState<typeof locales[number]>('fr');
+    const [time1, setTime1] = React.useState<Dayjs | null>(dayjs('2022-04-07'),);
+    const [time2, setTime2] = React.useState<Dayjs | null>(dayjs('2022-04-07'),);
+    const [date1, setDate1] = React.useState<Date | null>(null);
+    const [date2, setDate2] = React.useState<Date | null>(null);
+    const [location, setLocation] = React.useState<LInterface[]>([]);
+    const [teacher, setTeacher] = React.useState<TInterface[]>([]);
+    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
+    const [activity, setActivity] = React.useState<AcInterface>({ 
+      Date_s: new Date(),
+      Date_e: new Date(),
+      Time_s: new Date(),
+      Time_e: new Date(),
+
+    });
+
+    const apiUrl = "http://localhost:8080";
+    const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    };
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -44,37 +74,96 @@ function AcCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof AcCreate;
+        const id = event.target.id as keyof typeof ActivityCreate;
         const { value } = event.target;
-        setAc({ ...Activity, [id]: value });
+        setActivity({ ...activity, [id]: value });
     };
 
-    function submit() {
+    const handleChange = (event: SelectChangeEvent) => {
+        const name = event.target.name as keyof typeof activity;
+        setActivity({
+            ...activity,
+            [name]: event.target.value,
+        });
+    };
+
+    const getLocation = async () => {
+        fetch(`${apiUrl}/Locations`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setLocation(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
+    
+    const getT = async () => {
+        fetch(`${apiUrl}/Teachers`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setTeacher(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
+
+    const getAdmin = async () => {
+        fetch(`${apiUrl}/admins`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setAdmin(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
+
+    useEffect(() => {
+        getLocation();
+        getT();
+        getAdmin();
+    }, []);
+
+    const convertType = (data: string | number | undefined) => {
+        let val = typeof data === "string" ? parseInt(data) : data;
+        return val;
+    };
+
+    async function submit() {
         let data = {
-            Acname: Activity.Acname ?? "",
-            Date_s: date,
-            Date_e: date,
-            Time_s: date,
-            Time_e: date,
-            LocationID: Activity.LocationID ?? "",
-            TeacherID: Activity.TeacherID ?? "",
-            AdminID: Activity.AdminID ?? "",
+            Acname: activity.Acname ?? "",
+            Date_s: date1,
+            Date_e: date2,
+            Time_s: time1,
+            Time_e: time2,
+            LocationID: convertType(activity.LocationID),
+            TeacherID: convertType(activity.TeacherID),
+            AdminID: convertType(activity.AdminID),
+
         };
 
-        const apiUrl = "http://localhost:8080/Activity";
+        console.log(data)
+
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 
-        fetch(apiUrl, requestOptions)
+        fetch(`${apiUrl}/Activities`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
+                    setErrorMessage("")
                 } else {
                     setError(true);
+                    setErrorMessage(res.error)
                 }
             });
     }
@@ -110,36 +199,22 @@ function AcCreate() {
                             color="primary"
                             gutterBottom
                         >
-                            Create Behavior Point
+                            Create Activity
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    
+
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Activity Name</p>
+                            <p>ชื่อกิจกรรม</p>
                             <TextField
                                 id="Acname"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={Activity.Acname}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-                    </Grid>
-                    
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>AdminID</p>
-                            <TextField
-                                id="LastName"
-                                variant="outlined"
-                                type="string"
-                                size="medium"
-                                value={Activity.AdminID}
+                                value={activity.Acname}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -147,40 +222,82 @@ function AcCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>TeacherID</p>
-                            <TextField
-                                id="LastName"
-                                variant="outlined"
-                                type="string"
-                                size="medium"
-                                value={Activity.TeacherID}
-                                onChange={handleInputChange}
-                            />
+                            <p>Admin</p>
+                            <Select
+                                native
+                                value={activity.AdminID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "AdminID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    -
+                                </option>
+                                {admin.map((item: AdminInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Aname}
+                                    </option>
+                                ))}
+                            </Select>
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>LocationID</p>
-                            <TextField
-                                id="LastName"
-                                variant="outlined"
-                                type="string"
-                                size="medium"
-                                value={Activity.LocationID}
-                                onChange={handleInputChange}
-                            />
+                            <p>สถานที่</p>
+                            <Select
+                                native
+                                value={activity.LocationID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "LocationID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    -
+                                </option>
+                                {location.map((item: LInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Lname}
+                                    </option>
+                                ))}
+                            </Select>
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Record Date</p>
+                            <p>อาจารย์ที่ดูแลกิจกรรม</p>
+                            <Select
+                                native
+                                value={activity.TeacherID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "TeacherID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    -
+                                </option>
+                                {teacher.map((item: TInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.TfirstName} {item.TlastName}
+                                    </option>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                   
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>วันเริ่มกิจกรรม</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
-                                    value={date}
+                                    value={date1}
                                     onChange={(newValue) => {
-                                        setDate(newValue);
+                                        setDate1(newValue);
                                     }}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
@@ -188,9 +305,52 @@ function AcCreate() {
                         </FormControl>
                     </Grid>
 
-                    
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>วันสิ้นสุดกิจกรรม</p>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={date2}
+                                    views={['year', 'month', 'day']}
+                                    onChange={(newValue) => {
+                                        setDate2(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>เวลาเริ่มกิจกรรม</p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+                                <TimePicker
+                                    value={time1}
+                                    onChange={(newValue) => setTime1(newValue)}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>เวลาสิ้นสุด</p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+                                <TimePicker
+                                    value={time2}
+                                    onChange={(newValue) => setTime2(newValue)}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+
+
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/" variant="contained">
+                        <Button component={RouterLink} to="/Activity" variant="contained">
                             Back
                         </Button>
                         <Button
@@ -208,4 +368,4 @@ function AcCreate() {
     );
 }
 
-export default AcCreate;
+export default ActivityCreate;
