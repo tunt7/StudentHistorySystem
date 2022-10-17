@@ -3,11 +3,11 @@ import { PreInterface } from "./IPrefix";
 import { AdminInterface } from "./IAdmin";
 
 export interface TInterface {
-    ID: number;
-	FirstName: string;
-	LastName: string;
-	Email: string;
-	Contact: string;
+    ID?: number;
+	TfirstName?: string;
+	TlastName?: string;
+	Temail?: string;
+	Tcontact?: string;
 
 	BranchID?: number;
 	Branch?: BranchInterface;
