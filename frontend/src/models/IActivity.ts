@@ -1,6 +1,6 @@
 import { LInterface } from "./ILocation";
 import { TInterface } from "./ITeacher";
-import { AInterface } from "./IAdmin";
+import { AdminInterface } from "./IAdmin";
 
 
 export interface AcInterface {
@@ -16,5 +16,5 @@ export interface AcInterface {
 	TeacherID?: number;
 	Teacher?: TInterface;
 	AdminID?: number;
-	Admin?: AInterface
+	Admin?: AdminInterface
 }
