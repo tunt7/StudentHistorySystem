@@ -1,14 +1,20 @@
+import { LInterface } from "./ILocation";
+import { TInterface } from "./ITeacher";
+import { AInterface } from "./IAdmin";
+
+
 export interface AcInterface {
-    ID: string;
-    Acname: string;
+    ID?: number;
+    Acname?: string;
 	Date_s: Date | null;
 	Date_e: Date | null;
 	Time_s: Date | null;
 	Time_e: Date | null;
 
-	Lname: string;
-	LocationID: string;
-	TeacherID: string;
-	AdminID: string;
-
+	LocationID?: number;
+	Location?: LInterface;
+	TeacherID?: number;
+	Teacher?: TInterface;
+	AdminID?: number;
+	Admin?: AInterface
 }
