@@ -1,9 +1,10 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/tunt7/SA-Project/entity"
-	"net/http"
 )
 
 // POST /Activity
@@ -39,14 +40,29 @@ func GetActivity(c *gin.Context) {
 }
 
 // GET /Activities
-
 func ListActivity(c *gin.Context) {
-	var Activities []entity.Activity
-	if err := entity.DB().Raw("SELECT * FROM Activities").Scan(&Activities).Error; err != nil {
+	var pre []entity.Activity
+	if err := entity.DB().Raw("SELECT * FROM activities").Scan(&pre).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": Activities})
+
+	c.JSON(http.StatusOK, gin.H{"data": pre})
+}
+
+// GET /Activities
+
+func ListActivityShow(c *gin.Context) {
+
+	result := []map[string]interface{}{}
+	entity.DB().Table("activities").
+		Select("activities.id, activities.acname, activities.date_s, activities.date_e, activities.time_s, activities.time_e, teachers.tfirst_name, teachers.tlast_name, admins.aname, locations.lname").
+		Joins("left join admins on admins.id = activities.admin_id").
+		Joins("left join locations on locations.id = activities.location_id").
+		Joins("left join teachers on teachers.id = activities.teacher_id").
+		Find(&result)
+
+	c.JSON(http.StatusOK, gin.H{"data": result})
 
 }
 
