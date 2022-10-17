@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tunt7/SA-Project/entity"
+	"github.com/tunt7/StudentHistorySystem/entity"
 )
 
 // POST /users
@@ -45,7 +45,6 @@ func ListBH(c *gin.Context) {
 		Find(&result)
 
 	c.JSON(http.StatusOK, gin.H{"data": result})
-
 }
 
 // DELETE /users/:id
