@@ -27,19 +27,7 @@ func CreateLocation(c *gin.Context) {
 func GetLocation(c *gin.Context) {
 	var location entity.Location
 	id := c.Param("id")
-	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM locations WHERE id = ?", id).Find(&location).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": location})
-}
-
-// GET /location/watched/user/:id
-func GetLocationWatchedByUser(c *gin.Context) {
-	var location entity.Location
-	id := c.Param("id")
-	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM locations WHERE owner_id = ? AND title = ?", id, "Watched").Find(&location).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM locations WHERE id = ?", id).Find(&location).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -50,7 +38,7 @@ func GetLocationWatchedByUser(c *gin.Context) {
 // GET /locations
 func ListLocation(c *gin.Context) {
 	var locations []entity.Location
-	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM locations").Find(&locations).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM locations").Find(&locations).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
