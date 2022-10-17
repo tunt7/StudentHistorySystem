@@ -1,11 +1,18 @@
-export interface BHInterface {
-    ID: string;
-	Point: number;
-	Detail:string;
-	Date_Rec:Date | null;
+import { AdminInterface } from "./IAdmin";
+import { PointTypeInterface } from "./IPoint_Type";
+import { BehaviorTypeInterface } from "./IBehavior_Type";
 
-	AdminID: string;
-	PointTypeID: string;
-	BehaviorTypeID: string;
-	StudentID: string;
+export interface BHInterface {
+    ID?: number;
+	Point: number;
+	Detail: string;
+	Date_Rec: Date;
+
+	AdminID?: number;
+	Admin?: AdminInterface
+	PointTypeID?: number;
+	PointType?:PointTypeInterface
+	BehaviorTypeID?: number;
+	BehaviorType?:BehaviorTypeInterface;
+	StudentID?: number;
 }
