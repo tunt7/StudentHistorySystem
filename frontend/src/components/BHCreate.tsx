@@ -19,6 +19,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { BHInterface } from "../models/IBehavior_Point";
 import { PointTypeInterface } from "../models/IPoint_Type";
 import { BehaviorTypeInterface } from "../models/IBehavior_Type";
+import { AdminInterface } from "../models/IAdmin";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -33,6 +34,7 @@ function BHCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
+    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
     const [pointType, setPointType] = React.useState<PointTypeInterface[]>([]);
     const [behaviorType, setBehaviorType] = React.useState<BehaviorTypeInterface[]>([]);
     const [behaviorPoint, setBehaviorPoint] = React.useState<BHInterface>({ 
@@ -92,14 +94,28 @@ function BHCreate() {
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setPointType(res.data);
+                    setBehaviorType(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
+
+    const getAdmin = async () => {
+        fetch(`${apiUrl}/admins`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setAdmin(res.data);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
     useEffect(() => {
+        getBehaviorType();
         getPointType();
+        getAdmin();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -107,14 +123,14 @@ function BHCreate() {
         return val;
     };
 
-    function submit() {
+    async function submit() {
         let data = {
             Point: typeof behaviorPoint.Point === "string" ? parseInt(behaviorPoint.Point) : 0,
             Detail: behaviorPoint.Detail ?? "",
             Date_Rec: date,
-            AdminID: behaviorPoint.AdminID ?? "",
+            AdminID: convertType(behaviorPoint.AdminID),
             PointTypeID: convertType(behaviorPoint.PointTypeID),
-            BehaviorTypeID: behaviorPoint.BehaviorTypeID ?? "",
+            BehaviorTypeID: convertType(behaviorPoint.BehaviorTypeID),
             StudentID: behaviorPoint.StudentID ?? "",
         };
 
@@ -211,15 +227,24 @@ function BHCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>AdminID</p>
-                            <TextField
-                                id="LastName"
-                                variant="outlined"
-                                type="string"
-                                size="medium"
-                                value={behaviorPoint.AdminID}
-                                onChange={handleInputChange}
-                            />
+                            <p>Admin</p>
+                            <Select
+                                native
+                                value={behaviorPoint.AdminID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "AdminID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    Select Admin
+                                </option>
+                                {admin.map((item: AdminInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Aname}
+                                    </option>
+                                ))}
+                            </Select>
                         </FormControl>
                     </Grid>
 
@@ -251,35 +276,21 @@ function BHCreate() {
                             <p>BehaviorType</p>
                             <Select
                                 native
-                                value={behaviorPoint.PointTypeID + ""}
+                                value={behaviorPoint.BehaviorTypeID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "PointTypeID",
+                                    name: "BehaviorTypeID",
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select BehaviorType
+                                    Select Behavior Type
                                 </option>
-                                {pointType.map((item: PointTypeInterface) => (
+                                {behaviorType.map((item: BehaviorTypeInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.Ptname}
+                                        {item.Btname}
                                     </option>
                                 ))}
                             </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>BehaviorTypeID</p>
-                            <TextField
-                                id="LastName"
-                                variant="outlined"
-                                type="string"
-                                size="medium"
-                                value={behaviorPoint.BehaviorTypeID}
-                                onChange={handleInputChange}
-                            />
                         </FormControl>
                     </Grid>
 
