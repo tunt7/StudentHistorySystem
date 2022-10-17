@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -11,11 +11,14 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { BHInterface } from "../models/IBehavior_Point";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Autocomplete from "@mui/material/Autocomplete";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+
+import { BHInterface } from "../models/IBehavior_Point";
+import { PointTypeInterface } from "../models/IPoint_Type";
+import { BehaviorTypeInterface } from "../models/IBehavior_Type";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -26,9 +29,23 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function BHCreate() {
     const [date, setDate] = React.useState<Date | null>(null);
-    const [bh, setBh] = React.useState<Partial<BHInterface>>({});
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState("");
+
+    const [pointType, setPointType] = React.useState<PointTypeInterface[]>([]);
+    const [behaviorType, setBehaviorType] = React.useState<BehaviorTypeInterface[]>([]);
+    const [behaviorPoint, setBehaviorPoint] = React.useState<BHInterface>({ 
+        Point: 0,
+        Detail:"",
+        Date_Rec: new Date(),
+    });
+    
+    const apiUrl = "http://localhost:8080";
+    const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    };
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -46,34 +63,78 @@ function BHCreate() {
     ) => {
         const id = event.target.id as keyof typeof BHCreate;
         const { value } = event.target;
-        setBh({ ...bh, [id]: value });
+        setBehaviorPoint({ ...behaviorPoint, [id]: value });
+    };
+
+    const handleChange = (event: SelectChangeEvent) => {
+        const name = event.target.name as keyof typeof behaviorPoint;
+        setBehaviorPoint({
+            ...behaviorPoint,
+            [name]: event.target.value,
+        });
+    };
+
+    const getPointType = async () => {
+        fetch(`${apiUrl}/point_types`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setPointType(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
+    
+    const getBehaviorType = async () => {
+        fetch(`${apiUrl}/behavior_types`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setPointType(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
+
+    useEffect(() => {
+        getPointType();
+    }, []);
+
+    const convertType = (data: string | number | undefined) => {
+        let val = typeof data === "string" ? parseInt(data) : data;
+        return val;
     };
 
     function submit() {
         let data = {
-            Point: typeof bh.Point === "string" ? parseInt(bh.Point) : 0,
-            Detail: bh.Detail ?? "",
+            Point: typeof behaviorPoint.Point === "string" ? parseInt(behaviorPoint.Point) : 0,
+            Detail: behaviorPoint.Detail ?? "",
             Date_Rec: date,
-            AdminID: bh.AdminID ?? "",
-            PointTypeID: bh.PointTypeID ?? "",
-            BehaviorTypeID: bh.BehaviorTypeID ?? "",
-            StudentID: bh.StudentID ?? "",
+            AdminID: behaviorPoint.AdminID ?? "",
+            PointTypeID: convertType(behaviorPoint.PointTypeID),
+            BehaviorTypeID: behaviorPoint.BehaviorTypeID ?? "",
+            StudentID: behaviorPoint.StudentID ?? "",
         };
 
-        const apiUrl = "http://localhost:8080/behavior_points";
+        console.log(data)
+
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 
-        fetch(apiUrl, requestOptions)
+        fetch(`${apiUrl}/behavior_points`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
+                    setErrorMessage("")
                 } else {
                     setError(true);
+                    setErrorMessage(res.error)
                 }
             });
     }
@@ -115,7 +176,7 @@ function BHCreate() {
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    
+
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p>Detail</p>
@@ -124,12 +185,12 @@ function BHCreate() {
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.Detail}
+                                value={behaviorPoint.Detail}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
-                    
+
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p>Point</p>
@@ -142,7 +203,7 @@ function BHCreate() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                value={bh.Point || ""}
+                                value={behaviorPoint.Point || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -156,7 +217,7 @@ function BHCreate() {
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.AdminID}
+                                value={behaviorPoint.AdminID}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -164,15 +225,47 @@ function BHCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>PointTypeID</p>
-                            <TextField
-                                id="LastName"
-                                variant="outlined"
-                                type="string"
-                                size="medium"
-                                value={bh.PointTypeID}
-                                onChange={handleInputChange}
-                            />
+                            <p>PointType</p>
+                            <Select
+                                native
+                                value={behaviorPoint.PointTypeID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "PointTypeID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    Select Point Type
+                                </option>
+                                {pointType.map((item: PointTypeInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Ptname}
+                                    </option>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>BehaviorType</p>
+                            <Select
+                                native
+                                value={behaviorPoint.PointTypeID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "PointTypeID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    Select BehaviorType
+                                </option>
+                                {pointType.map((item: PointTypeInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Ptname}
+                                    </option>
+                                ))}
+                            </Select>
                         </FormControl>
                     </Grid>
 
@@ -184,7 +277,7 @@ function BHCreate() {
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.BehaviorTypeID}
+                                value={behaviorPoint.BehaviorTypeID}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -198,7 +291,7 @@ function BHCreate() {
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={bh.StudentID}
+                                value={behaviorPoint.StudentID}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -219,7 +312,7 @@ function BHCreate() {
                         </FormControl>
                     </Grid>
 
-                    
+
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/" variant="contained">
                             Back
