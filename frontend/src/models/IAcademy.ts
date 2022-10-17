@@ -1,6 +1,6 @@
 export interface AcademyInterface {
-    AcID: number;
-	AcName: string;
-	AcBuilding:string;		
+    ID: number;
+	Acaname: string;
+	Building_name :string;	 	
 	
 } 

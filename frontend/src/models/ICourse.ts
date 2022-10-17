@@ -1,4 +1,5 @@
 export interface CourseInterface {
-    CoID: number;
-	CoName: String;
-} 
+    ID: number;
+	Cname: string;
+}  
+ 
