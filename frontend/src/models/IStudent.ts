@@ -5,29 +5,29 @@ import { AcademyInterface } from "./IAcademy"
 import { BranchInterface } from "./IBranch"
 import { TInterface } from "./ITeacher"
 export interface STDInterface {
-    SID: number;
-	Sfirstname:string;
-    Slastname :string;
+    SID?: number;
+	Sfirstname?:string;
+    Slastname? :string;
 	Sdob:Date | null;
-    Sparent :string;
+    Sparent? :string;
     Admission_Date :Date | null;
-    Address :string;
-    Phone_Number:string;
-    Graduate_School:string;
-    Grade :string;
-    Sidentity_card :string;
+    Address ?:string;
+    Phone_Number?:string;
+    Graduate_School?:string;
+    Grade ?:string;
+    Sidentity_number ?:string;
 
-	BTID: number;
+	BTID?: number;
     Blood_Type?: BTInterface;
-	ELID: number;
+	ELID?: number;
     Education_Level?:ELInterface;
-	EQID: number;
+	EQID?: number;
     Education_Qualification?:EQInterface;
 
-    AcademyID: number;
+    AcademyID?: number;
     Academy?:AcademyInterface;
-    BranchID: number;
+    BranchID?: number;
     Branch?:BranchInterface;
-    TeacherID: number;
+    TeacherID?: number;
     Teacher?:TInterface;
 }
