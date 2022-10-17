@@ -59,7 +59,7 @@ func DeleteACHIS(c *gin.Context) {
 
 // PATCH /users
 func UpdateACHIS(c *gin.Context) {
-	var ac_h entity.Behavior_Point
+	var ac_h entity.Ac_his
 	if err := c.ShouldBindJSON(&ac_h); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
