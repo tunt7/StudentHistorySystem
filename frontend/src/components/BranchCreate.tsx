@@ -23,6 +23,7 @@ import { AdminInterface } from "../models/IAdmin";
 import { BranchInterface } from "../models/IBranch";
 import { CourseInterface } from "../models/ICourse";
 import { AcademyInterface } from "../models/IAcademy";
+import Branch from "./Branch";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -40,6 +41,8 @@ function BHCreate() {
     const [academy, setAcademy] = React.useState<AcademyInterface[]>([]);
     const [course, setCourse] = React.useState<CourseInterface[]>([]);
     const [branch, setBranch] = React.useState<BranchInterface>({});
+    const [brname, setBrname] = React.useState<string>("");
+    const [contact, setContact] = React.useState<string>("");
     
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -110,6 +113,8 @@ function BHCreate() {
             });
     };
 
+    
+
     useEffect(() => {
         getAcademy();
         getCourse();
@@ -124,11 +129,11 @@ function BHCreate() {
     async function submit() {
         let data = {
             
-            brname: branch.Brname ?? "",
-            contact: branch.Contact ?? "",
+            Brname: brname,
+            Contact: contact,
             AdminID: convertType(branch.AcademyID),
-            course: convertType(branch.CourseID),
-            academies: convertType(branch.AcademyID),
+            CourseID: convertType(branch.CourseID),
+            AcademyID: convertType(branch.AcademyID),
         };
 
         console.log(data)
@@ -150,6 +155,10 @@ function BHCreate() {
                     setErrorMessage(res.error)
                 }
             });
+
+
+
+
     }
 
     return (
@@ -199,7 +208,7 @@ function BHCreate() {
                                 type="string"
                                 size="medium"
                                 value={branch.Brname}
-                                onChange={handleInputChange}
+                                onChange={(event) => setBrname(event.target.value)}
                             />
                         </FormControl>
                     </Grid>
@@ -208,12 +217,12 @@ function BHCreate() {
                         <FormControl fullWidth variant="outlined">
                             <p>Contact</p>
                             <TextField
-                                id="contact"
+                                id="brname"
                                 variant="outlined"
-                                type="number"
+                                type="string"
                                 size="medium"
                                 value={branch.Contact}
-                                onChange={handleInputChange}
+                                onChange={(event) => setContact(event.target.value)}
                             />
                         </FormControl>
                     </Grid>
