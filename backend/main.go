@@ -82,6 +82,13 @@ func main() {
 	r.POST("/Teachers", controller.CreateT)
 	r.PATCH("/Teachers", controller.UpdateT)
 	r.DELETE("/Teachers/:id", controller.DeleteT)
+	
+	// Activity History Routes
+	r.GET("/Ac_his", controller.ListACHIS)
+	r.GET("/Ac_his/:id", controller.GetACHIS)
+	r.POST("/Ac_his", controller.CreateACHIS)
+	r.PATCH("/Ac_his", controller.UpdateACHIS)
+	r.DELETE("/Ac_his/:id", controller.DeleteACHIS)
 
 	// Run the server
 	r.Run()
