@@ -1,14 +1,15 @@
+import { AcInterface } from "./IActivity";
+import { STDInterface } from "./IStudent";
+import { AdminInterface } from "./IAdmin";
 import { TimerOptions } from "timers";
 
 export interface AcHisInterface {
-    AC_HIS_ID: number;
-	S_ID: number;
-	AC_ID:number;
-    ADMIN_REC:number;
-    AC_HOUR:number;
-    DATE_START:Date;
-    DATE_END:Date;
-    TIME_START:Date;
-    TIME_END:Date;
-	
+    ID?: number;
+	S_ID?: number;
+    S?: STDInterface;
+	AC_ID?: number;
+    AC?: AcInterface;
+    ADMIN_RECID?:number;
+    ADMIN_REC?: AdminInterface;
+    AC_HOUR?: number;
 }
