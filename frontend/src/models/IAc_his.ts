@@ -1,7 +1,6 @@
 import { AcInterface } from "./IActivity";
 import { STDInterface } from "./IStudent";
 import { AdminInterface } from "./IAdmin";
-import { TimerOptions } from "timers";
 
 export interface AcHisInterface {
     ID?: number;
