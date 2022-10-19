@@ -33,7 +33,7 @@ func GetBH(c *gin.Context) {
 }
 
 // GET /users
-func ListBH(c *gin.Context) {
+func ListBHShow(c *gin.Context) {
 	// var bp []entity.Behavior_Point
 	result := []map[string]interface{}{}
 	entity.DB().Table("behavior_points").
