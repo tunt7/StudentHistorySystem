@@ -40,7 +40,7 @@ func main() {
 	r.DELETE("/students/:id", controller.DeleteSTD)
 
 	// Behavior_Point Routes
-	r.GET("/behavior_points", controller.ListBH)
+	r.GET("/behavior_points_show", controller.ListBHShow)
 	r.GET("/behavior_point/:id", controller.GetBH)
 	r.POST("/behavior_points", controller.CreateBH)
 	r.PATCH("/behavior_points", controller.UpdateBH)
