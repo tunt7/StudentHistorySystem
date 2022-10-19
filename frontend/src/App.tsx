@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Behavior_Points from "./components/Behavior_Points";
-import BHCreate from "./components/BHCreate";
+import BehaviorPointCreate from "./components/BehaviorPointCreate";
 import Homepage from "./components/Homepage";
 import Activity from "./components/Activity";
 import ActivityCreate from "./components/ActivityCreate";
@@ -25,8 +25,8 @@ export default function App() {
           <Route path="/ActivityCreate" element={<ActivityCreate />} />
           <Route path="/Ac_his" element={<Ac_his />} />
           <Route path="/Ac_hisCreate" element={<Ac_hisCreate />} />
-          <Route path="/behavior_points" element={<Behavior_Points />} />
-          <Route path="/bhcreate" element={<BHCreate />} />
+          <Route path="/Behavior_points" element={<Behavior_Points />} />
+          <Route path="/Behavior_pointsCreate" element={<Behavior_PointCreate />} />
           <Route path="/Branch" element={<Branch />} />
           <Route path="/BranchCreate" element={<BranchCreate />} />
           <Route path="/Student" element={<Student />} />
