@@ -7,23 +7,16 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import Typography from "@mui/material/Typography"; 
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import { BHInterface } from "../models/IBehavior_Point";
-import { PointTypeInterface } from "../models/IPoint_Type";
-import { BehaviorTypeInterface } from "../models/IBehavior_Type";
 import { AdminInterface } from "../models/IAdmin";
 import { BranchInterface } from "../models/IBranch";
 import { CourseInterface } from "../models/ICourse";
 import { AcademyInterface } from "../models/IAcademy";
-import Branch from "./Branch";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -32,7 +25,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function BHCreate() {
+function BrCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
@@ -64,7 +57,7 @@ function BHCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof BHCreate;
+        const id = event.target.id as keyof typeof BrCreate;
         const { value } = event.target;
         setBranch({ ...branch, [id]: value });
     };
@@ -76,7 +69,7 @@ function BHCreate() {
             [name]: event.target.value,
         });
     };
-
+         
     const getAcademy = async () => {
         fetch(`${apiUrl}/academies`, requestOptions)
             .then((response) => response.json())
@@ -112,9 +105,7 @@ function BHCreate() {
                 else { console.log("NO DATA") }
             });
     };
-
     
-
     useEffect(() => {
         getAcademy();
         getCourse();
@@ -128,23 +119,24 @@ function BHCreate() {
 
     async function submit() {
         let data = {
-            
+        
             Brname: brname,
             Contact: contact,
-            AdminID: convertType(branch.AcademyID),
-            CourseID: convertType(branch.CourseID),
+            AdminID: convertType(branch.AdminID),
             AcademyID: convertType(branch.AcademyID),
+            CourseID: convertType(branch.CourseID),
+            
         };
 
-        console.log(data)
+        console.log(JSON.stringify(data))
 
-        const requestOptions = {
+        const requestOptions = { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/Branches`, requestOptions)
+        fetch(`${apiUrl}/branches`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -155,10 +147,6 @@ function BHCreate() {
                     setErrorMessage(res.error)
                 }
             });
-
-
-
-
     }
 
     return (
@@ -317,4 +305,4 @@ function BHCreate() {
     );
 }
 
-export default BHCreate;
+export default BrCreate;
