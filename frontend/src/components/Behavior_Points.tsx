@@ -11,7 +11,7 @@ function Behavior_Points() {
     const [bh, setBh] = React.useState<BHInterface[]>([]);
 
     const getBh = async () => {
-        const apiUrl = "http://localhost:8080/behavior_points";
+        const apiUrl = "http://localhost:8080/behavior_points_show";
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
