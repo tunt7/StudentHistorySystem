@@ -7,72 +7,80 @@ import (
 	"github.com/tunt7/SA-Project/entity"
 )
 
-// POST /academys
+// POST /BehaviorType
+
 func Createacademy(c *gin.Context) {
-	var academy entity.Academy
-	if err := c.ShouldBindJSON(&academy); err != nil {
+	var ac entity.Academy
+	if err := c.ShouldBindJSON(&ac); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := entity.DB().Create(&academy).Error; err != nil {
+	if err := entity.DB().Create(&ac).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": academy})
+
+	c.JSON(http.StatusOK, gin.H{"data": ac})
+
 }
 
-// GET /academy/:id
+// GET /BehaviorType/:id
+
 func Getacademy(c *gin.Context) {
-	var academy entity.Academy
+	var ac entity.Academy
 	id := c.Param("id")
-	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM academies WHERE id = ?", id).Find(&academy).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM academies WHERE id = ?", id).Scan(&ac).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": academy})
+	c.JSON(http.StatusOK, gin.H{"data": ac})
+
 }
 
-// GET /academys
-func Listacademys(c *gin.Context) {
-	var academys []entity.Academy
-	if err := entity.DB().Preload("Owner").Raw("SELECT * FROM academies").Find(&academys).Error; err != nil {
+// GET /BehaviorTypes
+
+func Listacademy(c *gin.Context) {
+	var ac []entity.Academy
+	if err := entity.DB().Raw("SELECT * FROM academies").Scan(&ac).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{"data": ac})
 
-	c.JSON(http.StatusOK, gin.H{"data": academys})
 }
 
-// DELETE /academys/:id
+// DELETE /BehaviorTypes/:id
+
 func Deleteacademy(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM academies WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "academies not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "PointType not found"})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": id})
+
 }
 
-// PATCH /academys
+// PATCH /BehaviorTypes
+
 func Updateacademy(c *gin.Context) {
-	var academy entity.Academy
-	if err := c.ShouldBindJSON(&academy); err != nil {
+	var ac entity.Academy
+	if err := c.ShouldBindJSON(&ac); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", academy.ID).First(&academy); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "academies not found"})
+	if tx := entity.DB().Where("id = ?", ac.ID).First(&ac); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Academy not found"})
 		return
 	}
 
-	if err := entity.DB().Save(&academy).Error; err != nil {
+	if err := entity.DB().Save(&ac).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{"data": ac})
 
-	c.JSON(http.StatusOK, gin.H{"data": academy})
 }
