@@ -17,8 +17,6 @@ type Activity struct {
 	Acname     string
 	Date_s     time.Time
 	Date_e     time.Time
-	Time_s     time.Time
-	Time_e     time.Time
 	TeacherID  *uint
 	Teacher    Teacher
 	LocationID *uint
