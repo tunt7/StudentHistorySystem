@@ -125,8 +125,7 @@ function Ac_hisCreate() {
             ADMINID: convertType(activityHis.ADMIN_ID),
             StudentID: convertType(activityHis.STUDENT_ID),
             ACtivityID: convertType(activityHis.ACTIVITY_ID),
-            // BehaviorTypeID: convertType(activityHis.BehaviorTypeID),
-            // StudentID: activityHis.StudentID ?? "",
+            
         };
 
         console.log(data)
@@ -200,11 +199,34 @@ function Ac_hisCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Student
+                                    --Select Student--
                                 </option>
                                 {student.map((item: STDInterface) => (
                                     <option value={item.ID} key={item.ID}>
                                         {item.Sfirstname} {item.Slastname}
+                                    </option>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>Activity</p>
+                            <Select
+                                native
+                                value={activityHis.ACTIVITY_ID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "ACTIVITY_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    --Select Activity--
+                                </option>
+                                {activity.map((item: AcInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Acname}
                                     </option>
                                 ))}
                             </Select>
@@ -243,7 +265,7 @@ function Ac_hisCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Admin
+                                    --Select Admin--
                                 </option>
                                 {admin.map((item: AdminInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -257,32 +279,10 @@ function Ac_hisCreate() {
                     
 
                     <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>Activity</p>
-                            <Select
-                                native
-                                value={activityHis.ACTIVITY_ID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "ACTIVITY_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    Select Activity
-                                </option>
-                                {activity.map((item: AcInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Acname}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Button component={RouterLink} to="/" variant="contained">
+                        <Button color="primary" component={RouterLink} to="/Ac_his" variant="contained">
                             Back
                         </Button>
+
                         <Button
                             style={{ float: "right" }}
                             onClick={submit}
@@ -291,6 +291,7 @@ function Ac_hisCreate() {
                         >
                             Submit
                         </Button>
+
                     </Grid>
                 </Grid>
             </Paper>
