@@ -11,7 +11,7 @@ function Branch() {
     const [Br, setBr] = React.useState<BranchInterface[]>([]);
 
     const getBr = async () => {
-        const apiUrl = "http://localhost:8080/branch";
+        const apiUrl = "http://localhost:8080/branches_show";
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -64,7 +64,7 @@ function Branch() {
                     <Box> 
                         <Button
                             component={RouterLink}
-                            to="/branchcreate"
+                            to="/BranchCreate"
                             variant="contained"
                             color="primary"
                         >
