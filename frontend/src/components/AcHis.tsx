@@ -6,6 +6,8 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { AcHisInterface } from "../models/IAc_his";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
+
 
 function Activity_His() {
     const [Ac_his, setAc_his] = React.useState<AcHisInterface[]>([]);
@@ -29,15 +31,15 @@ function Activity_His() {
     };
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "S_ID", width: 120 },
+        { field: "id", headerName: "ID", width: 120 },
+        { field: "student_id", headerName: "SID", width: 120 },
         { field: "sfirstname", headerName: "First Name", width: 120 },
         { field: "slastname", headerName: "Last Name", width: 120 },
-        { field: "acname", headerName: "Activity", width: 100 },
-        { field: "achour", headerName: "Hour", width: 120 },
-        { field: "date_s", headerName: "Date start", width: 100 },
-        { field: "time_s", headerName: "Time start", width: 120 },
-        { field: "date_e", headerName: "Date end", width: 100 },
-        { field: "time_e", headerName: "Time end", width: 120 },
+        { field: "acname", headerName: "Activity", width: 150 },
+        { field: "achour", headerName: "Hour", width: 50 },
+        { field: "date_s", headerName: "Date start", width: 200 },
+        { field: "date_e", headerName: "Date end", width: 200 },
+        
     ];
 
     useEffect(() => {
@@ -77,6 +79,7 @@ function Activity_His() {
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
                         rows={Ac_his}
+                        // getRowId={(row: any) =>  row.id}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
