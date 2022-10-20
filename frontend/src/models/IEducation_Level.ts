@@ -1,4 +1,4 @@
 export interface ELInterface {
-    ELID: number;
+    ID: number;
 	Elname:string;
 }
