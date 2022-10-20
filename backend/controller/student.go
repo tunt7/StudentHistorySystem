@@ -34,8 +34,20 @@ func GetSTD(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": std})
 }
 
-// GET /users
+// GET /PointTypes
+
 func ListSTD(c *gin.Context) {
+	var pt []entity.Student
+	if err := entity.DB().Raw("SELECT * FROM students").Scan(&pt).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": pt})
+
+}
+
+// GET /users
+func ListSTDShow(c *gin.Context) {
 	// var bp []entity.Behavior_Point
 	result := []map[string]interface{}{}
 	entity.DB().Table("students").
