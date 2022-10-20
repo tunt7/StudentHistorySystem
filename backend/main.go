@@ -45,6 +45,13 @@ func main() {
 	r.POST("/academies", controller.Createacademy)
 	r.PATCH("/academies", controller.Updateacademy)
 	r.DELETE("/academies/:id", controller.Deleteacademy)
+	
+		// Room Routes
+	r.GET("/rooms", controller.Listroom)
+	r.GET("/rooms/:id", controller.Getroom)
+	r.POST("/rooms", controller.Createroom)
+	r.PATCH("/rooms", controller.Updateroom)
+	r.DELETE("/rooms/:id", controller.Deleteroom)
 
 	// Course Routes
 	r.GET("/course", controller.Listcourses)
