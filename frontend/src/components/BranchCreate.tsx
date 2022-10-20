@@ -15,8 +15,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { AdminInterface } from "../models/IAdmin";
 import { BranchInterface } from "../models/IBranch";
-import { CourseInterface } from "../models/ICourse";
+import { RoomInterface } from "../models/IRoom";
 import { AcademyInterface } from "../models/IAcademy";
+import { Avatar } from "@mui/material";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -32,7 +33,7 @@ function BrCreate() {
 
     const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
     const [academy, setAcademy] = React.useState<AcademyInterface[]>([]);
-    const [course, setCourse] = React.useState<CourseInterface[]>([]);
+    const [room, setRoom] = React.useState<RoomInterface[]>([]);
     const [branch, setBranch] = React.useState<BranchInterface>({});
     const [brname, setBrname] = React.useState<string>("");
     const [contact, setContact] = React.useState<string>("");
@@ -82,13 +83,13 @@ function BrCreate() {
             });
     };
     
-    const getCourse = async () => {
-        fetch(`${apiUrl}/course`, requestOptions)
+    const getRoom = async () => {
+        fetch(`${apiUrl}/rooms`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setCourse(res.data);
+                    setRoom(res.data);
                 }
                 else { console.log("NO DATA") }
             });
@@ -108,7 +109,7 @@ function BrCreate() {
     
     useEffect(() => {
         getAcademy();
-        getCourse();
+        getRoom();
         getAdmin();
     }, []);
 
@@ -122,9 +123,9 @@ function BrCreate() {
         
             Brname: brname,
             Contact: contact,
-            AdminID: convertType(branch.AdminID),
+            AdminID: convertType(branch.AdminID), 
             AcademyID: convertType(branch.AcademyID),
-            CourseID: convertType(branch.CourseID),
+            RoomID: convertType(branch.RoomID),
             
         };
 
@@ -150,7 +151,7 @@ function BrCreate() {
     }
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="md">                      
             <Snackbar
                 open={success}
                 autoHideDuration={6000}
@@ -187,9 +188,9 @@ function BrCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Name</p>
+                            <p>สาขา</p>
                             <TextField
                                 id="brname"
                                 variant="outlined"
@@ -201,9 +202,9 @@ function BrCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Contact</p>
+                            <p>ช่องทางติดต่อ</p>
                             <TextField
                                 id="brname"
                                 variant="outlined"
@@ -215,19 +216,19 @@ function BrCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Admin</p>
+                            <p>ผู้บันทึก</p>
                             <Select
                                 native
                                 value={branch.AdminID + ""}
-                                onChange={handleChange}
+                                onChange={handleChange} 
                                 inputProps={{
                                     name: "AdminID",
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Admin
+                                    เลือกผู้บันทึก
                                 </option>
                                 {admin.map((item: AdminInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -238,9 +239,9 @@ function BrCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Academy</p>
+                            <p>สำนักวิชา</p>
                             <Select
                                 native
                                 value={branch.AcademyID + ""}
@@ -250,7 +251,7 @@ function BrCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Academy
+                                    เลือกสำนักวิชา
                                 </option>
                                 {academy.map((item: AcademyInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -261,23 +262,23 @@ function BrCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Course</p>
+                            <p>ห้องประจำสาขา</p>
                             <Select
                                 native
-                                value={branch.CourseID + ""}
+                                value={branch.RoomID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "CourseID",
+                                    name: "RoomID",
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Course
+                                    เลือกห้องประจำสาขา
                                 </option>
-                                {course.map((item: CourseInterface) => (
+                                {room.map((item: RoomInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.Cname}
+                                        {item.Rname}
                                     </option>
                                 ))}
                             </Select>
