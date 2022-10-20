@@ -11,7 +11,7 @@ function Branch() {
     const [Br, setBr] = React.useState<BranchInterface[]>([]);
 
     const getBr = async () => {
-        const apiUrl = "http://localhost:8080/branches_show";
+        const apiUrl = "http://localhost:8080/branches";
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -26,14 +26,14 @@ function Branch() {
                 }
                 else {console.log("NO DATA")}
             });
-    };
+    }; 
 
     const columns: GridColDef[] = [ 
         { field: "id", headerName: "ID", width: 50 },
         { field: "brname", headerName: "Branch", width: 260},
         { field: "contact", headerName: "Contact", width: 150 },        
         { field: "acaname", headerName: "Academy", width: 140 },     
-        { field: "cname", headerName: "Course", width: 310 },
+        { field: "rname", headerName: "Room", width: 310 },
         { field: "aname", headerName: "Admin", width: 220},
        
     ];
@@ -64,7 +64,7 @@ function Branch() {
                     <Box> 
                         <Button
                             component={RouterLink}
-                            to="/BranchCreate"
+                            to="/branchcreate"
                             variant="contained"
                             color="primary"
                         >
