@@ -5,7 +5,7 @@ import { AcademyInterface } from "./IAcademy"
 import { BranchInterface } from "./IBranch"
 import { TInterface } from "./ITeacher"
 export interface STDInterface {
-    SID?: number;
+    ID?: number;
 	Sfirstname?:string;
     Slastname? :string;
 	Sdob:Date | null;
