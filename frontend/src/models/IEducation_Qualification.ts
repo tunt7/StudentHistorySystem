@@ -1,4 +1,4 @@
 export interface EQInterface {
-    EQID: number;
+    ID: number;
 	Eqname:string;
 }
