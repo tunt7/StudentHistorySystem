@@ -4,11 +4,11 @@ import { AdminInterface } from "./IAdmin";
 
 export interface AcHisInterface {
     ID?: number;
-	S_ID?: number;
-    S?: STDInterface;
-	AC_ID?: number;
-    AC?: AcInterface;
-    ADMIN_RECID?:number;
-    ADMIN_REC?: AdminInterface;
-    AC_HOUR?: number;
+	STUDENT_ID?: number;
+    STUDENT?: STDInterface;
+	ACTIVITY_ID?: number;
+    ACTIVITY?: AcInterface;
+    ADMIN_ID?:number;
+    ADMIN?: AdminInterface;
+    ACHOUR?: number;
 }
