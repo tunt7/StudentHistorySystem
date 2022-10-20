@@ -22,19 +22,19 @@ func CreateBranches(c *gin.Context) {
 
 	// 9: ค้นหา admin ด้วย id
 	if tx := entity.DB().Where("id = ?", branches.AdminID).First(&admins); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "video not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
 	// 10: ค้นหา academy ด้วย id
 	if tx := entity.DB().Where("id = ?", branches.AcademyID).First(&academies); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "resolution not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "academy not found"})
 		return
 	}
 
 	// 11: ค้นหา course ด้วย id
 	if tx := entity.DB().Where("id = ?", branches.CourseID).First(&courses); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "playlist not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
 		return
 	}
 	// 12: สร้าง branch
@@ -54,6 +54,15 @@ func CreateBranches(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": br})
 }
 
+func ListBranches(c *gin.Context) {
+	var branches []entity.Branch
+	if err := entity.DB().Raw("SELECT * FROM branches").Scan(&branches).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": branches})
+}
 // GET /user/:id
 func GetBranches(c *gin.Context) {
 	var branches entity.Branch
@@ -66,7 +75,7 @@ func GetBranches(c *gin.Context) {
 }
 
 // GET /users
-func ListBranches(c *gin.Context) {
+func ListBranchesShow(c *gin.Context) {
 	// var bp []entity.Behavior_Point
 	result := []map[string]interface{}{}
 	entity.DB().Table("branches").
