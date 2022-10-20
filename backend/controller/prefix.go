@@ -23,7 +23,7 @@ func CreatePrefix(c *gin.Context) {
 }
 
 // GET /resolution/:id
-func GetResolution(c *gin.Context) {
+func GetPrefix(c *gin.Context) {
 	var pre entity.Prefix
 	id := c.Param("id")
 	if err := entity.DB().Raw("SELECT * FROM prefixes WHERE id = ?", id).Scan(&pre).Error; err != nil {
@@ -35,7 +35,7 @@ func GetResolution(c *gin.Context) {
 }
 
 // GET /resolutions
-func ListResolutions(c *gin.Context) {
+func ListPrefix(c *gin.Context) {
 	var pre []entity.Prefix
 	if err := entity.DB().Raw("SELECT * FROM prefixes").Scan(&pre).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -46,9 +46,9 @@ func ListResolutions(c *gin.Context) {
 }
 
 // DELETE /resolutions/:id
-func DeleteResolution(c *gin.Context) {
+func DeletePrefix(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM resolutions WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM prefixes WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "resolution not found"})
 		return
 	}
@@ -57,7 +57,7 @@ func DeleteResolution(c *gin.Context) {
 }
 
 // PATCH /resolutions
-func UpdateResolution(c *gin.Context) {
+func UpdatePrefix(c *gin.Context) {
 	var pre entity.Prefix
 	if err := c.ShouldBindJSON(&pre); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
