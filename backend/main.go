@@ -38,7 +38,28 @@ func main() {
 	r.POST("/students", controller.CreateSTD)
 	r.PATCH("/students", controller.UpdateSTD)
 	r.DELETE("/students/:id", controller.DeleteSTD)
+	
+	// Academy Routes
+	r.GET("/academies", controller.Listacademy)
+	r.GET("/academies/:id", controller.Getacademy)
+	r.POST("/academies", controller.Createacademy)
+	r.PATCH("/academies", controller.Updateacademy)
+	r.DELETE("/academies/:id", controller.Deleteacademy)
 
+	// Course Routes
+	r.GET("/course", controller.Listcourses)
+	r.GET("/course/:id", controller.Getcourse)
+	r.POST("/course", controller.Createcourse)
+	r.PATCH("/course", controller.Updatecourse)
+	r.DELETE("/course/:id", controller.Deletecourse)
+        
+	// Branch Routes
+	r.GET("/branches", controller.ListBranches)
+	r.GET("/branches/:id", controller.GetBranches)
+	r.POST("/branches", controller.CreateBranches)
+	r.PATCH("/branches", controller.UpdateBranches)
+	r.DELETE("/branches/:id", controller.DeleteBranches)
+	
 	// Behavior_Point Routes
 	r.GET("/behavior_points_show", controller.ListBHShow)
 	r.GET("/behavior_point/:id", controller.GetBH)
