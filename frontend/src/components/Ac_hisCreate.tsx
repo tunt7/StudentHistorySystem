@@ -121,10 +121,10 @@ function Ac_hisCreate() {
 
     async function submit() {
         let data = {
-            AC_HOUR: typeof activityHis.AC_HOUR === "string" ? parseInt(activityHis.AC_HOUR) : 0,
-            ADMIN_RECID: convertType(activityHis.ADMIN_RECID),
-            S_ID: convertType(activityHis.S_ID),
-            AC_ID: convertType(activityHis.AC_ID),
+            ACHOUR: typeof activityHis.ACHOUR === "string" ? parseInt(activityHis.ACHOUR) : 0,
+            ADMINID: convertType(activityHis.ADMIN_ID),
+            StudentID: convertType(activityHis.STUDENT_ID),
+            ACtivityID: convertType(activityHis.ACTIVITY_ID),
             // BehaviorTypeID: convertType(activityHis.BehaviorTypeID),
             // StudentID: activityHis.StudentID ?? "",
         };
@@ -188,15 +188,15 @@ function Ac_hisCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p>Student</p>
                             <Select
                                 native
-                                value={activityHis.S_ID + ""}
+                                value={activityHis.STUDENT_ID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "StudentID",
+                                    name: "STUDENT_ID",
                                 }}
                             >
                                 <option aria-label="None" value="">
@@ -211,11 +211,11 @@ function Ac_hisCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p>Hour</p>
                             <TextField
-                                id="Hour"
+                                id="ACHOUR"
                                 variant="outlined"
                                 type="number"
                                 size="medium"
@@ -223,7 +223,7 @@ function Ac_hisCreate() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                value={activityHis.AC_HOUR || ""}
+                                value={activityHis.ACHOUR || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -231,15 +231,15 @@ function Ac_hisCreate() {
 
                     
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p>Admin</p>
                             <Select
                                 native
-                                value={activityHis.ADMIN_RECID + ""}
+                                value={activityHis.ADMIN_ID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "AdminID",
+                                    name: "ADMIN_ID",
                                 }}
                             >
                                 <option aria-label="None" value="">
@@ -256,15 +256,15 @@ function Ac_hisCreate() {
 
                     
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p>Activity</p>
                             <Select
                                 native
-                                value={activityHis.AC_ID + ""}
+                                value={activityHis.ACTIVITY_ID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "AC_ID",
+                                    name: "ACTIVITY_ID",
                                 }}
                             >
                                 <option aria-label="None" value="">
