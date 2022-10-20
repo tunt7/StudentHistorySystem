@@ -1,4 +1,4 @@
 export interface BTInterface {
-    BTID: number;
+    ID: number;
 	Btname:string;
 }
