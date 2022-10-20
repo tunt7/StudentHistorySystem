@@ -1,5 +1,5 @@
 import { AcademyInterface } from "./IAcademy";
-import { CourseInterface } from "./ICourse";
+import { RoomInterface } from "./IRoom";
 import { AdminInterface } from "./IAdmin"; 
 
 export interface BranchInterface { 
@@ -8,9 +8,9 @@ export interface BranchInterface {
 	Contact?:string;
 	AdminID?: number;
 	Admin?: AdminInterface;		
-	AcademyID?: number;
+	AcademyID?: number; 
 	Academy?: AcademyInterface;
-	CourseID?: number;
-	Course?: CourseInterface;
+	RoomID?: number;
+	Room?: RoomInterface;
     
 } 
