@@ -34,6 +34,10 @@ function Activity_His() {
         { field: "slastname", headerName: "Last Name", width: 120 },
         { field: "acname", headerName: "Activity", width: 100 },
         { field: "achour", headerName: "Hour", width: 120 },
+        { field: "date_s", headerName: "Date start", width: 100 },
+        { field: "time_s", headerName: "Time start", width: 120 },
+        { field: "date_e", headerName: "Date end", width: 100 },
+        { field: "time_e", headerName: "Time end", width: 120 },
     ];
 
     useEffect(() => {
