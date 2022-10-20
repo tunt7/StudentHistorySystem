@@ -8,12 +8,12 @@ import Activity from "./components/Activity";
 import ActivityCreate from "./components/ActivityCreate";
 import Ac_his from "./components/Homepage";
 import Ac_hisCreate from "./components/Homepage";
-import Branch from "./components/Homepage";
-import BranchCreate from "./components/Homepage";
+import Branch from "./components/Branch";
+import BranchCreate from "./components/BranchCreate";
 import Student from "./components/Homepage";
 import StudentCreate from "./components/Homepage";
-import Teacher from "./components/Homepage";
-import TeacherCreate from "./components/Homepage";
+import TeacherShow from "./components/TeacherShow";
+import TCeate from "./components/TCreate";
 export default function App() {
   return (
     <Router>
@@ -26,13 +26,13 @@ export default function App() {
           <Route path="/Ac_his" element={<Ac_his />} />
           <Route path="/Ac_hisCreate" element={<Ac_hisCreate />} />
           <Route path="/Behavior_points" element={<Behavior_Points />} />
-          <Route path="/Behavior_pointsCreate" element={<Behavior_PointCreate />} />
+          <Route path="/Behavior_pointsCreate" element={<BehaviorPointCreate />} />
           <Route path="/Branch" element={<Branch />} />
           <Route path="/BranchCreate" element={<BranchCreate />} />
           <Route path="/Student" element={<Student />} />
           <Route path="/StudentCreate" element={<StudentCreate />} />
-          <Route path="/Teacher" element={<Teacher />} />
-          <Route path="/TeacherCreate" element={<TeacherCreate />} />
+          <Route path="/TeacherShow" element={<TeacherShow />} />
+          <Route path="/TCreate" element={<TCeate />} />
         </Routes>
       </div>
     </Router>
