@@ -37,7 +37,7 @@ func ListACHIS(c *gin.Context) {
 	// var bp []entity.Behavior_Point
 	result := []map[string]interface{}{}
 	entity.DB().Table("ac_his").
-		Select("students.id, students.sfirstname, students.slastname, activities.acname, ac_his.achour","activities.date_s","activities.time_s","activities.date_e","activities.time_e").
+		Select("ac_his.id, ac_his.student_id, students.sfirstname, students.slastname, activities.acname, ac_his.achour","activities.date_s","activities.date_e").
 		Joins("left join students on students.id = ac_his.admin_id").
 		Joins("left join activities on activities.id = ac_his.student_id").
 		Joins("left join admins on admins.id = ac_his.admin_id").
