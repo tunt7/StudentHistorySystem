@@ -1,11 +1,12 @@
 import { AdminInterface } from "./IAdmin";
 import { PointTypeInterface } from "./IPoint_Type";
 import { BehaviorTypeInterface } from "./IBehavior_Type";
+import { STDInterface } from "./IStudent";
 
 export interface BHInterface {
-    ID?: number;
-	Point: number;
-	Detail: string;
+    	ID?: number;
+	bppoint?: number;
+	bpdetail?: string;
 	Date_Rec: Date;
 
 	AdminID?: number;
@@ -15,4 +16,5 @@ export interface BHInterface {
 	BehaviorTypeID?: number;
 	BehaviorType?:BehaviorTypeInterface;
 	StudentID?: number;
+	Student?: STDInterface;
 }
