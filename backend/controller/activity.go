@@ -56,7 +56,7 @@ func ListActivityShow(c *gin.Context) {
 
 	result := []map[string]interface{}{}
 	entity.DB().Table("activities").
-		Select("activities.id, activities.acname, activities.date_s, activities.date_e, activities.time_s, activities.time_e, teachers.tfirst_name, teachers.tlast_name, admins.aname, locations.lname").
+		Select("activities.id, activities.acname, activities.date_s, activities.date_e, teachers.tfirst_name, teachers.tlast_name, admins.aname, locations.lname").
 		Joins("left join admins on admins.id = activities.admin_id").
 		Joins("left join locations on locations.id = activities.location_id").
 		Joins("left join teachers on teachers.id = activities.teacher_id").
