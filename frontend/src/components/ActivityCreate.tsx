@@ -12,20 +12,19 @@ import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
-import 'dayjs/locale/fr';
+//import dayjs, { Dayjs } from 'dayjs';
+
+
 //npm install dayjs --save
 import { AcInterface } from "../models/IActivity";
 import { LInterface } from "../models/ILocation";
 import { TInterface } from "../models/ITeacher";
 import { AdminInterface } from "../models/IAdmin";
 
-const locales = ['fr'] as const;
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -38,11 +37,6 @@ function ActivityCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [locale, setLocale] = React.useState<typeof locales[number]>('fr');
-    const [time1, setTime1] = React.useState<Dayjs | null>(dayjs('2022-04-07'),);
-    const [time2, setTime2] = React.useState<Dayjs | null>(dayjs('2022-04-07'),);
-    const [date1, setDate1] = React.useState<Date | null>(null);
-    const [date2, setDate2] = React.useState<Date | null>(null);
     const [location, setLocation] = React.useState<LInterface[]>([]);
     const [teacher, setTeacher] = React.useState<TInterface[]>([]);
     const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
@@ -137,10 +131,10 @@ function ActivityCreate() {
     async function submit() {
         let data = {
             Acname: activity.Acname ?? "",
-            Date_s: date1,
-            Date_e: date2,
-            Time_s: time1,
-            Time_e: time2,
+            Date_s:  activity. Date_s,
+            Date_e: activity.Date_e,
+            // Time_s: time1,
+            // Time_e: time2,
             LocationID: convertType(activity.LocationID),
             TeacherID: convertType(activity.TeacherID),
             AdminID: convertType(activity.AdminID),
@@ -292,14 +286,18 @@ function ActivityCreate() {
                    
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วันเริ่มกิจกรรม</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    value={date1}
+                            <p>วันเวลาเริ่มกิจกรรม</p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label="DateTimePicker"
+                                    value={activity. Date_s}
                                     onChange={(newValue) => {
-                                        setDate1(newValue);
+                                        setActivity({
+                                          ...activity,
+                                          Date_s: newValue,
+                                        });
                                     }}
-                                    renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
                         </FormControl>
@@ -307,41 +305,18 @@ function ActivityCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วันสิ้นสุดกิจกรรม</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    value={date2}
-                                    views={['year', 'month', 'day']}
+                            <p>วันเวลาสิ้นสุดกิจกรรม</p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label="DateTimePicker"
+                                    value={activity. Date_e}
                                     onChange={(newValue) => {
-                                        setDate2(newValue);
+                                        setActivity({
+                                          ...activity,
+                                          Date_e: newValue,
+                                        });
                                     }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>เวลาเริ่มกิจกรรม</p>
-                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
-                                <TimePicker
-                                    value={time1}
-                                    onChange={(newValue) => setTime1(newValue)}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>เวลาสิ้นสุด</p>
-                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
-                                <TimePicker
-                                    value={time2}
-                                    onChange={(newValue) => setTime2(newValue)}
-                                    renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
                         </FormControl>
