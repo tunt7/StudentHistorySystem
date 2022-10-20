@@ -83,6 +83,13 @@ func main() {
 	r.PATCH("/Teachers", controller.UpdateT)
 	r.DELETE("/Teachers/:id", controller.DeleteT)
 	
+	// Prefix Routes
+	r.GET("/Prefixes", controller.ListPrefix)
+	r.GET("/Prefix/:id", controller.GetPrefix)
+	r.POST("/Prefixes", controller.CreatePrefix)
+	r.PATCH("/Prefixes", controller.UpdatePrefix)
+	r.DELETE("/Prefixes/:id", controller.DeletePrefix)
+	
 	// Activity History Routes
 	r.GET("/Ac_his", controller.ListACHIS)
 	r.GET("/Ac_his/:id", controller.GetACHIS)
