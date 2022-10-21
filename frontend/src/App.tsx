@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Behavior_Points from "./components/Behavior_Points";
-import BehaviorPointCreate from "./components/BehaviorPointCreate";
+import Behavior_PointCreate from "./components/BehaviorPointCreate";
 import Homepage from "./components/Homepage";
 import Activity from "./components/Activity";
 import ActivityCreate from "./components/ActivityCreate";
@@ -14,7 +14,27 @@ import Student from "./components/Homepage";
 import StudentCreate from "./components/Homepage";
 import TeacherShow from "./components/TeacherShow";
 import TCeate from "./components/TCreate";
+import SignIn from "./components/SignIn";
+import Button from "@mui/material/Button";
+
 export default function App() {
+  const [token, setToken] = useState<String>("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  if (!token) {
+    return <SignIn />;
+  }
+
+  const signout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
   return (
     <Router>
       <div>
@@ -35,6 +55,9 @@ export default function App() {
           <Route path="/TCreate" element={<TCeate />} />
         </Routes>
       </div>
+      <Button color="inherit" onClick={signout}>
+        ออกจากระบบ
+      </Button>
     </Router>
   );
 }
