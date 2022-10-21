@@ -10,11 +10,14 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 function Behavior_Points() {
     const [bh, setBh] = React.useState<BHInterface[]>([]);
 
-    const getBh = async () => {
+    const getBehaviorPoint = async () => {
         const apiUrl = "http://localhost:8080/behavior_points_show";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
         };
 
         await fetch(apiUrl, requestOptions)
@@ -24,14 +27,14 @@ function Behavior_Points() {
                     console.log(res.data)
                     setBh(res.data);
                 }
-                else {console.log("NO DATA")}
+                else { console.log("NO DATA") }
             });
-        };
-        
-        useEffect(() => {
-            getBh();
-        }, []);
-        
+    };
+
+    useEffect(() => {
+        getBehaviorPoint();
+    }, []);
+
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 50 },
         { field: "sfirstname", headerName: "First Name", width: 120 },
@@ -66,7 +69,7 @@ function Behavior_Points() {
                     <Box>
                         <Button
                             component={RouterLink}
-                            to="/BHcreate"
+                            to="/Behavior_pointsCreate"
                             variant="contained"
                             color="primary"
                         >

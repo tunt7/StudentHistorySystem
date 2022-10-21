@@ -16,6 +16,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
+import { GetCurrentAdmin } from "../services/HttpClientService"
 import { BHInterface } from "../models/IBehavior_Point";
 import { PointTypeInterface } from "../models/IPoint_Type";
 import { BehaviorTypeInterface } from "../models/IBehavior_Type";
@@ -29,24 +30,27 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function BehaviorPointCreate() {
+function Behavior_PointCreate() {
     const [date, setDate] = React.useState<Date | null>(null);
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
+    const [admin, setAdmin] = React.useState<AdminInterface>();
     const [student, setStudent] = React.useState<[]>([]);
     const [pointType, setPointType] = React.useState<PointTypeInterface[]>([]);
     const [behaviorType, setBehaviorType] = React.useState<BehaviorTypeInterface[]>([]);
-    const [behaviorPoint, setBehaviorPoint] = React.useState<BHInterface>({ 
+    const [behaviorPoint, setBehaviorPoint] = React.useState<BHInterface>({
         Date_Rec: new Date(),
     });
-    
+
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
     };
 
     const handleClose = (
@@ -63,7 +67,7 @@ function BehaviorPointCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof BehaviorPointCreate;
+        const id = event.target.id as keyof typeof Behavior_PointCreate;
         const { value } = event.target;
         setBehaviorPoint({ ...behaviorPoint, [id]: value });
     };
@@ -87,7 +91,7 @@ function BehaviorPointCreate() {
                 else { console.log("NO DATA") }
             });
     };
-    
+
     const getBehaviorType = async () => {
         fetch(`${apiUrl}/behavior_types`, requestOptions)
             .then((response) => response.json())
@@ -100,17 +104,6 @@ function BehaviorPointCreate() {
             });
     };
 
-    const getAdmin = async () => {
-        fetch(`${apiUrl}/admins`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setAdmin(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
-    };
 
     const getStudent = async () => {
         fetch(`${apiUrl}/students`, requestOptions)
@@ -122,6 +115,15 @@ function BehaviorPointCreate() {
                 }
                 else { console.log("NO DATA") }
             });
+    };
+
+    const getAdmin = async () => {
+        let res = await GetCurrentAdmin();
+        behaviorPoint.AdminID = res.ID;
+        if (res) {
+            setAdmin(res);
+            console.log(res)
+        }
     };
 
     useEffect(() => {
@@ -140,7 +142,7 @@ function BehaviorPointCreate() {
         let data = {
             bppoint: typeof behaviorPoint.bppoint === "string" ? parseInt(behaviorPoint.bppoint) : 0,
             bpdetail: behaviorPoint.bpdetail ?? "",
-            Date_Rec: date,
+            Date_Rec: behaviorPoint.Date_Rec,
             AdminID: convertType(behaviorPoint.AdminID),
             PointTypeID: convertType(behaviorPoint.PointTypeID),
             BehaviorTypeID: convertType(behaviorPoint.BehaviorTypeID),
@@ -151,7 +153,10 @@ function BehaviorPointCreate() {
 
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
 
@@ -198,6 +203,7 @@ function BehaviorPointCreate() {
                             variant="h6"
                             color="primary"
                             gutterBottom
+
                         >
                             Create Behavior Point
                         </Typography>
@@ -245,6 +251,7 @@ function BehaviorPointCreate() {
                                 native
                                 value={behaviorPoint.AdminID + ""}
                                 onChange={handleChange}
+                                disabled
                                 inputProps={{
                                     name: "AdminID",
                                 }}
@@ -252,11 +259,9 @@ function BehaviorPointCreate() {
                                 <option aria-label="None" value="">
                                     Select
                                 </option>
-                                {admin.map((item: AdminInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Aname}
-                                    </option>
-                                ))}
+                                <option value={admin?.ID} key={admin?.ID}>
+                                    {admin?.Aname}
+                                </option>
                             </Select>
                         </FormControl>
                     </Grid>
@@ -335,16 +340,18 @@ function BehaviorPointCreate() {
                             <p>Record Date</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
-                                    value={date}
+                                    value={behaviorPoint.Date_Rec}
                                     onChange={(newValue) => {
-                                        setDate(newValue);
+                                        setBehaviorPoint({
+                                            ...behaviorPoint,
+                                            Date_Rec: newValue,
+                                        });
                                     }}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
                         </FormControl>
                     </Grid>
-
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/" variant="contained">
@@ -365,4 +372,4 @@ function BehaviorPointCreate() {
     );
 }
 
-export default BehaviorPointCreate;
+export default Behavior_PointCreate;
