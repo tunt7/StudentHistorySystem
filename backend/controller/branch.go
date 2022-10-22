@@ -22,19 +22,19 @@ func CreateBranches(c *gin.Context) {
 
 	// 9: ค้นหา admin ด้วย id
 	if tx := entity.DB().Where("id = ?", branches.AdminID).First(&admins); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "video not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
 	// 10: ค้นหา academy ด้วย id
 	if tx := entity.DB().Where("id = ?", branches.AcademyID).First(&academies); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "resolution not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "academy not found"})
 		return
 	}
 
 	// 11: ค้นหา room ด้วย id
 	if tx := entity.DB().Where("id = ?", branches.RoomID).First(&room); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "playlist not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "room not found"})
 		return
 	}
 	// 12: สร้าง branch
