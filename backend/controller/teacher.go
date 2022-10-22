@@ -25,7 +25,7 @@ func CreateT(c *gin.Context) {
 func GetT(c *gin.Context) {
 	var t entity.Teacher
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM teacher WHERE id = ?", id).Scan(&t).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM teachers WHERE id = ?", id).Scan(&t).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -61,7 +61,7 @@ func ListTshow(c *gin.Context) {
 // DELETE /users/:id
 func DeleteT(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM teacher WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM teachers WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "teacher not found"})
 		return
 	}
