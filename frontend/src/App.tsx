@@ -21,7 +21,11 @@ import Button from "@mui/material/Button";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import SchoolIcon from '@mui/icons-material/School';
+import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
+import Diversity2Icon from '@mui/icons-material/Diversity2';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 
 import Homepage from "./components/Homepage";
 import Behavior_Points from "./components/Behavior_Points";
@@ -91,11 +95,11 @@ const mdTheme = createTheme();
 const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
   { name: "นักศึกษา", icon: <PeopleIcon />, path: "/Student" },
-  { name: "อาจารย์", icon: <YouTubeIcon />, path: "/TeacherShow" },
-  { name: "สาขา", icon: <YouTubeIcon />, path: "/Branch" },
-  { name: "กิจกรรม", icon: <YouTubeIcon />, path: "/Activity" },
-  { name: "กิจกรรมของนักศึกษา", icon: <YouTubeIcon />, path: "/Ac_his" },
-  { name: "คะแนนวินัย", icon: <YouTubeIcon />, path: "/Behavior_Points" },
+  { name: "อาจารย์", icon: <Diversity3Icon />, path: "/TeacherShow" },
+  { name: "สาขา", icon: <SchoolIcon />, path: "/Branch" },
+  { name: "กิจกรรม", icon: <Diversity2Icon />, path: "/Activity" },
+  { name: "กิจกรรมของนักศึกษา", icon: <BadgeRoundedIcon />, path: "/Ac_his" },
+  { name: "คะแนนวินัย", icon: <ContactPageIcon />, path: "/Behavior_Points" },
 ];
 
 
@@ -152,7 +156,7 @@ export default function App() {
                 noWrap
                 sx={{ flexGrow: 1 }}
               >
-                System Analysis and Design 1/65
+                ระบบประวัตินักศึกษา
               </Typography>
               <Button color="inherit" onClick={signout}>
                 ออกจากระบบ
