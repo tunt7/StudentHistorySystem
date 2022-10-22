@@ -8,27 +8,30 @@ import { BranchInterface } from "../models/IBranch";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
  
 function Branch() {
-    const [Br, setBr] = React.useState<BranchInterface[]>([]);
+    const [Br, setBranch] = React.useState<BranchInterface[]>([]);
 
-    const getBr = async () => {
+    const getBranch = async () => {
         const apiUrl = "http://localhost:8080/branches";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
         };
 
         await fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setBr(res.data);
-                }
-                else {console.log("NO DATA")}
-            });
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                console.log(res.data)
+                setBranch(res.data);
+            }
+            else { console.log("NO DATA") }
+        });
     }; 
 
-    const columns: GridColDef[] = [ 
+    const columns: GridColDef[] = [  
         { field: "id", headerName: "ID", width: 50 },
         { field: "brname", headerName: "Branch", width: 260},
         { field: "contact", headerName: "Contact", width: 150 },        
@@ -39,7 +42,7 @@ function Branch() {
     ];
 
     useEffect(() => {
-        getBr();
+        getBranch();
     }, []);
 
     return (
