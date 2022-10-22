@@ -16,6 +16,9 @@ func CreateActivity(c *gin.Context) {
 		return
 	}
 
+	activity.Date_s = activity.Date_s.Local()
+	activity.Date_e = activity.Date_e.Local()
+
 	if err := entity.DB().Create(&activity).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
