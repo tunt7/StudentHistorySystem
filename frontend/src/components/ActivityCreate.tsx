@@ -17,6 +17,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 //npm install dayjs --save
+import { GetCurrentAdmin } from "../services/HttpClientService"
 import { AcInterface } from "../models/IActivity";
 import { LInterface } from "../models/ILocation";
 import { TInterface } from "../models/ITeacher";
@@ -37,7 +38,7 @@ function ActivityCreate() {
 
     const [location, setLocation] = React.useState<LInterface[]>([]);
     const [teacher, setTeacher] = React.useState<TInterface[]>([]);
-    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
+    const [admin, setAdmin] = React.useState<AdminInterface>();
     const [activity, setActivity] = React.useState<AcInterface>({ 
       Date_s: new Date(),
       Date_e: new Date(),
@@ -49,7 +50,10 @@ function ActivityCreate() {
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
     };
 
     const handleClose = (
@@ -104,15 +108,12 @@ function ActivityCreate() {
     };
 
     const getAdmin = async () => {
-        fetch(`${apiUrl}/admins`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setAdmin(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
+        let res = await GetCurrentAdmin();
+        activity.AdminID = res.ID;
+        if (res) {
+            setAdmin(res);
+            console.log(res)
+        }
     };
 
     useEffect(() => {
@@ -131,8 +132,6 @@ function ActivityCreate() {
             Acname: activity.Acname ?? "",
             Date_s:  activity. Date_s,
             Date_e: activity.Date_e,
-            // Time_s: time1,
-            // Time_e: time2,
             LocationID: convertType(activity.LocationID),
             TeacherID: convertType(activity.TeacherID),
             AdminID: convertType(activity.AdminID),
@@ -143,7 +142,10 @@ function ActivityCreate() {
 
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
 
@@ -219,18 +221,17 @@ function ActivityCreate() {
                                 native
                                 value={activity.AdminID + ""}
                                 onChange={handleChange}
+                                disabled
                                 inputProps={{
                                     name: "AdminID",
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    -
+                                    Select
                                 </option>
-                                {admin.map((item: AdminInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Aname}
-                                    </option>
-                                ))}
+                                <option value={admin?.ID} key={admin?.ID}>
+                                    {admin?.Aname}
+                                </option>
                             </Select>
                         </FormControl>
                     </Grid>
@@ -247,7 +248,7 @@ function ActivityCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    -
+                                    Select
                                 </option>
                                 {location.map((item: LInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -270,7 +271,7 @@ function ActivityCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    -
+                                    Select
                                 </option>
                                 {teacher.map((item: TInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -288,7 +289,6 @@ function ActivityCreate() {
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
                                     renderInput={(props) => <TextField {...props} />}
-                                    label="DateTimePicker"
                                     value={activity. Date_s}
                                     onChange={(newValue) => {
                                         setActivity({
@@ -307,7 +307,6 @@ function ActivityCreate() {
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
                                     renderInput={(props) => <TextField {...props} />}
-                                    label="DateTimePicker"
                                     value={activity. Date_e}
                                     onChange={(newValue) => {
                                         setActivity({
