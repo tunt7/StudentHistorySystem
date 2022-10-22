@@ -8,8 +8,6 @@ export interface AcInterface {
     Acname?: string;
 	Date_s: Date | null;
 	Date_e: Date | null;
-	Time_s: Date | null;
-	Time_e: Date | null;
 
 	LocationID?: number;
 	Location?: LInterface;
