@@ -14,7 +14,10 @@ function Activity() {
         const apiUrl = "http://localhost:8080/Activities_show";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
 
         await fetch(apiUrl, requestOptions)
