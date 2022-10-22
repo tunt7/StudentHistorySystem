@@ -31,12 +31,12 @@ function Activity() {
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 30 },
         { field: "acname", headerName: "Name", width: 120 },
-        { field: "date_s", headerName: "Date start", width: 220 },
-        { field: "date_e", headerName: "Date end", width: 220 },
+        { field: "date_s", headerName: "Date start", width: 200 },
+        { field: "date_e", headerName: "Date end", width: 200 },
         { field: "lname", headerName: "Location", width: 100 },
-        { field: "tfirst_name", headerName: "Teacher firstname", width: 150 },
-        { field: "tlast_name", headerName: "Teacher lastname", width: 150 },
-        { field: "aname", headerName: "Admin Name", width: 150 },
+        { field: "tfirst_name", headerName: "Teacher firstname", width: 140 },
+        { field: "tlast_name", headerName: "Teacher lastname", width: 140 },
+        { field: "aname", headerName: "Admin Name", width: 200 },
     ];
 
     useEffect(() => {
