@@ -1,36 +1,45 @@
 package entity
-
+ 
 import (
-	"gorm.io/gorm"
+	"gorm.io/gorm" 
+	
 )
 
 type Academy struct {
 	gorm.Model
 	Acaname       string
-	Building_name string
 	Branch        []Branch  `gorm:"foreignkey:AcademyID"`
 	Student       []Student `gorm:"foreignkey:AcademyID"`
-}
+} 
 
-type Course struct {
+type Building struct {
 	gorm.Model
-	Name   string
-	Branch []Branch `gorm:"foreignkey:CourseID"`
+	Buname       string
+	Room          []Room `gorm:"foreignkey:BuildingID"`
+} 
+
+type Room struct { 
+	gorm.Model 
+	Rname   string
+    BuildingID *uint
+	Building  Building
+	Branch []Branch `gorm:"foreignkey:RoomID"`
+	
 }
 
 type Branch struct {
 	gorm.Model
 	Brname  string
 	Contact string
-
-	AdminID *uint
+  
+	AdminID *uint  
 	Admin   Admin
 
 	AcademyID *uint
 	Academy   Academy
 
-	CourseID *uint
-	Course   Course
+	RoomID *uint
+	Room   Room
 
 	Teachers []Teacher `gorm:"foreignkey:BranchID"`
 	Student  []Student `gorm:"foreignkey:BranchID"`
