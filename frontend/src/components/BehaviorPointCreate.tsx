@@ -35,7 +35,8 @@ function Behavior_PointCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
-
+    
+//     แก้ตรงนี้ const [admin, setAdmin] = React.useState<AdminInterface>(); ด้วยนะ
     const [admin, setAdmin] = React.useState<AdminInterface>();
     const [student, setStudent] = React.useState<[]>([]);
     const [pointType, setPointType] = React.useState<PointTypeInterface[]>([]);
