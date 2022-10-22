@@ -11,10 +11,13 @@ function Teacher() {
     const [bh, setT] = React.useState<TInterface[]>([]);
 
     const getT = async () => {
-        const apiUrl = "http://localhost:8080/teacher";
+        const apiUrl = "http://localhost:8080/Teachers_show";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
         };
 
         await fetch(apiUrl, requestOptions)
@@ -36,7 +39,7 @@ function Teacher() {
         { field: "temail", headerName: "Email", width: 180 },
         { field: "tcontact", headerName: "Contact", width: 130 },
         { field: "brname", headerName: "Branch", width: 180 },
-        { field: "aname", headerName: "Admin Name", width: 200 },
+        { field: "aname", headerName: "Admin", width: 200 },
     ];
 
     useEffect(() => {
