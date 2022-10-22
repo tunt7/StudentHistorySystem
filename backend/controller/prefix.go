@@ -49,7 +49,7 @@ func ListPrefix(c *gin.Context) {
 func DeletePrefix(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM prefixes WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "resolution not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "prefix not found"})
 		return
 	}
 
