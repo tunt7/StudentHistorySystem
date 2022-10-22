@@ -17,6 +17,7 @@ import { TInterface } from "../models/ITeacher";
 import { AdminInterface } from "../models/IAdmin";
 import { BranchInterface } from "../models/IBranch";
 import { PreInterface } from "../models/IPrefix";
+import { GetCurrentAdmin } from "../services/HttpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -30,20 +31,23 @@ function TCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
+    const [admin, setAdmin] = React.useState<AdminInterface>();
     const [prefix, setPrefix] = React.useState<PreInterface[]>([]);
     const [branch, setBranch] = React.useState<BranchInterface[]>([]);
     const [teacher, setTeacher] = React.useState<TInterface>({ 
-        FirstName:"",
-        LastName:"",
-        Email:"",
-        Contact:"",
+        TfirstName:"",
+        TlastName:"",
+        Temail:"",
+        Tcontact:"",
     });
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
     };
 
     const handleClose = (
@@ -74,7 +78,7 @@ function TCreate() {
     };
 
     const getPrefix = async () => {
-        fetch(`${apiUrl}/prefixes`, requestOptions)
+        fetch(`${apiUrl}/Prefixes`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -98,15 +102,12 @@ function TCreate() {
     };
 
     const getAdmin = async () => {
-        fetch(`${apiUrl}/admins`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setAdmin(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
+        let res = await GetCurrentAdmin();
+        teacher.AdminID = res.ID;
+        if (res) {
+            setAdmin(res);
+            console.log(res)
+        }
     };
 
     useEffect(() => {
@@ -122,10 +123,10 @@ function TCreate() {
 
     async function submit() {
         let data = {
-            FirstName: teacher.FirstName ?? "",
-            LastName: teacher.LastName ?? "",
-            Email: teacher.Email ?? "",
-            Contact: teacher.Contact ?? "",
+            TfirstName: teacher.TfirstName ?? "",
+            TlastName: teacher.TlastName ?? "",
+            Temail: teacher.Temail ?? "",
+            Tcontact: teacher.Tcontact ?? "",
             
             AdminID: convertType(teacher.AdminID),
             PrefixID: convertType(teacher.PrefixID),
@@ -136,11 +137,14 @@ function TCreate() {
 
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/teachers`, requestOptions)
+        fetch(`${apiUrl}/Teachers`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -182,18 +186,19 @@ function TCreate() {
                             component="h2"
                             variant="h6"
                             color="primary"
+                            fontSize={32}
                             gutterBottom
                         >
-                            Create Teacher
+                            บันทึกข้อมูลอาจารย์ 
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={2}>
+                <Grid item xs={2}>
                         <FormControl fullWidth variant="outlined">
-                            <p> Title Of Name </p>
+                            <p>คำนำหน้า</p>
                             <Select
                                 native
                                 value={teacher.PrefixID + ""}
@@ -203,11 +208,11 @@ function TCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    -title-
+                                -เลือก-
                                 </option>
                                 {prefix.map((item: PreInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.short_name}
+                                        {item.ShortName}
                                     </option>
                                 ))}
                             </Select>
@@ -216,13 +221,13 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p>First Name</p>
+                            <p>ชื่อจริง</p>
                             <TextField
-                                id="firstname"
+                                id="TfirstName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={teacher.FirstName}
+                                value={teacher.TfirstName}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -230,13 +235,13 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Last Name</p>
+                            <p>นามสกุล</p>
                             <TextField
-                                id="lastname"
+                                id="TlastName"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={teacher.LastName}
+                                value={teacher.TlastName}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -244,13 +249,13 @@ function TCreate() {
                     
                     <Grid item xs={7}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Email</p>
+                            <p>อีเมล</p>
                             <TextField
-                                id="email"
+                                id="Temail"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={teacher.Email}
+                                value={teacher.Temail}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -258,13 +263,13 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Contact</p>
+                            <p>เบอร์โทรติดต่อ</p>
                             <TextField
-                                id="contact"
+                                id="Tcontact"
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={teacher.Contact}
+                                value={teacher.Tcontact}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -272,7 +277,7 @@ function TCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Branch</p>
+                            <p>สาขา</p>
                             <Select
                                 native
                                 value={teacher.BranchID + ""}
@@ -282,11 +287,11 @@ function TCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    ---Select Branch---
+                                ---โปรดเลือกสาขา---
                                 </option>
                                 {branch.map((item: BranchInterface) => (
-                                    <option value={item.BrID} key={item.BrID}>
-                                        {item.BrName}
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Brname}
                                     </option>
                                 ))}
                             </Select>
@@ -300,25 +305,24 @@ function TCreate() {
                                 native
                                 value={teacher.AdminID + ""}
                                 onChange={handleChange}
+                                disabled
                                 inputProps={{
                                     name: "AdminID",
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                ---Select Admin---
+                                    Select
                                 </option>
-                                {admin.map((item: AdminInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Aname}
-                                    </option>
-                                ))}
+                                <option value={admin?.ID} key={admin?.ID}>
+                                    {admin?.Aname}
+                                </option>
                             </Select>
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/teacher" variant="contained">
-                            Back
+                        <Button component={RouterLink} to="/TeacherShow" variant="contained">
+                            ย้อนกลับ
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -326,7 +330,7 @@ function TCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            Submit
+                            บันทึกข้อมูล
                         </Button>
                     </Grid>
                 </Grid>
