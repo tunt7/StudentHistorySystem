@@ -11,7 +11,7 @@ function Branch() {
     const [Br, setBranch] = React.useState<BranchInterface[]>([]);
 
     const getBranch = async () => {
-        const apiUrl = "http://localhost:8080/branches";
+        const apiUrl = "http://localhost:8080/branches_show";
         const requestOptions = {
             method: "GET",
             headers: {
