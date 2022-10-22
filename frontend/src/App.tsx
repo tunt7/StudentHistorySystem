@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Behavior_Points from "./components/Behavior_Points";
@@ -46,7 +46,7 @@ export default function App() {
           <Route path="/Ac_his" element={<Ac_his />} />
           <Route path="/Ac_hisCreate" element={<Ac_hisCreate />} />
           <Route path="/Behavior_points" element={<Behavior_Points />} />
-          <Route path="/Behavior_pointsCreate" element={<BehaviorPointCreate />} />
+          <Route path="/Behavior_pointsCreate" element={<Behavior_PointCreate />} />
           <Route path="/Branch" element={<Branch />} />
           <Route path="/BranchCreate" element={<BranchCreate />} />
           <Route path="/Student" element={<Student />} />
