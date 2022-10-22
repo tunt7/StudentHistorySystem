@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { AcHisInterface } from "../models/IAc_his";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
 
 
 function Activity_His() {
@@ -16,7 +15,9 @@ function Activity_His() {
         const apiUrl = "http://localhost:8080/Ac_his";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
 
         await fetch(apiUrl, requestOptions)
