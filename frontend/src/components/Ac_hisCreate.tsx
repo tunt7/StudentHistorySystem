@@ -20,6 +20,7 @@ import { STDInterface } from "../models/IStudent";
 import { AcInterface } from "../models/IActivity";
 import { AdminInterface } from "../models/IAdmin";
 import { AcHisInterface } from "../models/IAc_his";
+import { GetCurrentAdmin } from "../services/HttpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -34,7 +35,7 @@ function Ac_hisCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
+    const [admin, setAdmin] = React.useState<AdminInterface>();
     const [student, setStudent] = React.useState<STDInterface[]>([]);
     const [activity, setActivity] = React.useState<AcInterface[]>([]);
     const [activityHis, setActivityHis] = React.useState<AcHisInterface>({ });
@@ -42,7 +43,9 @@ function Ac_hisCreate() {
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json" },
     };
 
     const handleClose = (
@@ -97,15 +100,12 @@ function Ac_hisCreate() {
     };
 
     const getAdmin = async () => {
-        fetch(`${apiUrl}/admins`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setAdmin(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
+        let res = await GetCurrentAdmin();
+        activityHis.ADMIN_ID = res.ID;
+        if (res) {
+            setAdmin(res);
+            console.log(res)
+        }
     };
 
     useEffect(() => {
@@ -132,7 +132,9 @@ function Ac_hisCreate() {
 
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 
@@ -260,6 +262,7 @@ function Ac_hisCreate() {
                                 native
                                 value={activityHis.ADMIN_ID + ""}
                                 onChange={handleChange}
+                                disabled
                                 inputProps={{
                                     name: "ADMIN_ID",
                                 }}
@@ -267,11 +270,9 @@ function Ac_hisCreate() {
                                 <option aria-label="None" value="">
                                     --Select Admin--
                                 </option>
-                                {admin.map((item: AdminInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Aname}
-                                    </option>
-                                ))}
+                                <option value={admin?.ID} key={admin?.ID}>
+                                    {admin?.Aname}
+                                </option>
                             </Select>
                         </FormControl>
                     </Grid>
