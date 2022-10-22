@@ -38,8 +38,8 @@ func ListACHIS(c *gin.Context) {
 	result := []map[string]interface{}{}
 	entity.DB().Table("ac_his").
 		Select("ac_his.id, ac_his.student_id, students.sfirstname, students.slastname, activities.acname, ac_his.achour","activities.date_s","activities.date_e").
-		Joins("left join students on students.id = ac_his.admin_id").
-		Joins("left join activities on activities.id = ac_his.student_id").
+		Joins("left join students on students.id = ac_his.student_id").
+		Joins("left join activities on activities.id = ac_his.activity_id").
 		Joins("left join admins on admins.id = ac_his.admin_id").
 		Find(&result)
 
