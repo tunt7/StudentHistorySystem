@@ -202,7 +202,7 @@ function BrCreate() {
                                 type="string"
                                 size="medium"
                                 value={branch.Brname}
-                                onChange={(event) => setBrname(event.target.value)}
+                                onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
@@ -216,7 +216,7 @@ function BrCreate() {
                                 type="string"
                                 size="medium"
                                 value={branch.Contact}
-                                onChange={(event) => setContact(event.target.value)}
+                                onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
