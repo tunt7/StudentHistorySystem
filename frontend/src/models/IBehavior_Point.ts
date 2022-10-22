@@ -7,7 +7,7 @@ export interface BHInterface {
     	ID?: number;
 	bppoint?: number;
 	bpdetail?: string;
-	Date_Rec: Date;
+	Date_Rec: Date | null;
 
 	AdminID?: number;
 	Admin?: AdminInterface
