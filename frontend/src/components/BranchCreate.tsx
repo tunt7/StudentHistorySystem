@@ -292,7 +292,7 @@ function BrCreate() {
                    
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/" variant="contained">
+                        <Button component={RouterLink} to="/Branch" variant="contained">
                             กลับ
                         </Button>
                         <Button
