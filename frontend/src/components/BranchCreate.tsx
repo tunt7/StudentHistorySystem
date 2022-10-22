@@ -13,6 +13,8 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
+
+import { GetCurrentAdmin } from "../services/HttpClientService"
 import { AdminInterface } from "../models/IAdmin";
 import { BranchInterface } from "../models/IBranch";
 import { RoomInterface } from "../models/IRoom";
@@ -31,7 +33,7 @@ function BrCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
+    const [admin, setAdmin] = React.useState<AdminInterface>();
     const [academy, setAcademy] = React.useState<AcademyInterface[]>([]);
     const [room, setRoom] = React.useState<RoomInterface[]>([]);
     const [branch, setBranch] = React.useState<BranchInterface>({});
@@ -41,7 +43,10 @@ function BrCreate() {
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
     };
 
     const handleClose = (
@@ -96,15 +101,12 @@ function BrCreate() {
     };
 
     const getAdmin = async () => {
-        fetch(`${apiUrl}/admins`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setAdmin(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
+        let res = await GetCurrentAdmin();
+        branch.AdminID = res.ID;
+        if (res) {
+            setAdmin(res);
+            console.log(res)
+        }
     };
     
     useEffect(() => {
@@ -133,7 +135,10 @@ function BrCreate() {
 
         const requestOptions = { 
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
 
@@ -215,26 +220,25 @@ function BrCreate() {
                             />
                         </FormControl>
                     </Grid>
-
-                    <Grid item xs={12}>
+                    
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ผู้บันทึก</p>
+                            <p>Admin</p>
                             <Select
                                 native
                                 value={branch.AdminID + ""}
-                                onChange={handleChange} 
+                                onChange={handleChange}
+                                disabled
                                 inputProps={{
                                     name: "AdminID",
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    เลือกผู้บันทึก
+                                    Select
                                 </option>
-                                {admin.map((item: AdminInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Aname}
-                                    </option>
-                                ))}
+                                <option value={admin?.ID} key={admin?.ID}>
+                                    {admin?.Aname}
+                                </option>
                             </Select>
                         </FormControl>
                     </Grid>
@@ -289,7 +293,7 @@ function BrCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/" variant="contained">
-                            Back
+                            กลับ
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -297,7 +301,7 @@ function BrCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            Submit
+                            บันทึกข้อมูล
                         </Button>
                     </Grid>
                 </Grid>
