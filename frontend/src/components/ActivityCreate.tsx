@@ -15,8 +15,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-//import dayjs, { Dayjs } from 'dayjs';
-
 
 //npm install dayjs --save
 import { AcInterface } from "../models/IActivity";
