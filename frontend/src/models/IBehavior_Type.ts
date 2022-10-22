@@ -1,4 +1,4 @@
 export interface BehaviorTypeInterface {
-    ID: Number;
+    ID: number;
     Btname: string;
 }
