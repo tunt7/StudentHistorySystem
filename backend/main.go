@@ -45,13 +45,6 @@ func main() {
 			r.PATCH("/students", controller.UpdateSTD)
 			r.DELETE("/students/:id", controller.DeleteSTD)
 
-			// Academy Routes
-			r.GET("/academies", controller.Listacademy)
-			r.GET("/academies/:id", controller.Getacademy)
-			r.POST("/academies", controller.Createacademy)
-			r.PATCH("/academies", controller.Updateacademy)
-			r.DELETE("/academies/:id", controller.Deleteacademy)
-
 			// Branch Routes
 			r.GET("/branches", controller.ListBranches)
 			r.GET("/branches_show", controller.ListBranchesShow)
