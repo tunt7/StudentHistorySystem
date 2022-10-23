@@ -33,15 +33,13 @@ func GetEQ(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": eq})
 }
 
-// GET /users
 func ListEQ(c *gin.Context) {
-	// var bp []entity.Behavior_Point
-	result := []map[string]interface{}{}
-	entity.DB().Table("education_qualifications").
-		Select("education_qualifications.id, education_qualifications.eqname").
-		Find(&result)
-
-	c.JSON(http.StatusOK, gin.H{"data": result})
+	var bt []entity.Education_Qualification
+	if err := entity.DB().Raw("SELECT * FROM education_qualifications").Scan(&bt).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": bt})
 
 }
 
