@@ -42,7 +42,22 @@ import Branch from "./components/Branch";
 import StudentCreate from "./components/StudentCreate";
 import Student from "./components/Student";
 
+import { GetCurrentAdmin } from "./services/HttpClientService"
+import { AdminInterface } from "./models/IAdmin";
+
 import "./styles.css"
+import { colors } from "@mui/material";
+
+var adminName = "กำลังโหลด";
+
+const getAdmin = async () => {
+  let res = await GetCurrentAdmin();
+  adminName = res.Aname;
+  if (res) {
+    console.log(res);
+    console.log(adminName);
+  }
+};
 
 const drawerWidth = 240;
 
@@ -109,17 +124,20 @@ const menu = [
 
 export default function App() {
   const [token, setToken] = useState<String>("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  
+
   useEffect(() => {
+    getAdmin();
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
-    }
+    };
+
   }, []);
+
 
   if (!token) {
     return <SignIn />;
@@ -132,109 +150,120 @@ export default function App() {
 
   return (
     <div className="App">
-    <Router>
-      <ThemeProvider theme={mdTheme}>
-        <Box sx={{ display: "flex" }}>
-          <CssBaseline />
-          <AppBar position="absolute" open={open}>
-            <Toolbar
-              sx={{
-                pr: "24px", // keep right padding when drawer closed
-              }}
-            >
-              <IconButton
-                edge="start"
-                color="inherit"
-                aria-label="open drawer"
-                onClick={toggleDrawer}
+      <Router>
+        <ThemeProvider theme={mdTheme}>
+          <Box sx={{ display: "flex"}}>
+            <CssBaseline />
+            <AppBar color="primary" position="absolute" open={open}>
+              <Toolbar
                 sx={{
-                  marginRight: "36px",
-                  ...(open && { display: "none" }),
+                  pr: "24px", // keep right padding when drawer closed
                 }}
               >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                sx={{ flexGrow: 1 }}
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={toggleDrawer}
+                  sx={{
+                    marginRight: "36px",
+                    ...(open && { display: "none" }),
+                  }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="inherit"
+                  noWrap
+                  sx={{ flexGrow: 0.8 }}
+                >
+                  <div className="good-font">
+                    ระบบประวัตินักศึกษา
+                  </div>
+                </Typography>
+                <Typography
+                  variant="inherit"
+                  noWrap
+                  sx={{ flexGrow: 1 }}
+                >
+                  <div className="good-font">{adminName}</div>
+                </Typography>
+                <Button color="inherit" onClick={signout} variant="outlined">
+                  <Typography
+                    color="#F1948A"
+                    variant="button">
+                    <div className="good-font">
+                      ออกจากระบบ
+                    </div>
+                  </Typography>
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <Drawer variant="permanent" open={open}>
+              <Toolbar
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  px: [1],
+                }}
               >
-                <div className="good-font">
-                  ระบบประวัตินักศึกษา
-                </div>
-              </Typography>
-              <Button color="inherit" onClick={signout}>
-                <div className="good-font">
-                  ออกจากระบบ
-                </div>
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <Drawer variant="permanent" open={open}>
-            <Toolbar
+                <IconButton onClick={toggleDrawer}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </Toolbar>
+              <Divider />
+              <List>
+                {menu.map((item, index) => (
+                  <Link
+                    to={item.path}
+                    key={item.name}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <ListItem button>
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.name} />
+                    </ListItem>
+                  </Link>
+                ))}
+              </List>
+            </Drawer>
+            <Box
+              component="main"
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                px: [1],
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light"
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+                flexGrow: 1,
+                height: "100vh",
+                overflow: "auto",
               }}
             >
-              <IconButton onClick={toggleDrawer}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </Toolbar>
-            <Divider />
-            <List>
-              {menu.map((item, index) => (
-                <Link
-                  to={item.path}
-                  key={item.name}
-                  style={{ textDecoration: "none", color: "inherit"}}
-                >
-                  <ListItem button>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.name} />
-                  </ListItem>
-                </Link>
-              ))}
-            </List>
-          </Drawer>
-          <Box
-            component="main"
-            sx={{
-              backgroundColor: (theme) =>
-                theme.palette.mode === "light"
-                  ? theme.palette.grey[100]
-                  : theme.palette.grey[900],
-              flexGrow: 1,
-              height: "100vh",
-              overflow: "auto",
-            }}
-          >
-            <Toolbar />
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-              <Routes>
-              <Route path="/" element={<Homepage />} />
-              <Route path="/Activity" element={<Activity />} />
-              <Route path="/ActivityCreate" element={<ActivityCreate />} />
-              <Route path="/Ac_his" element={<Activity_His />} />
-              <Route path="/Ac_hisCreate" element={<Ac_hisCreate />} />
-              <Route path="/Behavior_points" element={<Behavior_Points />} />
-              <Route path="/Behavior_pointsCreate" element={<Behavior_PointCreate />} />
-              <Route path="/Branch" element={<Branch />} />
-              <Route path="/BranchCreate" element={<BrCreate />} />
-              <Route path="/TeacherShow" element={<Teacher />} />
-              <Route path="/TCreate" element={<TCreate />} />
-              <Route path="/StudentShow" element={<Student />} />
-              <Route path="/StudentCreate" element={<StudentCreate />} />
-              </Routes>
-            </Container>
+              <Toolbar />
+              <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                <Routes>
+                  <Route path="/" element={<Homepage />} />
+                  <Route path="/Activity" element={<Activity />} />
+                  <Route path="/ActivityCreate" element={<ActivityCreate />} />
+                  <Route path="/Ac_his" element={<Activity_His />} />
+                  <Route path="/Ac_hisCreate" element={<Ac_hisCreate />} />
+                  <Route path="/Behavior_points" element={<Behavior_Points />} />
+                  <Route path="/Behavior_pointsCreate" element={<Behavior_PointCreate />} />
+                  <Route path="/Branch" element={<Branch />} />
+                  <Route path="/BranchCreate" element={<BrCreate />} />
+                  <Route path="/TeacherShow" element={<Teacher />} />
+                  <Route path="/TCreate" element={<TCreate />} />
+                  <Route path="/StudentShow" element={<Student />} />
+                  <Route path="/StudentCreate" element={<StudentCreate />} />
+                </Routes>
+              </Container>
+            </Box>
           </Box>
-        </Box>
-      </ThemeProvider>
-    </Router>
+        </ThemeProvider>
+      </Router>
     </div>
   );
 
