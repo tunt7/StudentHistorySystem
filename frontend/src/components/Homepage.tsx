@@ -2,7 +2,7 @@ import "../styles.css"
 
 function Homepage(){
     return (
-        <h1 className="homepage">
+        <h1 className="good-font">
             HOMEPAGE
         </h1>
     )

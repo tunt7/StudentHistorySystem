@@ -227,12 +227,16 @@ function StudentCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
+                <div className="good-font">
                     บันทึกข้อมูลสำเร็จ
+                </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
+                <div className="good-font">
                     บันทึกข้อมูลไม่สำเร็จ
+                </div>
                 </Alert>
             </Snackbar>
             <Paper>
@@ -249,7 +253,9 @@ function StudentCreate() {
                             color="primary"
                             gutterBottom
                         >
+                            <div className="good-font">
                             กรอกประวัตินักศึกษา
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
@@ -258,7 +264,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ชื่อ</p>
+                            <p className="good-font">ชื่อ</p>
                             <TextField
                                 id="Sfirstname"
                                 variant="outlined"
@@ -272,7 +278,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>นามสกุล</p>
+                            <p className="good-font">นามสกุล</p>
                             <TextField
                                 id="Slastname"
                                 variant="outlined"
@@ -286,7 +292,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วันเดือนปีเกิด</p>
+                            <p className="good-font">วันเดือนปีเกิด</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
                                     value={std.Sdob}
@@ -304,7 +310,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>กลุ่มเลือด</p>
+                            <p className="good-font">กลุ่มเลือด</p>
                             <Select
                                 native
                                 value={std.BTID + ""}
@@ -327,7 +333,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>เลขประจำตัวประชาชน</p>
+                            <p className="good-font">เลขประจำตัวประชาชน</p>
                             <TextField
                                 id="Sidentity_number"
                                 variant="outlined"
@@ -341,7 +347,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>เบอร์โทรศัพท์</p>
+                            <p className="good-font">เบอร์โทรศัพท์</p>
                             <TextField
                                 id="Phone_Number"
                                 variant="outlined"
@@ -356,7 +362,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ที่อยู่</p>
+                            <p className="good-font">ที่อยู่</p>
                             <TextField
                                 id="Address"
                                 variant="outlined"
@@ -370,7 +376,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ชื่อผู้ปกครอง</p>
+                            <p className="good-font">ชื่อผู้ปกครอง</p>
                             <TextField
                                 id="Sparent"
                                 variant="outlined"
@@ -384,7 +390,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ระดับการศึกษา</p>
+                            <p className="good-font">ระดับการศึกษา</p>
                             <Select
                                 native
                                 value={std.ELID + ""}
@@ -407,7 +413,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วัน/เดือน/ปีที่เข้าศึกษา</p>
+                            <p className="good-font">วัน/เดือน/ปีที่เข้าศึกษา</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
                                     value={std.Admission_Date}
@@ -425,7 +431,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วุฒิก่อนเข้าศึกษา</p>
+                            <p className="good-font">วุฒิก่อนเข้าศึกษา</p>
                             <Select
                                 native
                                 value={std.EQID + ""}
@@ -448,7 +454,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>จบการศึกษาจาก</p>
+                            <p className="good-font">จบการศึกษาจาก</p>
                             <TextField
                                 id="Graduate_School"
                                 variant="outlined"
@@ -462,7 +468,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>เกรดเฉลี่ยก่อนเข้าศึกษา</p>
+                            <p className="good-font">เกรดเฉลี่ยก่อนเข้าศึกษา</p>
                             <TextField
                                 id="Grade"
                                 variant="outlined"
@@ -480,7 +486,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>สำนักวิชา</p>
+                            <p className="good-font">สำนักวิชา</p>
                             <Select
                                 native
                                 value={std.AcademyID + ""}
@@ -503,7 +509,7 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>สาขาวิชา</p>
+                            <p className="good-font">สาขาวิชา</p>
                             <Select
                                 native
                                 value={std.BranchID + ""}
@@ -526,7 +532,7 @@ function StudentCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>อาจารย์ที่ปรึกษา</p>
+                            <p className="good-font">อาจารย์ที่ปรึกษา</p>
                             <Select
                                 native
                                 value={std.TeacherID + ""}
@@ -549,10 +555,11 @@ function StudentCreate() {
                         </FormControl>
                     </Grid>
 
-                    {/* ****                         */}
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Student" variant="contained">
+                        <div className="good-font">
                             Back
+                        </div>
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -560,7 +567,9 @@ function StudentCreate() {
                             variant="contained"
                             color="primary"
                         >
+                            <div className="good-font">
                             Submit
+                            </div>
                         </Button>
                     </Grid>
                 </Grid>

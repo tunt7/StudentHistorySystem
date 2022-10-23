@@ -27,7 +27,7 @@ function Activity() {
                     console.log(res.data)
                     setAc(res.data);
                 }
-                else {console.log("NO DATA")}
+                else { console.log("NO DATA") }
             });
     };
 
@@ -62,7 +62,9 @@ function Activity() {
                             color="primary"
                             gutterBottom
                         >
-                            Activity
+                            <div className="good-font">
+                                Activity
+                            </div>
                         </Typography>
                     </Box>
                     <Box>
@@ -72,7 +74,9 @@ function Activity() {
                             variant="contained"
                             color="primary"
                         >
-                            Create Activity
+                            <div className="good-font">
+                                Create Activity
+                            </div>
                         </Button>
                     </Box>
                 </Box>

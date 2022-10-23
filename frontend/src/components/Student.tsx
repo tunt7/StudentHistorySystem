@@ -27,7 +27,7 @@ function Student() {
                     console.log(res.data)
                     setStd(res.data);
                 }
-                else {console.log("NO DATA")}
+                else { console.log("NO DATA") }
             });
     };
 
@@ -58,7 +58,9 @@ function Student() {
                             color="primary"
                             gutterBottom
                         >
-                            Student
+                            <div className="good-font">
+                                Student
+                            </div>
                         </Typography>
                     </Box>
                     <Box>
@@ -68,7 +70,9 @@ function Student() {
                             variant="contained"
                             color="primary"
                         >
-                            เพิ่มข้อมูลนักศึกษา
+                            <div className="good-font">
+                                เพิ่มข้อมูลนักศึกษา
+                            </div>
                         </Button>
                     </Box>
                 </Box>

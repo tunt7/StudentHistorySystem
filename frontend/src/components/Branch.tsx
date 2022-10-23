@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container"; 
+import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { BranchInterface } from "../models/IBranch";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
- 
+
 function Branch() {
     const [Br, setBranch] = React.useState<BranchInterface[]>([]);
 
@@ -21,24 +21,24 @@ function Branch() {
         };
 
         await fetch(apiUrl, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setBranch(res.data);
-            }
-            else { console.log("NO DATA") }
-        });
-    }; 
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setBranch(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
 
-    const columns: GridColDef[] = [  
+    const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 50 },
-        { field: "brname", headerName: "Branch", width: 260},
-        { field: "contact", headerName: "Contact", width: 150 },        
-        { field: "acaname", headerName: "Academy", width: 140 },     
+        { field: "brname", headerName: "Branch", width: 260 },
+        { field: "contact", headerName: "Contact", width: 150 },
+        { field: "acaname", headerName: "Academy", width: 140 },
         { field: "rname", headerName: "Room", width: 310 },
-        { field: "aname", headerName: "Admin", width: 220},
-       
+        { field: "aname", headerName: "Admin", width: 220 },
+
     ];
 
     useEffect(() => {
@@ -61,17 +61,21 @@ function Branch() {
                             color="primary"
                             gutterBottom
                         >
-                            Branch
+                            <div className="good-font">
+                                Branch
+                            </div>
                         </Typography>
                     </Box>
-                    <Box> 
+                    <Box>
                         <Button
                             component={RouterLink}
                             to="/branchcreate"
                             variant="contained"
                             color="primary"
                         >
+                        <div className="good-font">
                             Create Branch
+                        </div>
                         </Button>
                     </Box>
                 </Box>

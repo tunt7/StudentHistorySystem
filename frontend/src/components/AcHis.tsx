@@ -15,9 +15,10 @@ function Activity_His() {
         const apiUrl = "http://localhost:8080/Ac_his";
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
 
         await fetch(apiUrl, requestOptions)
@@ -27,7 +28,7 @@ function Activity_His() {
                     console.log(res.data)
                     setAc_his(res.data);
                 }
-                else {console.log("NO DATA")}
+                else { console.log("NO DATA") }
             });
     };
 
@@ -40,7 +41,7 @@ function Activity_His() {
         { field: "achour", headerName: "Hour", width: 50 },
         { field: "date_s", headerName: "Date start", width: 200 },
         { field: "date_e", headerName: "Date end", width: 200 },
-        
+
     ];
 
     useEffect(() => {
@@ -63,7 +64,9 @@ function Activity_His() {
                             color="primary"
                             gutterBottom
                         >
-                            Activity History
+                            <div className="good-font">
+                                Activity History
+                            </div>
                         </Typography>
                     </Box>
                     <Box>
@@ -73,7 +76,9 @@ function Activity_His() {
                             variant="contained"
                             color="primary"
                         >
-                            Add Activity to student
+                            <div className="good-font">
+                                Add Activity to student
+                            </div>
                         </Button>
                     </Box>
                 </Box>

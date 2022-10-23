@@ -16,6 +16,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SigninInterface } from "../models/ISignin";
 import { Login } from "../services/HttpClientService";
 
+import CameraFrontIcon from '@mui/icons-material/CameraFront';
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -107,10 +109,10 @@ function SignIn() {
                             alignSelf: "center",
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                            <LockOutlinedIcon />
+                        <Avatar sx={{ m: 1, bgcolor:"#4ADAF6" }}>
+                            <CameraFrontIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" fontFamily={"'Lato', sans-serif"}>
                             Sign in
                         </Typography>
                         <Box sx={{ mt: 1 }}>
@@ -146,7 +148,7 @@ function SignIn() {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{ mt: 3, mb: 2 ,fontFamily:"'Raleway',sans-serif"}}
                                 onClick={submit}
                             >
                                 Sign In

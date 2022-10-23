@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { TInterface } from "../models/ITeacher";
+import "../styles.css"
 
 function Teacher() {
     const [bh, setT] = React.useState<TInterface[]>([]);
@@ -27,7 +28,7 @@ function Teacher() {
                     console.log(res.data)
                     setT(res.data);
                 }
-                else {console.log("NO DATA")}
+                else { console.log("NO DATA") }
             });
     };
 
@@ -62,7 +63,9 @@ function Teacher() {
                             color="primary"
                             gutterBottom
                         >
+                            <div className="homepage">
                             Teacher
+                            </div>
                         </Typography>
                     </Box>
                     <Box>
@@ -71,8 +74,11 @@ function Teacher() {
                             to="/TCreate"
                             variant="contained"
                             color="primary"
+                            sx={{ fontFamily: "‘Chonburi’, sans-serif" }}
                         >
-                            Create Teacher
+                            <div className="font-thai">
+                            เพิ่มอาจารย์
+                            </div>
                         </Button>
                     </Box>
                 </Box>

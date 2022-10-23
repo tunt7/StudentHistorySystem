@@ -63,7 +63,9 @@ function Behavior_Points() {
                             color="primary"
                             gutterBottom
                         >
-                            Behavior Points
+                            <div className="good-font">
+                                Behavior Points
+                            </div>
                         </Typography>
                     </Box>
                     <Box>
@@ -73,7 +75,9 @@ function Behavior_Points() {
                             variant="contained"
                             color="primary"
                         >
-                            Create Behavior Point
+                            <div className="good-font">
+                                Create Behavior Point
+                            </div>
                         </Button>
                     </Box>
                 </Box>

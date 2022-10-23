@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography"; 
+import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
@@ -39,7 +39,7 @@ function BrCreate() {
     const [branch, setBranch] = React.useState<BranchInterface>({});
     const [brname, setBrname] = React.useState<string>("");
     const [contact, setContact] = React.useState<string>("");
-    
+
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
@@ -58,7 +58,7 @@ function BrCreate() {
         }
         setSuccess(false);
         setError(false);
-    }; 
+    };
 
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -75,7 +75,7 @@ function BrCreate() {
             [name]: event.target.value,
         });
     };
-         
+
     const getAcademy = async () => {
         fetch(`${apiUrl}/academies`, requestOptions)
             .then((response) => response.json())
@@ -87,7 +87,7 @@ function BrCreate() {
                 else { console.log("NO DATA") }
             });
     };
-    
+
     const getRoom = async () => {
         fetch(`${apiUrl}/rooms`, requestOptions)
             .then((response) => response.json())
@@ -108,7 +108,7 @@ function BrCreate() {
             console.log(res)
         }
     };
-    
+
     useEffect(() => {
         getAcademy();
         getRoom();
@@ -122,18 +122,18 @@ function BrCreate() {
 
     async function submit() {
         let data = {
-        
+
             Brname: brname,
             Contact: contact,
-            AdminID: convertType(branch.AdminID), 
+            AdminID: convertType(branch.AdminID),
             AcademyID: convertType(branch.AcademyID),
             RoomID: convertType(branch.RoomID),
-            
+
         };
 
         console.log(JSON.stringify(data))
 
-        const requestOptions = { 
+        const requestOptions = {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -156,7 +156,7 @@ function BrCreate() {
     }
 
     return (
-        <Container maxWidth="md">                      
+        <Container maxWidth="md">
             <Snackbar
                 open={success}
                 autoHideDuration={6000}
@@ -164,12 +164,16 @@ function BrCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลสำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลไม่สำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Paper>
@@ -186,7 +190,9 @@ function BrCreate() {
                             color="primary"
                             gutterBottom
                         >
-                            Create Branch
+                            <div className="good-font">
+                                Create Branch
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
@@ -195,7 +201,7 @@ function BrCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>สาขา</p>
+                            <p className="good-font">สาขา</p>
                             <TextField
                                 id="brname"
                                 variant="outlined"
@@ -209,7 +215,7 @@ function BrCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ช่องทางติดต่อ</p>
+                            <p className="good-font">ช่องทางติดต่อ</p>
                             <TextField
                                 id="brname"
                                 variant="outlined"
@@ -220,10 +226,10 @@ function BrCreate() {
                             />
                         </FormControl>
                     </Grid>
-                    
+
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Admin</p>
+                            <p className="good-font">Admin</p>
                             <Select
                                 native
                                 value={branch.AdminID + ""}
@@ -245,7 +251,7 @@ function BrCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>สำนักวิชา</p>
+                            <p className="good-font">สำนักวิชา</p>
                             <Select
                                 native
                                 value={branch.AcademyID + ""}
@@ -268,7 +274,7 @@ function BrCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ห้องประจำสาขา</p>
+                            <p className="good-font">ห้องประจำสาขา</p>
                             <Select
                                 native
                                 value={branch.RoomID + ""}
@@ -289,11 +295,13 @@ function BrCreate() {
                         </FormControl>
                     </Grid>
 
-                   
+
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/Branch" variant="contained">
-                            กลับ
+                        <Button component={RouterLink} to="/" variant="contained">
+                            <div className="good-font">
+                                กลับ
+                            </div>
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -301,7 +309,9 @@ function BrCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            บันทึกข้อมูล
+                            <div className="good-font">
+                                บันทึกข้อมูล
+                            </div>
                         </Button>
                     </Grid>
                 </Grid>

@@ -35,8 +35,8 @@ function Behavior_PointCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
-    
-//     แก้ตรงนี้ const [admin, setAdmin] = React.useState<AdminInterface>(); ด้วยนะ
+
+    //     แก้ตรงนี้ const [admin, setAdmin] = React.useState<AdminInterface>(); ด้วยนะ
     const [admin, setAdmin] = React.useState<AdminInterface>();
     const [student, setStudent] = React.useState<[]>([]);
     const [pointType, setPointType] = React.useState<PointTypeInterface[]>([]);
@@ -183,12 +183,16 @@ function Behavior_PointCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลสำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลไม่สำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Paper>
@@ -206,7 +210,9 @@ function Behavior_PointCreate() {
                             gutterBottom
 
                         >
-                            Create Behavior Point
+                            <div className="good-font">
+                                Create Behavior Point
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
@@ -215,7 +221,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Detail</p>
+                            <p className="good-font">Detail</p>
                             <TextField
                                 id="bpdetail"
                                 variant="outlined"
@@ -229,7 +235,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Point</p>
+                            <p className="good-font">Point</p>
                             <TextField
                                 id="bppoint"
                                 variant="outlined"
@@ -247,7 +253,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Admin</p>
+                            <p className="good-font">Admin</p>
                             <Select
                                 native
                                 value={behaviorPoint.AdminID + ""}
@@ -269,7 +275,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>PointType</p>
+                            <p className="good-font">PointType</p>
                             <Select
                                 native
                                 value={behaviorPoint.PointTypeID + ""}
@@ -292,7 +298,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>BehaviorType</p>
+                            <p className="good-font">BehaviorType</p>
                             <Select
                                 native
                                 value={behaviorPoint.BehaviorTypeID + ""}
@@ -315,7 +321,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Student</p>
+                            <p className="good-font">Student</p>
                             <Select
                                 native
                                 value={behaviorPoint.StudentID + ""}
@@ -338,7 +344,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Record Date</p>
+                            <p className="good-font">Record Date</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
                                     value={behaviorPoint.Date_Rec}
@@ -356,7 +362,9 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/" variant="contained">
-                            Back
+                            <div className="good-font">
+                                Back
+                            </div>
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -364,7 +372,9 @@ function Behavior_PointCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            Submit
+                            <div className="good-font">
+                                Submit
+                            </div>
                         </Button>
                     </Grid>
                 </Grid>

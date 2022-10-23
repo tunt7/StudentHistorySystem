@@ -39,9 +39,12 @@ function ActivityCreate() {
     const [location, setLocation] = React.useState<LInterface[]>([]);
     const [teacher, setTeacher] = React.useState<TInterface[]>([]);
     const [admin, setAdmin] = React.useState<AdminInterface>();
-    const [activity, setActivity] = React.useState<AcInterface>({ 
-      Date_s: new Date(),
-      Date_e: new Date(),
+    const [activity, setActivity] = React.useState<AcInterface>({
+        Date_s: new Date(),
+        Date_e: new Date(),
+        Time_s: new Date(),
+        Time_e: new Date(),
+
     });
 
     const apiUrl = "http://localhost:8080";
@@ -91,7 +94,7 @@ function ActivityCreate() {
                 else { console.log("NO DATA") }
             });
     };
-    
+
     const getT = async () => {
         fetch(`${apiUrl}/Teachers`, requestOptions)
             .then((response) => response.json())
@@ -127,7 +130,7 @@ function ActivityCreate() {
     async function submit() {
         let data = {
             Acname: activity.Acname ?? "",
-            Date_s:  activity. Date_s,
+            Date_s: activity.Date_s,
             Date_e: activity.Date_e,
             LocationID: convertType(activity.LocationID),
             TeacherID: convertType(activity.TeacherID),
@@ -168,12 +171,16 @@ function ActivityCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลสำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลไม่สำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Paper>
@@ -190,7 +197,9 @@ function ActivityCreate() {
                             color="primary"
                             gutterBottom
                         >
-                            Create Activity
+                            <div className="good-font">
+                                Create Activity
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
@@ -199,7 +208,7 @@ function ActivityCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ชื่อกิจกรรม</p>
+                            <p className="good-font">ชื่อกิจกรรม</p>
                             <TextField
                                 id="Acname"
                                 variant="outlined"
@@ -213,7 +222,7 @@ function ActivityCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Admin</p>
+                            <p className="good-font">Admin</p>
                             <Select
                                 native
                                 value={activity.AdminID + ""}
@@ -235,7 +244,7 @@ function ActivityCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>สถานที่</p>
+                            <p className="good-font">สถานที่</p>
                             <Select
                                 native
                                 value={activity.LocationID + ""}
@@ -258,7 +267,7 @@ function ActivityCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>อาจารย์ที่ดูแลกิจกรรม</p>
+                            <p className="good-font">อาจารย์ที่ดูแลกิจกรรม</p>
                             <Select
                                 native
                                 value={activity.TeacherID + ""}
@@ -279,18 +288,18 @@ function ActivityCreate() {
                         </FormControl>
                     </Grid>
 
-                   
+
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วันเวลาเริ่มกิจกรรม</p>
+                            <p className="good-font">วันเวลาเริ่มกิจกรรม</p>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
                                     renderInput={(props) => <TextField {...props} />}
-                                    value={activity. Date_s}
+                                    value={activity.Date_s}
                                     onChange={(newValue) => {
                                         setActivity({
-                                          ...activity,
-                                          Date_s: newValue,
+                                            ...activity,
+                                            Date_s: newValue,
                                         });
                                     }}
                                 />
@@ -300,15 +309,15 @@ function ActivityCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วันเวลาสิ้นสุดกิจกรรม</p>
+                            <p className="good-font">วันเวลาสิ้นสุดกิจกรรม</p>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
                                     renderInput={(props) => <TextField {...props} />}
-                                    value={activity. Date_e}
+                                    value={activity.Date_e}
                                     onChange={(newValue) => {
                                         setActivity({
-                                          ...activity,
-                                          Date_e: newValue,
+                                            ...activity,
+                                            Date_e: newValue,
                                         });
                                     }}
                                 />
@@ -320,7 +329,9 @@ function ActivityCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Activity" variant="contained">
-                            Back
+                            <div className="good-font">
+                                Back
+                            </div>
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -328,7 +339,9 @@ function ActivityCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            Submit
+                            <div className="good-font">
+                                Submit
+                            </div>
                         </Button>
                     </Grid>
                 </Grid>

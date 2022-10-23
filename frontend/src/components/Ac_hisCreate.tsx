@@ -38,14 +38,15 @@ function Ac_hisCreate() {
     const [admin, setAdmin] = React.useState<AdminInterface>();
     const [student, setStudent] = React.useState<STDInterface[]>([]);
     const [activity, setActivity] = React.useState<AcInterface[]>([]);
-    const [activityHis, setActivityHis] = React.useState<AcHisInterface>({ });
-    
+    const [activityHis, setActivityHis] = React.useState<AcHisInterface>({});
+
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { 
+        headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json" },
+            "Content-Type": "application/json"
+        },
     };
 
     const handleClose = (
@@ -86,7 +87,7 @@ function Ac_hisCreate() {
                 else { console.log("NO DATA") }
             });
     };
-    
+
     const getActivity = async () => {
         fetch(`${apiUrl}/Activities`, requestOptions)
             .then((response) => response.json())
@@ -125,16 +126,17 @@ function Ac_hisCreate() {
             ADMINID: convertType(activityHis.ADMIN_ID),
             StudentID: convertType(activityHis.STUDENT_ID),
             ACtivityID: convertType(activityHis.ACTIVITY_ID),
-            
+
         };
 
         console.log(data)
 
         const requestOptions = {
             method: "POST",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
 
@@ -160,12 +162,16 @@ function Ac_hisCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลสำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลไม่สำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Paper>
@@ -182,16 +188,18 @@ function Ac_hisCreate() {
                             color="primary"
                             gutterBottom
                         >
-                            Add Activity To Student
+                            <div className="good-font">
+                                Add Activity To Student
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                <Grid item xs={12}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Student</p>
+                            <p className="good-font">Student</p>
                             <Select
                                 native
                                 value={activityHis.STUDENT_ID + ""}
@@ -214,7 +222,7 @@ function Ac_hisCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Activity</p>
+                            <p className="good-font">Activity</p>
                             <Select
                                 native
                                 value={activityHis.ACTIVITY_ID + ""}
@@ -237,7 +245,7 @@ function Ac_hisCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Hour</p>
+                            <p className="good-font">Hour</p>
                             <TextField
                                 id="ACHOUR"
                                 variant="outlined"
@@ -253,11 +261,11 @@ function Ac_hisCreate() {
                         </FormControl>
                     </Grid>
 
-                    
+
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Admin</p>
+                            <p className="good-font">Admin</p>
                             <Select
                                 native
                                 value={activityHis.ADMIN_ID + ""}
@@ -277,11 +285,14 @@ function Ac_hisCreate() {
                         </FormControl>
                     </Grid>
 
-                    
+
 
                     <Grid item xs={12}>
                         <Button color="primary" component={RouterLink} to="/Ac_his" variant="contained">
-                            Back
+                            <div className="good-font">
+                                Back
+                            </div>
+
                         </Button>
 
                         <Button
@@ -290,7 +301,10 @@ function Ac_hisCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            Submit
+                            <div className="good-font">
+                                Submit
+
+                            </div>
                         </Button>
 
                     </Grid>

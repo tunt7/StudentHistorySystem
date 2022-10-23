@@ -34,11 +34,11 @@ function TCreate() {
     const [admin, setAdmin] = React.useState<AdminInterface>();
     const [prefix, setPrefix] = React.useState<PreInterface[]>([]);
     const [branch, setBranch] = React.useState<BranchInterface[]>([]);
-    const [teacher, setTeacher] = React.useState<TInterface>({ 
-        TfirstName:"",
-        TlastName:"",
-        Temail:"",
-        Tcontact:"",
+    const [teacher, setTeacher] = React.useState<TInterface>({
+        TfirstName: "",
+        TlastName: "",
+        Temail: "",
+        Tcontact: "",
     });
 
     const apiUrl = "http://localhost:8080";
@@ -88,7 +88,7 @@ function TCreate() {
                 else { console.log("NO DATA") }
             });
     };
-    
+
     const getBranch = async () => {
         fetch(`${apiUrl}/branches`, requestOptions)
             .then((response) => response.json())
@@ -127,7 +127,7 @@ function TCreate() {
             TlastName: teacher.TlastName ?? "",
             Temail: teacher.Temail ?? "",
             Tcontact: teacher.Tcontact ?? "",
-            
+
             AdminID: convertType(teacher.AdminID),
             PrefixID: convertType(teacher.PrefixID),
             BranchID: convertType(teacher.BranchID),
@@ -189,16 +189,18 @@ function TCreate() {
                             fontSize={32}
                             gutterBottom
                         >
-                            บันทึกข้อมูลอาจารย์ 
+                            <div className="font-thai">
+                                บันทึกข้อมูลอาจารย์
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                <Grid item xs={2}>
+                    <Grid item xs={2}>
                         <FormControl fullWidth variant="outlined">
-                            <p>คำนำหน้า</p>
+                            <p className="font-thai">คำนำหน้า</p>
                             <Select
                                 native
                                 value={teacher.PrefixID + ""}
@@ -208,7 +210,9 @@ function TCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                -เลือก-
+                                    <div className="font-thai">
+                                        -เลือก-
+                                    </div>
                                 </option>
                                 {prefix.map((item: PreInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -221,7 +225,7 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ชื่อจริง</p>
+                            <p className="font-thai">ชื่อจริง</p>
                             <TextField
                                 id="TfirstName"
                                 variant="outlined"
@@ -235,7 +239,7 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p>นามสกุล</p>
+                            <p className="font-thai">นามสกุล</p>
                             <TextField
                                 id="TlastName"
                                 variant="outlined"
@@ -246,10 +250,10 @@ function TCreate() {
                             />
                         </FormControl>
                     </Grid>
-                    
+
                     <Grid item xs={7}>
                         <FormControl fullWidth variant="outlined">
-                            <p>อีเมล</p>
+                            <p className="font-thai">อีเมล</p>
                             <TextField
                                 id="Temail"
                                 variant="outlined"
@@ -263,7 +267,7 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p>เบอร์โทรติดต่อ</p>
+                            <p className="font-thai">เบอร์โทรติดต่อ</p>
                             <TextField
                                 id="Tcontact"
                                 variant="outlined"
@@ -277,7 +281,7 @@ function TCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>สาขา</p>
+                            <p className="font-thai">สาขา</p>
                             <Select
                                 native
                                 value={teacher.BranchID + ""}
@@ -287,7 +291,7 @@ function TCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                ---โปรดเลือกสาขา---
+                                    ---โปรดเลือกสาขา---
                                 </option>
                                 {branch.map((item: BranchInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -300,7 +304,7 @@ function TCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>Admin</p>
+                            <p className="font-thai">Admin</p>
                             <Select
                                 native
                                 value={teacher.AdminID + ""}
@@ -322,7 +326,9 @@ function TCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/TeacherShow" variant="contained">
-                            ย้อนกลับ
+                            <div className="font-thai">
+                                ย้อนกลับ
+                            </div>
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -330,7 +336,9 @@ function TCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            บันทึกข้อมูล
+                            <div className="font-thai">
+                                บันทึกข้อมูล
+                            </div>
                         </Button>
                     </Grid>
                 </Grid>
