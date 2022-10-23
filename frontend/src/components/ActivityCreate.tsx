@@ -42,8 +42,6 @@ function ActivityCreate() {
     const [activity, setActivity] = React.useState<AcInterface>({
         Date_s: new Date(),
         Date_e: new Date(),
-        Time_s: new Date(),
-        Time_e: new Date(),
 
     });
 
