@@ -161,12 +161,12 @@ export default function App() {
                 noWrap
                 sx={{ flexGrow: 1 }}
               >
-                <div className="font-thai">
+                <div className="good-font">
                   ระบบประวัตินักศึกษา
                 </div>
               </Typography>
               <Button color="inherit" onClick={signout}>
-                <div className="font-thai">
+                <div className="good-font">
                   ออกจากระบบ
                 </div>
               </Button>
