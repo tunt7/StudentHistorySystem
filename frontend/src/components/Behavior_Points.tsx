@@ -36,14 +36,14 @@ function Behavior_Points() {
     }, []);
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ID", width: 50 },
-        { field: "sfirstname", headerName: "First Name", width: 120 },
-        { field: "slastname", headerName: "Last Name", width: 120 },
-        { field: "ptname", headerName: "Point Type", width: 100 },
-        { field: "bppoint", headerName: "Point", width: 50 },
-        { field: "bpdetail", headerName: "Detail", width: 150 },
-        { field: "btname", headerName: "Behavior Type", width: 110 },
-        { field: "aname", headerName: "Admin Name", width: 200 },
+        { field: "id", headerName: "ลำดับ", width: 50 },
+        { field: "sfirstname", headerName: "ชื่อ", width: 120 },
+        { field: "slastname", headerName: "นามสกุล", width: 120 },
+        { field: "ptname", headerName: "ประเภทคะแนน", width: 150 },
+        { field: "bppoint", headerName: "คะแนน", width: 150 },
+        { field: "bpdetail", headerName: "รายละเอียด", width: 200 },
+        { field: "btname", headerName: "ประเภท", width: 110 },
+        { field: "aname", headerName: "ผู้บันทึก", width: 210 },
     ];
 
 
@@ -64,7 +64,7 @@ function Behavior_Points() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Behavior Points
+                                คะแนนวินัย
                             </div>
                         </Typography>
                     </Box>
@@ -76,7 +76,7 @@ function Behavior_Points() {
                             color="primary"
                         >
                             <div className="good-font">
-                                Create Behavior Point
+                                บันทึกคะแนนวินัย
                             </div>
                         </Button>
                     </Box>
@@ -84,6 +84,7 @@ function Behavior_Points() {
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
                         rows={bh}
+                        // getRowId={(row) => row.ID}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}

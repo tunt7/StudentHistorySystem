@@ -31,7 +31,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function Behavior_PointCreate() {
-    const [date, setDate] = React.useState<Date | null>(null);
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
@@ -211,7 +210,7 @@ function Behavior_PointCreate() {
 
                         >
                             <div className="good-font">
-                                Create Behavior Point
+                                บันทึกคะแนนวินัย
                             </div>
                         </Typography>
                     </Box>
@@ -221,7 +220,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Detail</p>
+                            <p className="good-font">รายละเอียด</p>
                             <TextField
                                 id="bpdetail"
                                 variant="outlined"
@@ -235,7 +234,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Point</p>
+                            <p className="good-font">คะแนน</p>
                             <TextField
                                 id="bppoint"
                                 variant="outlined"
@@ -253,7 +252,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Admin</p>
+                            <p className="good-font">ผู้บันทึก</p>
                             <Select
                                 native
                                 value={behaviorPoint.AdminID + ""}
@@ -264,7 +263,7 @@ function Behavior_PointCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select
+                                    เลือก
                                 </option>
                                 <option value={admin?.ID} key={admin?.ID}>
                                     {admin?.Aname}
@@ -275,7 +274,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">PointType</p>
+                            <p className="good-font">ประเภทคะแนน</p>
                             <Select
                                 native
                                 value={behaviorPoint.PointTypeID + ""}
@@ -285,7 +284,7 @@ function Behavior_PointCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Point Type
+                                    เลือก
                                 </option>
                                 {pointType.map((item: PointTypeInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -298,7 +297,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">BehaviorType</p>
+                            <p className="good-font">ประเภท</p>
                             <Select
                                 native
                                 value={behaviorPoint.BehaviorTypeID + ""}
@@ -308,7 +307,7 @@ function Behavior_PointCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Behavior Type
+                                    เลือก
                                 </option>
                                 {behaviorType.map((item: BehaviorTypeInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -321,7 +320,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Student</p>
+                            <p className="good-font">นักศึกษา</p>
                             <Select
                                 native
                                 value={behaviorPoint.StudentID + ""}
@@ -331,7 +330,7 @@ function Behavior_PointCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select Student
+                                    เลือก
                                 </option>
                                 {student.map((item: STDInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -344,7 +343,7 @@ function Behavior_PointCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Record Date</p>
+                            <p className="good-font">วันเดิอนปี</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
                                     value={behaviorPoint.Date_Rec}
@@ -361,9 +360,9 @@ function Behavior_PointCreate() {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/" variant="contained">
+                        <Button component={RouterLink} to="/Behavior_points" variant="contained">
                             <div className="good-font">
-                                Back
+                                กลับ
                             </div>
                         </Button>
                         <Button
@@ -373,7 +372,7 @@ function Behavior_PointCreate() {
                             color="primary"
                         >
                             <div className="good-font">
-                                Submit
+                                บันทึกข้อมูล
                             </div>
                         </Button>
                     </Grid>
