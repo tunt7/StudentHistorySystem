@@ -11,10 +11,13 @@ function Student() {
     const [std, setStd] = React.useState<STDInterface[]>([]);
 
     const getStd = async () => {
-        const apiUrl = "http://localhost:8080/students";
+        const apiUrl = "http://localhost:8080/student_show";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
 
         await fetch(apiUrl, requestOptions)
@@ -29,7 +32,7 @@ function Student() {
     };
 
     const columns: GridColDef[] = [
-        { field: "ลำดับ", headerName: "ID", width: 50 },
+        { field: "id", headerName: "ID", width: 50 },
         { field: "sfirstname", headerName: "ชื่อ", width: 200 },
         { field: "slastname", headerName: "นามสกุล", width: 200 },
         { field: "elname", headerName: "ระดับการศึกษา", width: 200 },
