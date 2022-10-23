@@ -33,15 +33,13 @@ func GetEL(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": el})
 }
 
-// GET /users
 func ListEL(c *gin.Context) {
-	// var bp []entity.Behavior_Point
-	result := []map[string]interface{}{}
-	entity.DB().Table("education_levels").
-		Select("education_levels.id, education_levels.elname").
-		Find(&result)
-
-	c.JSON(http.StatusOK, gin.H{"data": result})
+	var bt []entity.Education_Level
+	if err := entity.DB().Raw("SELECT * FROM education_levels").Scan(&bt).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": bt})
 
 }
 
