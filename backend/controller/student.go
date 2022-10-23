@@ -23,7 +23,7 @@ func CreateSTD(c *gin.Context) {
 }
 
 
-// GET /user/:id
+// GET /user/:id 
 func GetSTD(c *gin.Context) {
 	var std entity.Student
 	id := c.Param("id")
