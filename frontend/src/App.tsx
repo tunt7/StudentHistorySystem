@@ -32,13 +32,17 @@ import Behavior_Points from "./components/Behavior_Points";
 import Behavior_PointCreate from "./components/BehaviorPointCreate";
 import Activity from "./components/Activity";
 import ActivityCreate from "./components/ActivityCreate";
-
 import TCreate from "./components/TCreate";
 import Teacher from "./components/TeacherShow";
 import Ac_hisCreate from "./components/Ac_hisCreate";
 import Activity_His from "./components/AcHis";
 import BrCreate from "./components/BranchCreate";
 import Branch from "./components/Branch";
+
+import StudentCreate from "./components/StudentCreate";
+import Student from "./components/Student";
+
+import "./styles.css"
 
 const drawerWidth = 240;
 
@@ -94,7 +98,7 @@ const mdTheme = createTheme();
 
 const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
-  { name: "นักศึกษา", icon: <PeopleIcon />, path: "/Student" },
+  { name: "นักศึกษา", icon: <PeopleIcon />, path: "/StudentShow" },
   { name: "อาจารย์", icon: <Diversity3Icon />, path: "/TeacherShow" },
   { name: "สาขา", icon: <SchoolIcon />, path: "/Branch" },
   { name: "กิจกรรม", icon: <Diversity2Icon />, path: "/Activity" },
@@ -127,6 +131,7 @@ export default function App() {
   };
 
   return (
+    <div className="App">
     <Router>
       <ThemeProvider theme={mdTheme}>
         <Box sx={{ display: "flex" }}>
@@ -156,10 +161,14 @@ export default function App() {
                 noWrap
                 sx={{ flexGrow: 1 }}
               >
-                ระบบประวัตินักศึกษา
+                <div className="font-thai">
+                  ระบบประวัตินักศึกษา
+                </div>
               </Typography>
               <Button color="inherit" onClick={signout}>
-                ออกจากระบบ
+                <div className="font-thai">
+                  ออกจากระบบ
+                </div>
               </Button>
             </Toolbar>
           </AppBar>
@@ -182,7 +191,7 @@ export default function App() {
                 <Link
                   to={item.path}
                   key={item.name}
-                  style={{ textDecoration: "none", color: "inherit" }}
+                  style={{ textDecoration: "none", color: "inherit"}}
                 >
                   <ListItem button>
                     <ListItemIcon>{item.icon}</ListItemIcon>
@@ -218,12 +227,15 @@ export default function App() {
               <Route path="/BranchCreate" element={<BrCreate />} />
               <Route path="/TeacherShow" element={<Teacher />} />
               <Route path="/TCreate" element={<TCreate />} />
+              <Route path="/StudentShow" element={<Student />} />
+              <Route path="/StudentCreate" element={<StudentCreate />} />
               </Routes>
             </Container>
           </Box>
         </Box>
       </ThemeProvider>
     </Router>
+    </div>
   );
 
 }
