@@ -9,12 +9,12 @@ export interface STDInterface {
 	Sfirstname?:string;
     Slastname? :string;
 	Sdob:Date | null;
-    Sparent? :string;
+    Sparent?:string;
     Admission_Date :Date | null;
-    Address ?:string;
+    Address?:string;
     Phone_Number?:string;
     Graduate_School?:string;
-    Grade ?:string;
+    Grade?:string;
     Sidentity_number ?:string;
 
 	BTID?: number;
