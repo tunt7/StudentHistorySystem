@@ -63,7 +63,7 @@ function Teacher() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="homepage">
+                            <div className="good-font">
                             Teacher
                             </div>
                         </Typography>
@@ -76,7 +76,7 @@ function Teacher() {
                             color="primary"
                             sx={{ fontFamily: "‘Chonburi’, sans-serif" }}
                         >
-                            <div className="font-thai">
+                            <div className="good-font">
                             เพิ่มอาจารย์
                             </div>
                         </Button>

@@ -193,7 +193,7 @@ function TCreate() {
                             fontSize={32}
                             gutterBottom
                         >
-                            <div className="font-thai">
+                            <div className="good-font">
                                 บันทึกข้อมูลอาจารย์
                             </div>
                         </Typography>
@@ -204,7 +204,7 @@ function TCreate() {
 
                     <Grid item xs={2}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="font-thai">คำนำหน้า</p>
+                            <p className="good-font">คำนำหน้า</p>
                             <Select
                                 native
                                 value={teacher.PrefixID + ""}
@@ -214,7 +214,7 @@ function TCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    <div className="font-thai">
+                                    <div className="good-font">
                                         -เลือก-
                                     </div>
                                 </option>
@@ -229,7 +229,7 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="font-thai">ชื่อจริง</p>
+                            <p className="good-font">ชื่อจริง</p>
                             <TextField
                                 id="TfirstName"
                                 variant="outlined"
@@ -243,7 +243,7 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="font-thai">นามสกุล</p>
+                            <p className="good-font">นามสกุล</p>
                             <TextField
                                 id="TlastName"
                                 variant="outlined"
@@ -257,7 +257,7 @@ function TCreate() {
 
                     <Grid item xs={7}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="font-thai">อีเมล</p>
+                            <p className="good-font">อีเมล</p>
                             <TextField
                                 id="Temail"
                                 variant="outlined"
@@ -271,7 +271,7 @@ function TCreate() {
 
                     <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="font-thai">เบอร์โทรติดต่อ</p>
+                            <p className="good-font">เบอร์โทรติดต่อ</p>
                             <TextField
                                 id="Tcontact"
                                 variant="outlined"
@@ -285,7 +285,7 @@ function TCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="font-thai">สาขา</p>
+                            <p className="good-font">สาขา</p>
                             <Select
                                 native
                                 value={teacher.BranchID + ""}
@@ -308,7 +308,7 @@ function TCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="font-thai">Admin</p>
+                            <p className="good-font">Admin</p>
                             <Select
                                 native
                                 value={teacher.AdminID + ""}
@@ -330,7 +330,7 @@ function TCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/TeacherShow" variant="contained">
-                            <div className="font-thai">
+                            <div className="good-font">
                                 ย้อนกลับ
                             </div>
                         </Button>
@@ -340,7 +340,7 @@ function TCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            <div className="font-thai">
+                            <div className="good-font">
                                 บันทึกข้อมูล
                             </div>
                         </Button>
