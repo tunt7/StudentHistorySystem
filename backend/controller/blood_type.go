@@ -33,15 +33,13 @@ func GetBT(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": bt})
 }
 
-// GET /users
 func ListBT(c *gin.Context) {
-	// var bp []entity.Behavior_Point
-	result := []map[string]interface{}{}
-	entity.DB().Table("blood_types").
-		Select("blood_types.id, blood_types.bt_name").
-		Find(&result)
-
-	c.JSON(http.StatusOK, gin.H{"data": result})
+	var bt []entity.Blood_Type
+	if err := entity.DB().Raw("SELECT * FROM blood_types").Scan(&bt).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": bt})
 
 }
 
