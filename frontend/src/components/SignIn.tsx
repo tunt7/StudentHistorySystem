@@ -15,8 +15,11 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SigninInterface } from "../models/ISignin";
 import { Login } from "../services/HttpClientService";
+import { InputAdornment } from "@mui/material";
 
-import CameraFrontIcon from '@mui/icons-material/CameraFront';
+import EmailIcon from '@mui/icons-material/Email';
+import PasswordIcon from '@mui/icons-material/Password';
+import LoginIcon from '@mui/icons-material/Login';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -65,58 +68,44 @@ function SignIn() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Grid container component="main" sx={{ height: "100vh" }}>
+            <Grid 
+            item xs={false} sm={8} md={12} container component="main" 
+            sx={{ backgroundImage: "url(https://sv1.picz.in.th/images/2022/10/23/vfPECa.jpg)",
+                backgroundPosition: "center", height: "100vh",  width: '100%',}} >
                 <Snackbar
-                    open={success}
+                    open={success} 
                     autoHideDuration={3000}
                     onClose={handleClose}
-                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
-                    <Alert onClose={handleClose} severity="success">
-                        เข้าสู่ระบบสำเร็จ
+                    <Alert onClose={handleClose} severity="success" 
+                    sx={{width: 200, height: 60, alignItems: "center", alignSelf: "center",}}>
+                         <div className="good-font" > เข้าสู่ระบบสำเร็จ </div> 
                     </Alert>
                 </Snackbar>
-                <Snackbar
+                <Snackbar 
                     open={error}
                     autoHideDuration={3000}
                     onClose={handleClose}
-                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
-                    <Alert onClose={handleClose} severity="error">
-                        อีเมลหรือรหัสผ่านไม่ถูกต้อง
+                    <Alert  onClose={handleClose} severity="error" 
+                    sx={{width: 280, height: 60, alignItems: "center", alignSelf: "center",}}>
+                        <div className="good-font" > อีเมลหรือรหัสผ่านไม่ถูกต้อง </div>
                     </Alert>
                 </Snackbar>
 
                 <CssBaseline />
-                <Grid
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        backgroundImage: "url(https://sv1.picz.in.th/images/2022/10/20/vSL9N2.png)",
-                        backgroundPosition: "left",
-                    }}
-                />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <Grid item xs={6.7}> <Paper elevation={0} /> </Grid>
+                    <Grid item xs={5.5} sm={8} md={4} component={Paper} elevation={6} square container spacing={2}
+                    sx ={{my: 20,width: 300, height: 420,borderRadius: 2}}>
+                    
+                    <Avatar sx={{ my: 4, bgcolor: "#03a9f4" ,mx: 6 ,width: 56, height: 56}}> <LockOutlinedIcon /> </Avatar>
+                    <Typography component="h1" variant="h4" sx ={{my: 5}}> Sign in to website </Typography>
                     <Box
-                        sx={{
-                            my: 8,
-                            mx: 4,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            alignSelf: "center",
-                        }}
-                    >
-                        <Avatar sx={{ m: 1, bgcolor:"#4ADAF6" }}>
-                            <CameraFrontIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5" fontFamily={"'Lato', sans-serif"}>
-                            Sign in
-                        </Typography>
-                        <Box sx={{ mt: 1 }}>
-                            <TextField
+                        sx={{ mx: 5,display: "flex",flexDirection: "column",alignItems: "center", alignSelf: "center",}}>
+                        <Box sx={{ mt: 0 }}>
+                            <TextField 
                                 margin="normal"
                                 required
                                 fullWidth
@@ -127,7 +116,14 @@ function SignIn() {
                                 autoFocus
                                 value={signin.Email || ""}
                                 onChange={handleInputChange}
-                            />
+                                InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <EmailIcon />
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
                             <TextField
                                 margin="normal"
                                 required
@@ -139,6 +135,13 @@ function SignIn() {
                                 autoComplete="current-password"
                                 value={signin.Password || ""}
                                 onChange={handleInputChange}
+                                InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <PasswordIcon />
+                                      </InputAdornment>
+                                    ),
+                                  }}
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
@@ -147,15 +150,16 @@ function SignIn() {
                             <Button
                                 type="submit"
                                 fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 ,fontFamily:"'Raleway',sans-serif"}}
+                                variant="contained"                              
+                                sx={{ mt: 2, mb: 6 }}
                                 onClick={submit}
+                                endIcon={<LoginIcon />}
                             >
                                 Sign In
                             </Button>
                         </Box>
-                    </Box>
-                </Grid>
+                    </Box> 
+                    </Grid>
             </Grid>
         </ThemeProvider>
     );
