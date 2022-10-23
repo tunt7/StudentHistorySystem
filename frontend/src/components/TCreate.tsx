@@ -166,12 +166,16 @@ function TCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลสำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
+                    <div className="good-font">
+                        บันทึกข้อมูลไม่สำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Paper>
