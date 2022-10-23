@@ -20,11 +20,11 @@ type Student struct {
 	Sidentity_number string
 
 	BTID                    *uint
-	Blood_Type              Blood_Type
+// 	Blood_Type              Blood_Type
 	ELID                    *uint
-	Education_Level         Education_Level
+// 	Education_Level         Education_Level
 	EQID                    *uint
-	Education_Qualification Education_Qualification
+// 	Education_Qualification Education_Qualification
 
 	AcademyID *uint
 	Academy   Academy
