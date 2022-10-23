@@ -40,10 +40,32 @@ func main() {
 	
 			// Student Routes
 			r.GET("/students", controller.ListSTD)
+			r.GET("/student_show", controller.ListSTDShow)
 			r.GET("/student/:id", controller.GetSTD)
 			r.POST("/students", controller.CreateSTD)
 			r.PATCH("/students", controller.UpdateSTD)
 			r.DELETE("/students/:id", controller.DeleteSTD)
+	
+			// Blood Type Routes
+			r.GET("/blood_types", controller.ListBT)
+			r.GET("/blood_type/:id", controller.GetBT)
+			r.POST("/blood_types", controller.CreateBT)
+			r.PATCH("/blood_types", controller.UpdateBT)
+			r.DELETE("/blood_types/:id", controller.DeleteBT)
+	
+			// Education Level Routes
+			r.GET("/els", controller.ListEL)
+			r.GET("/el/:id", controller.GetEL)
+			r.POST("/els", controller.CreateEL)
+			r.PATCH("/els", controller.UpdateEL)
+			r.DELETE("/els/:id", controller.DeleteEL)
+	
+			// Educatoin Qualification Routes
+			r.GET("/eqs", controller.ListEQ)
+			r.GET("/eq/:id", controller.GetEQ)
+			r.POST("/eqs", controller.CreateEQ)
+			r.PATCH("/eqs", controller.UpdateEQ)
+			r.DELETE("/eqs/:id", controller.DeleteEQ)
 
 			// Branch Routes
 			r.GET("/branches", controller.ListBranches)
@@ -52,7 +74,7 @@ func main() {
 			r.POST("/branches", controller.CreateBranches)
 			r.PATCH("/branches", controller.UpdateBranches)
 			r.DELETE("/branches/:id", controller.DeleteBranches)
-								
+
 			// Academy Routes
 			r.GET("/academies", controller.Listacademy)
 			r.GET("/academies/:id", controller.Getacademy)
