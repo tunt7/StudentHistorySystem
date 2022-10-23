@@ -1,6 +1,6 @@
 # Project Status :man_technologist:
 working on..... <br />
-decorating pages <br />
+decorating pages, improve some sub system <br />
 about 90% <br />
 
 ## username, email ของแต่ละคน (passwordของทุกคนคือ 123)
