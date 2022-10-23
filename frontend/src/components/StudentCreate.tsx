@@ -24,6 +24,7 @@ import { AcademyInterface } from "../models/IAcademy";
 import { BranchInterface } from "../models/IBranch";
 import { TInterface } from "../models/ITeacher";
 import { AdminInterface } from "../models/IAdmin";
+import Student from "./Student";
 
 
 
@@ -40,31 +41,24 @@ function StudentCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
     const [bloodType, setBloodType] = React.useState<BTInterface[]>([]);
     const [eLevel, setEl] = React.useState<ELInterface[]>([]);
     const [eQuali, setEq] = React.useState<EQInterface[]>([]);
     const [academy, setAc] = React.useState<AcademyInterface[]>([]);
     const [branch, setBranch] = React.useState<BranchInterface[]>([]);
     const [teacher, setTeacher] = React.useState<TInterface[]>([]);
-    const [std, setStd] = React.useState<STDInterface>({ 
-        Sfirstname: "",
-        Slastname: "",
+    const [std, setStd] = React.useState<STDInterface>({
         Sdob: new Date(),
-        Sparent: "",
         Admission_Date: new Date(),
-        Address: "",
-        Phone_Number: "",
-        Graduate_School: "",
-        Grade: 0,
-        Sidentity_number: "",
     });
-    
+
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
-    };
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },    };
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -92,8 +86,7 @@ function StudentCreate() {
             [name]: event.target.value,
         });
     };
-     
-    //combobox data fetch
+
     const getBloodType = async () => {
         fetch(`${apiUrl}/blood_types`, requestOptions)
             .then((response) => response.json())
@@ -105,9 +98,9 @@ function StudentCreate() {
                 else { console.log("NO DATA") }
             });
     };
-    
+
     const getEducationL = async () => {
-        fetch(`${apiUrl}/education_levels`, requestOptions)
+        fetch(`${apiUrl}/els`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -119,7 +112,7 @@ function StudentCreate() {
     };
 
     const getEducationQ = async () => {
-        fetch(`${apiUrl}/education_qualifications`, requestOptions)
+        fetch(`${apiUrl}/eqs`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -130,20 +123,8 @@ function StudentCreate() {
             });
     };
 
-    const getAdmin = async () => {
-        fetch(`${apiUrl}/admins`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setAdmin(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
-    };
-
     const getTeacher = async () => {
-        fetch(`${apiUrl}/teachers`, requestOptions)
+        fetch(`${apiUrl}/Teachers`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -185,7 +166,6 @@ function StudentCreate() {
         getTeacher();
         getBranch();
         getAcadamy();
-        getAdmin();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -197,7 +177,7 @@ function StudentCreate() {
         let data = {
             Sfirstname: std.Sfirstname ?? "",
             Slastname: std.Slastname ?? "",
-            Sdob: date,
+            Sdob: std.Sdob ?? "",
             Sparent: std.Sparent ?? "",
             Admission_Date: std.Admission_Date ?? "",
             Address: std.Address ?? "",
@@ -218,11 +198,14 @@ function StudentCreate() {
 
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/Students`, requestOptions)
+        fetch(`${apiUrl}/students`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -281,7 +264,7 @@ function StudentCreate() {
                                 variant="outlined"
                                 type="string"
                                 size="medium"
-                                value={std.Sfirstname}
+                                value={std.Sfirstname || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -293,33 +276,32 @@ function StudentCreate() {
                             <TextField
                                 id="Slastname"
                                 variant="outlined"
-                                type="number"
+                                type="string"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 value={std.Slastname || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p>วัน/เดือน/ปีเกิด</p>
+                            <p>วันเดือนปีเกิด</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
-                                    value={date}
+                                    value={std.Sdob}
                                     onChange={(newValue) => {
-                                        setDate(newValue);
+                                        setStd({
+                                            ...std,
+                                            Sdob: newValue,
+                                        });
                                     }}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
                         </FormControl>
                     </Grid>
-                    
+
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p>กลุ่มเลือด</p>
@@ -328,7 +310,7 @@ function StudentCreate() {
                                 value={std.BTID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name : "BTID",
+                                    name: "BTID",
                                 }}
                             >
                                 <option aria-label="None" value="">
@@ -336,30 +318,41 @@ function StudentCreate() {
                                 </option>
                                 {bloodType.map((item: BTInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.bt_name}
+                                        {item.Btname}
                                     </option>
                                 ))}
                             </Select>
                         </FormControl>
                     </Grid>
-                    
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>เลขประจำตัวประชาชน</p>
+                            <TextField
+                                id="Sidentity_number"
+                                variant="outlined"
+                                type="string"
+                                size="medium"
+                                value={std.Sidentity_number || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p>เบอร์โทรศัพท์</p>
                             <TextField
                                 id="Phone_Number"
                                 variant="outlined"
-                                type="number"
+                                type="string"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 value={std.Phone_Number || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
-                    </Grid>           
+                    </Grid>
+
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
@@ -367,12 +360,8 @@ function StudentCreate() {
                             <TextField
                                 id="Address"
                                 variant="outlined"
-                                type="number"
+                                type="string"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 value={std.Address || ""}
                                 onChange={handleInputChange}
                             />
@@ -385,17 +374,13 @@ function StudentCreate() {
                             <TextField
                                 id="Sparent"
                                 variant="outlined"
-                                type="number"
+                                type="string"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 value={std.Sparent || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
-                    </Grid>                        
+                    </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
@@ -405,7 +390,7 @@ function StudentCreate() {
                                 value={std.ELID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "BTID",
+                                    name: "ELID",
                                 }}
                             >
                                 <option aria-label="None" value="">
@@ -413,7 +398,7 @@ function StudentCreate() {
                                 </option>
                                 {eLevel.map((item: ELInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.elname}
+                                        {item.Elname}
                                     </option>
                                 ))}
                             </Select>
@@ -425,9 +410,12 @@ function StudentCreate() {
                             <p>วัน/เดือน/ปีที่เข้าศึกษา</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
-                                    value={date}
+                                    value={std.Admission_Date}
                                     onChange={(newValue) => {
-                                        setDate(newValue);
+                                        setStd({
+                                            ...std,
+                                            Admission_Date: newValue,
+                                        });
                                     }}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
@@ -451,7 +439,7 @@ function StudentCreate() {
                                 </option>
                                 {eQuali.map((item: EQInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.eqname}
+                                        {item.Eqname}
                                     </option>
                                 ))}
                             </Select>
@@ -464,17 +452,13 @@ function StudentCreate() {
                             <TextField
                                 id="Graduate_School"
                                 variant="outlined"
-                                type="number"
+                                type="string"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 value={std.Graduate_School || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
-                    </Grid> 
+                    </Grid>
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
@@ -492,7 +476,7 @@ function StudentCreate() {
                                 onChange={handleInputChange}
                             />
                         </FormControl>
-                    </Grid>     
+                    </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
@@ -502,7 +486,7 @@ function StudentCreate() {
                                 value={std.AcademyID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "academy",
+                                    name: "AcademyID",
                                 }}
                             >
                                 <option aria-label="None" value="">
@@ -510,7 +494,7 @@ function StudentCreate() {
                                 </option>
                                 {academy.map((item: AcademyInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.acaname}
+                                        {item.Acaname}
                                     </option>
                                 ))}
                             </Select>
@@ -522,10 +506,10 @@ function StudentCreate() {
                             <p>สาขาวิชา</p>
                             <Select
                                 native
-                                value={std.AcademyID + ""}
+                                value={std.BranchID + ""}
                                 onChange={handleChange}
                                 inputProps={{
-                                    name: "academy",
+                                    name: "BranchID",
                                 }}
                             >
                                 <option aria-label="None" value="">
@@ -533,7 +517,7 @@ function StudentCreate() {
                                 </option>
                                 {branch.map((item: BranchInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.brname}
+                                        {item.Brname}
                                     </option>
                                 ))}
                             </Select>
@@ -556,16 +540,16 @@ function StudentCreate() {
                                 </option>
                                 {teacher.map((item: TInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.tfirst_name}
+                                        {item.TfirstName}
                                         {" "}
-                                        {item.tlast_name}
+                                        {item.TlastName}
                                     </option>
                                 ))}
                             </Select>
                         </FormControl>
-                    </Grid>            
+                    </Grid>
 
-                {/* ****                         */}
+                    {/* ****                         */}
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Student" variant="contained">
                             Back
