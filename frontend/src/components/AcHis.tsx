@@ -12,7 +12,7 @@ function Activity_His() {
     const [Ac_his, setAc_his] = React.useState<AcHisInterface[]>([]);
 
     const getAc_his = async () => {
-        const apiUrl = "http://localhost:8080/Ac_his";
+        const apiUrl = "http://localhost:8080/Ac_his_sum";
         const requestOptions = {
             method: "GET",
             headers: {
@@ -33,14 +33,14 @@ function Activity_His() {
     };
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ลำดับ", width: 120 },
-        { field: "student_id", headerName: "รหัสนักศึกษา", width: 120 },
-        { field: "sfirstname", headerName: "ชื่อ", width: 120 },
-        { field: "slastname", headerName: "นามสกุล", width: 120 },
-        { field: "acname", headerName: "กิจกรรม", width: 150 },
-        { field: "achour", headerName: "จำนวนชั่วโมง", width: 50 },
-        { field: "date_s", headerName: "วันเริ่มกิจกรรม", width: 200 },
-        { field: "date_e", headerName: "วันจบกิจกรรม", width: 200 },
+        { field: "id", headerName: "ID", width: 120 },
+        // { field: "student_id", headerName: "SID", width: 120 },
+        { field: "sfirstname", headerName: "First Name", width: 120 },
+        { field: "slastname", headerName: "Last Name", width: 120 },
+        // { field: "acname", headerName: "Activity", width: 150 },
+        { field: "achour", headerName: "Hour", width: 50 },
+        // { field: "date_s", headerName: "Date start", width: 200 },
+        // { field: "date_e", headerName: "Date end", width: 200 },
 
     ];
 
@@ -65,7 +65,7 @@ function Activity_His() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                ประวัติกิจกรรม
+                                Activity History
                             </div>
                         </Typography>
                     </Box>
@@ -77,7 +77,7 @@ function Activity_His() {
                             color="primary"
                         >
                             <div className="good-font">
-                                บันทึกข้อมูลกิจกรรม
+                                Add Activity to student
                             </div>
                         </Button>
                     </Box>
