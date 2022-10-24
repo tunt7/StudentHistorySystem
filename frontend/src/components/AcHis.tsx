@@ -33,14 +33,14 @@ function Activity_His() {
     };
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ID", width: 120 },
-        { field: "student_id", headerName: "SID", width: 120 },
-        { field: "sfirstname", headerName: "First Name", width: 120 },
-        { field: "slastname", headerName: "Last Name", width: 120 },
-        { field: "acname", headerName: "Activity", width: 150 },
-        { field: "achour", headerName: "Hour", width: 50 },
-        { field: "date_s", headerName: "Date start", width: 200 },
-        { field: "date_e", headerName: "Date end", width: 200 },
+        { field: "id", headerName: "ลำดับ", width: 120 },
+        { field: "student_id", headerName: "รหัสนักศึกษา", width: 120 },
+        { field: "sfirstname", headerName: "ชื่อ", width: 120 },
+        { field: "slastname", headerName: "นามสกุล", width: 120 },
+        { field: "acname", headerName: "กิจกรรม", width: 150 },
+        { field: "achour", headerName: "จำนวนชั่วโมง", width: 50 },
+        { field: "date_s", headerName: "วันเริ่มกิจกรรม", width: 200 },
+        { field: "date_e", headerName: "วันจบกิจกรรม", width: 200 },
 
     ];
 
@@ -65,7 +65,7 @@ function Activity_His() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Activity History
+                                ประวัติกิจกรรม
                             </div>
                         </Typography>
                     </Box>
@@ -77,7 +77,7 @@ function Activity_His() {
                             color="primary"
                         >
                             <div className="good-font">
-                                Add Activity to student
+                                บันทึกข้อมูลกิจกรรม
                             </div>
                         </Button>
                     </Box>
