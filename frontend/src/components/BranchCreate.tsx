@@ -229,7 +229,7 @@ function BrCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Admin</p>
+                            <p className="good-font">ผู้บันทึก</p>
                             <Select
                                 native
                                 value={branch.AdminID + ""}
