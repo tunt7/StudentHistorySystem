@@ -5,7 +5,8 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { AcInterface } from "../models/IActivity";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import moment from 'moment'
 
 function Activity() {
     const [activity, setAc] = React.useState<AcInterface[]>([]);
@@ -27,19 +28,27 @@ function Activity() {
                     console.log(res.data)
                     setAc(res.data);
                 }
-                else { console.log("NO DATA") }
+                else {console.log("NO DATA")}
             });
     };
 
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 30 },
-        { field: "acname", headerName: "Name", width: 120 },
-        { field: "date_s", headerName: "Date start", width: 200 },
-        { field: "date_e", headerName: "Date end", width: 200 },
-        { field: "lname", headerName: "Location", width: 100 },
-        { field: "tfirst_name", headerName: "Teacher firstname", width: 140 },
-        { field: "tlast_name", headerName: "Teacher lastname", width: 140 },
-        { field: "aname", headerName: "Admin Name", width: 200 },
+        { field: "acname", headerName: "ชื่อกิจกรรม", width: 150 },
+        { field: "date_s", headerName: "วันเริ่มกิจกรรม", width: 200, 
+            renderCell:(params) => moment(params.row.date_s).format('yyyy-MM-DD-dd HH:mm')},
+        { field: "date_e", headerName: "วันสิ้นสุดกิจกรรม", width: 200,
+            renderCell:(params) => moment(params.row.date_e).format('yyyy-MM-DD-dd HH:mm')},
+        { field: "lname", headerName: "สถานที่", width: 120 },
+        { field: 'Full name',
+            headerName: 'อาจารย์ที่ดูแลกิจกรรม',
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            width: 160,
+            valueGetter: (params: GridValueGetterParams) =>
+              `${params.row.tfirst_name || ''} ${params.row.tlast_name || ''}`,},
+        { field: "aname", headerName: "ผู้บันทึก", width: 200 },
+        
     ];
 
     useEffect(() => {
@@ -62,9 +71,7 @@ function Activity() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
-                                Activity
-                            </div>
+                            ข้อมูลกิจกรรม
                         </Typography>
                     </Box>
                     <Box>
@@ -74,9 +81,7 @@ function Activity() {
                             variant="contained"
                             color="primary"
                         >
-                            <div className="good-font">
-                                Create Activity
-                            </div>
+                            เพิ่มกิจกรรม
                         </Button>
                     </Box>
                 </Box>
