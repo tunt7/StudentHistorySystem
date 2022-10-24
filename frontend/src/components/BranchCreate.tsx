@@ -191,7 +191,7 @@ function BrCreate() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Create Branch
+                                สาขา
                             </div>
                         </Typography>
                     </Box>
@@ -298,7 +298,7 @@ function BrCreate() {
 
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/" variant="contained">
+                        <Button component={RouterLink} to="/Branch" variant="contained">
                             <div className="good-font">
                                 กลับ
                             </div>

@@ -32,12 +32,12 @@ function Branch() {
     };
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ID", width: 50 },
-        { field: "brname", headerName: "Branch", width: 260 },
-        { field: "contact", headerName: "Contact", width: 150 },
-        { field: "acaname", headerName: "Academy", width: 140 },
-        { field: "rname", headerName: "Room", width: 310 },
-        { field: "aname", headerName: "Admin", width: 220 },
+        { field: "id", headerName: "ลำดับ", width: 50 },
+        { field: "brname", headerName: "สาขา", width: 260 },
+        { field: "contact", headerName: "ช่องทางติดต่อ", width: 150 },
+        { field: "acaname", headerName: "สำนักวิชา", width: 140 },
+        { field: "rname", headerName: "ห้องประจำสาขา", width: 310 },
+        { field: "aname", headerName: "ผู้บันทึก", width: 220 },
 
     ];
 
@@ -62,7 +62,7 @@ function Branch() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Branch
+                                สาขา
                             </div>
                         </Typography>
                     </Box>
@@ -74,7 +74,7 @@ function Branch() {
                             color="primary"
                         >
                         <div className="good-font">
-                            Create Branch
+                            เพิ่มข้อมูลสาขา
                         </div>
                         </Button>
                     </Box>
