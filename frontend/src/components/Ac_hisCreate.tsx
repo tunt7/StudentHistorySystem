@@ -189,7 +189,7 @@ function Ac_hisCreate() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Add Activity To Student
+                                บันทึกกิจกรรม
                             </div>
                         </Typography>
                     </Box>
@@ -209,7 +209,7 @@ function Ac_hisCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    --Select Student--
+                                    --เลือกนักศึกษา--
                                 </option>
                                 {student.map((item: STDInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -232,7 +232,7 @@ function Ac_hisCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    --Select Activity--
+                                    --เลือกกิจกรรม--
                                 </option>
                                 {activity.map((item: AcInterface) => (
                                     <option value={item.ID} key={item.ID}>
@@ -276,7 +276,7 @@ function Ac_hisCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    --Select Admin--
+                                    --เลือกผู้บันทึก--
                                 </option>
                                 <option value={admin?.ID} key={admin?.ID}>
                                     {admin?.Aname}
@@ -290,7 +290,7 @@ function Ac_hisCreate() {
                     <Grid item xs={12}>
                         <Button color="primary" component={RouterLink} to="/Ac_his" variant="contained">
                             <div className="good-font">
-                                Back
+                                กลับ
                             </div>
 
                         </Button>
@@ -302,8 +302,7 @@ function Ac_hisCreate() {
                             color="primary"
                         >
                             <div className="good-font">
-                                Submit
-
+                                บันทึก
                             </div>
                         </Button>
 
