@@ -37,7 +37,7 @@ func ListACHIS(c *gin.Context) {
 	// var bp []entity.Behavior_Point
 	result := []map[string]interface{}{}
 	entity.DB().Table("ac_his").
-		Select("ac_his.id, ac_his.student_id, students.sfirstname, students.slastname, activities.acname, ac_his.achour", "activities.date_s", "activities.date_e").
+		Select("ac_his.id, ac_his.student_id, students.sfirstname, students.slastname, activities.acname, ac_his.achour","activities.date_s","activities.date_e").
 		Joins("left join students on students.id = ac_his.student_id").
 		Joins("left join activities on activities.id = ac_his.activity_id").
 		Joins("left join admins on admins.id = ac_his.admin_id").
@@ -45,6 +45,20 @@ func ListACHIS(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": result})
 
+}
+
+// GET /users
+func ListACHIS2(c *gin.Context) {
+	// var bh entity.Behavior_Point
+	result := []map[string]interface{}{}
+	entity.DB().Table("ac_his").
+		Select("ac_his.student_id as id, students.sfirstname, students.slastname, sum(ac_his.achour) as achour").
+		Joins("left join students on students.id = ac_his.student_id").
+		Joins("left join activities on activities.id = ac_his.activity_id").
+		Group("ac_his.student_id").
+		Find(&result)
+
+	c.JSON(http.StatusOK, gin.H{"data": result})
 }
 
 // DELETE /users/:id
