@@ -22,6 +22,7 @@ import { PointTypeInterface } from "../models/IPoint_Type";
 import { BehaviorTypeInterface } from "../models/IBehavior_Type";
 import { AdminInterface } from "../models/IAdmin";
 import { STDInterface } from "../models/IStudent";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -35,9 +36,9 @@ function Behavior_PointCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    //     แก้ตรงนี้ const [admin, setAdmin] = React.useState<AdminInterface>(); ด้วยนะ
     const [admin, setAdmin] = React.useState<AdminInterface>();
     const [student, setStudent] = React.useState<[]>([]);
+    const [std, setStd] = React.useState<STDInterface>();
     const [pointType, setPointType] = React.useState<PointTypeInterface[]>([]);
     const [behaviorType, setBehaviorType] = React.useState<BehaviorTypeInterface[]>([]);
     const [behaviorPoint, setBehaviorPoint] = React.useState<BHInterface>({
@@ -73,6 +74,14 @@ function Behavior_PointCreate() {
     };
 
     const handleChange = (event: SelectChangeEvent) => {
+        const name = event.target.name as keyof typeof behaviorPoint;
+        setBehaviorPoint({
+            ...behaviorPoint,
+            [name]: event.target.value,
+        });
+    };
+
+    const handleChangeNEW = (event: SelectChangeEvent) => {
         const name = event.target.name as keyof typeof behaviorPoint;
         setBehaviorPoint({
             ...behaviorPoint,
@@ -275,69 +284,51 @@ function Behavior_PointCreate() {
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ประเภทคะแนน</p>
-                            <Select
-                                native
-                                value={behaviorPoint.PointTypeID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "PointTypeID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                {pointType.map((item: PointTypeInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Ptname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Autocomplete
+                                disablePortal
+                                id="PointTypeID"
+                                getOptionLabel={(item: PointTypeInterface) => `${item.Ptname}`}
+                                options={pointType}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { behaviorPoint.PointTypeID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกประเภทคะแนน" />}
+                            />
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ประเภท</p>
-                            <Select
-                                native
-                                value={behaviorPoint.BehaviorTypeID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "BehaviorTypeID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                {behaviorType.map((item: BehaviorTypeInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Btname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Autocomplete
+                                disablePortal
+                                id="BehaviorTypeID"
+                                getOptionLabel={(item: BehaviorTypeInterface) => `${item.Btname}`}
+                                options={behaviorType}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { behaviorPoint.BehaviorTypeID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกประเภท" />}
+                            />
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">นักศึกษา</p>
-                            <Select
-                                native
-                                value={behaviorPoint.StudentID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "StudentID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                {student.map((item: STDInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Sfirstname} {item.Slastname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Autocomplete
+                                disablePortal
+                                id="StudentID"
+                                getOptionLabel={(item: STDInterface) => `${item.Sfirstname} ${item.Slastname}`}
+                                options={student}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { behaviorPoint.StudentID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกนักศึกษา" />}
+                            />
                         </FormControl>
                     </Grid>
 
