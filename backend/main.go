@@ -142,6 +142,7 @@ func main() {
 			
 			// Activity History Routes
 			r.GET("/Ac_his", controller.ListACHIS)
+			r.GET("/Ac_his_sum", controller.ListACHIS2)
 			r.GET("/Ac_his/:id", controller.GetACHIS)
 			r.POST("/Ac_his", controller.CreateACHIS)
 			r.PATCH("/Ac_his", controller.UpdateACHIS)
