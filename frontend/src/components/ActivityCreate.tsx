@@ -11,18 +11,16 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-//npm install dayjs --save
-import { GetCurrentAdmin } from "../services/HttpClientService"
+import { STDInterface } from "../models/IStudent";
 import { AcInterface } from "../models/IActivity";
-import { LInterface } from "../models/ILocation";
-import { TInterface } from "../models/ITeacher";
 import { AdminInterface } from "../models/IAdmin";
-
+import { AcHisInterface } from "../models/IAc_his";
+import { GetCurrentAdmin } from "../services/HttpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -31,19 +29,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function ActivityCreate() {
+function Ac_hisCreate() {
+    const [date, setDate] = React.useState<Date | null>(null);
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [location, setLocation] = React.useState<LInterface[]>([]);
-    const [teacher, setTeacher] = React.useState<TInterface[]>([]);
     const [admin, setAdmin] = React.useState<AdminInterface>();
-    const [activity, setActivity] = React.useState<AcInterface>({
-        Date_s: new Date(),
-        Date_e: new Date(),
-
-    });
+    const [student, setStudent] = React.useState<STDInterface[]>([]);
+    const [activity, setActivity] = React.useState<AcInterface[]>([]);
+    const [activityHis, setActivityHis] = React.useState<AcHisInterface>({});
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -68,38 +63,38 @@ function ActivityCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof ActivityCreate;
+        const id = event.target.id as keyof typeof Ac_hisCreate;
         const { value } = event.target;
-        setActivity({ ...activity, [id]: value });
+        setActivityHis({ ...activityHis, [id]: value });
     };
 
     const handleChange = (event: SelectChangeEvent) => {
-        const name = event.target.name as keyof typeof activity;
-        setActivity({
-            ...activity,
+        const name = event.target.name as keyof typeof activityHis;
+        setActivityHis({
+            ...activityHis,
             [name]: event.target.value,
         });
     };
 
-    const getLocation = async () => {
-        fetch(`${apiUrl}/Locations`, requestOptions)
+    const getStudent = async () => {
+        fetch(`${apiUrl}/students`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setLocation(res.data);
+                    setStudent(res.data);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
-    const getT = async () => {
-        fetch(`${apiUrl}/Teachers`, requestOptions)
+    const getActivity = async () => {
+        fetch(`${apiUrl}/Activities`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setTeacher(res.data);
+                    setActivity(res.data);
                 }
                 else { console.log("NO DATA") }
             });
@@ -107,7 +102,7 @@ function ActivityCreate() {
 
     const getAdmin = async () => {
         let res = await GetCurrentAdmin();
-        activity.AdminID = res.ID;
+        activityHis.ADMIN_ID = res.ID;
         if (res) {
             setAdmin(res);
             console.log(res)
@@ -115,8 +110,8 @@ function ActivityCreate() {
     };
 
     useEffect(() => {
-        getLocation();
-        getT();
+        getStudent();
+        getActivity();
         getAdmin();
     }, []);
 
@@ -127,12 +122,10 @@ function ActivityCreate() {
 
     async function submit() {
         let data = {
-            Acname: activity.Acname ?? "",
-            Date_s: activity.Date_s,
-            Date_e: activity.Date_e,
-            LocationID: convertType(activity.LocationID),
-            TeacherID: convertType(activity.TeacherID),
-            AdminID: convertType(activity.AdminID),
+            ACHOUR: typeof activityHis.ACHOUR === "string" ? parseInt(activityHis.ACHOUR) : 0,
+            ADMINID: convertType(activityHis.ADMIN_ID),
+            StudentID: convertType(activityHis.STUDENT_ID),
+            ACtivityID: convertType(activityHis.ACTIVITY_ID),
 
         };
 
@@ -147,7 +140,7 @@ function ActivityCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/Activities`, requestOptions)
+        fetch(`${apiUrl}/Ac_his`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -196,7 +189,7 @@ function ActivityCreate() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Create Activity
+                                บันทึกกิจกรรม
                             </div>
                         </Typography>
                     </Box>
@@ -204,34 +197,86 @@ function ActivityCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ชื่อกิจกรรม</p>
+                            <p className="good-font">Student</p>
+                            <Select
+                                native
+                                value={activityHis.STUDENT_ID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "STUDENT_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    --เลือกนักศึกษา--
+                                </option>
+                                {student.map((item: STDInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Sfirstname} {item.Slastname}
+                                    </option>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">Activity</p>
+                            <Select
+                                native
+                                value={activityHis.ACTIVITY_ID + ""}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "ACTIVITY_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    --เลือกกิจกรรม--
+                                </option>
+                                {activity.map((item: AcInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Acname}
+                                    </option>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">Hour</p>
                             <TextField
-                                id="Acname"
+                                id="ACHOUR"
                                 variant="outlined"
-                                type="string"
+                                type="number"
                                 size="medium"
-                                value={activity.Acname}
+                                InputProps={{ inputProps: { min: 1 } }}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={activityHis.ACHOUR || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
+
+
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">Admin</p>
                             <Select
                                 native
-                                value={activity.AdminID + ""}
+                                value={activityHis.ADMIN_ID + ""}
                                 onChange={handleChange}
                                 disabled
                                 inputProps={{
-                                    name: "AdminID",
+                                    name: "ADMIN_ID",
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    Select
+                                    --เลือกผู้บันทึก--
                                 </option>
                                 <option value={admin?.ID} key={admin?.ID}>
                                     {admin?.Aname}
@@ -240,97 +285,16 @@ function ActivityCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สถานที่</p>
-                            <Select
-                                native
-                                value={activity.LocationID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "LocationID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    Select
-                                </option>
-                                {location.map((item: LInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Lname}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">อาจารย์ที่ดูแลกิจกรรม</p>
-                            <Select
-                                native
-                                value={activity.TeacherID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "TeacherID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    Select
-                                </option>
-                                {teacher.map((item: TInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.TfirstName} {item.TlastName}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">วันเวลาเริ่มกิจกรรม</p>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DateTimePicker
-                                    renderInput={(props) => <TextField {...props} />}
-                                    value={activity.Date_s}
-                                    onChange={(newValue) => {
-                                        setActivity({
-                                            ...activity,
-                                            Date_s: newValue,
-                                        });
-                                    }}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">วันเวลาสิ้นสุดกิจกรรม</p>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DateTimePicker
-                                    renderInput={(props) => <TextField {...props} />}
-                                    value={activity.Date_e}
-                                    onChange={(newValue) => {
-                                        setActivity({
-                                            ...activity,
-                                            Date_e: newValue,
-                                        });
-                                    }}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
 
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/Activity" variant="contained">
+                        <Button color="primary" component={RouterLink} to="/Ac_his" variant="contained">
                             <div className="good-font">
-                                Back
+                                กลับ
                             </div>
+
                         </Button>
+
                         <Button
                             style={{ float: "right" }}
                             onClick={submit}
@@ -338,9 +302,10 @@ function ActivityCreate() {
                             color="primary"
                         >
                             <div className="good-font">
-                                Submit
+                                บันทึก
                             </div>
                         </Button>
+
                     </Grid>
                 </Grid>
             </Paper>
@@ -348,4 +313,4 @@ function ActivityCreate() {
     );
 }
 
-export default ActivityCreate;
+export default Ac_hisCreate;
