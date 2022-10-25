@@ -26,6 +26,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import Homepage from "./components/Homepage";
 import Behavior_Points from "./components/Behavior_Points";
@@ -43,12 +44,10 @@ import StudentCreate from "./components/StudentCreate";
 import Student from "./components/Student";
 
 import { GetCurrentAdmin } from "./services/HttpClientService"
-import { AdminInterface } from "./models/IAdmin";
 
 import "./styles.css"
-import { colors } from "@mui/material";
 
-var adminName = "กำลังโหลด";
+var adminName = "";
 
 const getAdmin = async () => {
   let res = await GetCurrentAdmin();
@@ -131,11 +130,11 @@ export default function App() {
 
   useEffect(() => {
     getAdmin();
+
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
     };
-
   }, []);
 
 
@@ -148,11 +147,25 @@ export default function App() {
     window.location.href = "/";
   };
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#98A8F8',
+      },
+      secondary: {
+        main: '#FAF7F0',
+      },
+    },
+    // typography: {
+    //   fontFamily: {["Prompt"]}
+    // }
+  });
+
   return (
     <div className="App">
       <Router>
-        <ThemeProvider theme={mdTheme}>
-          <Box sx={{ display: "flex"}}>
+        <ThemeProvider theme={theme}>
+          <Box sx={{ display: "flex" }}>
             <CssBaseline />
             <AppBar color="primary" position="absolute" open={open}>
               <Toolbar
@@ -162,7 +175,7 @@ export default function App() {
               >
                 <IconButton
                   edge="start"
-                  color="inherit"
+                  color="secondary"
                   aria-label="open drawer"
                   onClick={toggleDrawer}
                   sx={{
@@ -175,24 +188,24 @@ export default function App() {
                 <Typography
                   component="h1"
                   variant="h6"
-                  color="inherit"
+                  color="secondary"
                   noWrap
-                  sx={{ flexGrow: 0.8 }}
+                  sx={{ flexGrow: 1 }}
                 >
-                  <div className="good-font">
+                  <div className="good-font-big">
                     ระบบประวัตินักศึกษา
                   </div>
                 </Typography>
                 <Typography
                   variant="inherit"
-                  noWrap
-                  sx={{ flexGrow: 1 }}
+                  sx={{ flexGrow: 0.1}}
                 >
-                  <div className="good-font">{adminName}</div>
+                  <span className="good-font-white">{adminName}</span><span className="good-font-green"> : กำลังใช้งาน</span>
                 </Typography>
-                <Button color="inherit" onClick={signout} variant="outlined">
+                <Button color="secondary" onClick={signout} variant="outlined">
+                  <LogoutIcon />
                   <Typography
-                    color="#F1948A"
+                    color="#FF6464"
                     variant="button">
                     <div className="good-font">
                       ออกจากระบบ
@@ -233,10 +246,7 @@ export default function App() {
             <Box
               component="main"
               sx={{
-                backgroundColor: (theme) =>
-                  theme.palette.mode === "light"
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[900],
+                backgroundColor: '#FAF7F0',
                 flexGrow: 1,
                 height: "100vh",
                 overflow: "auto",
