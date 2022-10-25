@@ -12,13 +12,12 @@ function Activity_His() {
     const [Ac_his, setAc_his] = React.useState<AcHisInterface[]>([]);
 
     const getAc_his = async () => {
-        const apiUrl = "http://localhost:8080/Ac_his_sum";
+        const apiUrl = "http://localhost:8080/Ac_his";
         const requestOptions = {
             method: "GET",
-            headers: {
+            headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
+                "Content-Type": "application/json" },
         };
 
         await fetch(apiUrl, requestOptions)
@@ -28,20 +27,20 @@ function Activity_His() {
                     console.log(res.data)
                     setAc_his(res.data);
                 }
-                else { console.log("NO DATA") }
+                else {console.log("NO DATA")}
             });
     };
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ID", width: 120 },
-        // { field: "student_id", headerName: "SID", width: 120 },
-        { field: "sfirstname", headerName: "First Name", width: 120 },
-        { field: "slastname", headerName: "Last Name", width: 120 },
-        // { field: "acname", headerName: "Activity", width: 150 },
-        { field: "achour", headerName: "Hour", width: 50 },
-        // { field: "date_s", headerName: "Date start", width: 200 },
-        // { field: "date_e", headerName: "Date end", width: 200 },
-
+        { field: "id", headerName: "ลับดับ", width: 100 },
+        { field: "student_id", headerName: "รหัสนักศึกษา", width: 120 },
+        { field: "sfirstname", headerName: "ชื่อ", width: 120 },
+        { field: "slastname", headerName: "นามสกุล", width: 120 },
+        { field: "acname", headerName: "กิจกรรม", width: 150 },
+        { field: "achour", headerName: "จำนวนชั่วโมง", width: 100 },
+        { field: "date_s", headerName: "วันเริ่มกิจกรรม", width: 200 },
+        { field: "date_e", headerName: "วันจบกิจกรรม", width: 200 },
+        
     ];
 
     useEffect(() => {
@@ -65,7 +64,7 @@ function Activity_His() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Activity History
+                                ประวัติกิจกรรมนักศึกษา
                             </div>
                         </Typography>
                     </Box>
@@ -76,8 +75,8 @@ function Activity_His() {
                             variant="contained"
                             color="primary"
                         >
-                            <div className="good-font">
-                                Add Activity to student
+                            <div className="good-font-white">
+                                บันทึกกิจกรรมนักศึกษา
                             </div>
                         </Button>
                     </Box>
@@ -91,6 +90,18 @@ function Activity_His() {
                         rowsPerPageOptions={[5]}
                     />
                 </div>
+                <Box>
+                        <Button
+                            component={RouterLink}
+                            to="/Ac_his_sum"
+                            variant="contained"
+                            color="primary"
+                        >
+                            <div className="good-font-white">
+                                ดูชั่วโมงรวม
+                            </div>
+                        </Button>
+                    </Box>
             </Container>
         </div>
     );
