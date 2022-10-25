@@ -66,7 +66,7 @@ function Student() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                Student
+                                นักศึกษา
                             </div>
                         </Typography>
                     </Box>

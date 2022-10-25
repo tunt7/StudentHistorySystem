@@ -238,7 +238,7 @@ function StudentCreate() {
                             gutterBottom
                         >
                             <div className="good-font">
-                            กรอกประวัตินักศึกษา
+                            เพิ่มประวัตินักศึกษา
                             </div>
                         </Typography>
                     </Box>
@@ -511,9 +511,9 @@ function StudentCreate() {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/Student" variant="contained">
+                        <Button component={RouterLink} to="/StudentShow" variant="contained">
                         <div className="good-font">
-                            Back
+                            กลับ
                         </div>
                         </Button>
                         <Button
@@ -523,7 +523,7 @@ function StudentCreate() {
                             color="primary"
                         >
                             <div className="good-font">
-                            Submit
+                            บันทึก
                             </div>
                         </Button>
                     </Grid>
