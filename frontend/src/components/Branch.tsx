@@ -73,7 +73,7 @@ function Branch() {
                             variant="contained"
                             color="primary"
                         >
-                        <div className="good-font">
+                        <div className="good-font-white">
                             เพิ่มข้อมูลสาขา
                         </div>
                         </Button>
