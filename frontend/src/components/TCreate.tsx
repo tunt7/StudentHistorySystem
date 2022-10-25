@@ -18,6 +18,7 @@ import { AdminInterface } from "../models/IAdmin";
 import { BranchInterface } from "../models/IBranch";
 import { PreInterface } from "../models/IPrefix";
 import { GetCurrentAdmin } from "../services/HttpClientService";
+import { Autocomplete } from "@mui/material";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -202,32 +203,24 @@ function TCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={2}>
+                    <Grid item xs={2.5}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">คำนำหน้า</p>
-                            <Select
-                                native
-                                value={teacher.PrefixID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "PrefixID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    <div className="good-font">
-                                        -เลือก-
-                                    </div>
-                                </option>
-                                {prefix.map((item: PreInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.ShortName}
-                                    </option>
-                                ))}
-                            </Select>
+                            <p className="good-font">ตำแหน่ง</p>
+                            <Autocomplete
+                                disablePortal
+                                id="PrefixID"
+                                getOptionLabel={(item: PreInterface) => `${item.ShortName}`}
+                                options={prefix}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { teacher.PrefixID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกตำแหน่ง" />}
+                            />
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={5}>
+                    <Grid item xs={4.75}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ชื่อจริง</p>
                             <TextField
@@ -241,7 +234,7 @@ function TCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={5}>
+                    <Grid item xs={4.75}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">นามสกุล</p>
                             <TextField
@@ -285,24 +278,18 @@ function TCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สาขา</p>
-                            <Select
-                                native
-                                value={teacher.BranchID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "BranchID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    ---โปรดเลือกสาขา---
-                                </option>
-                                {branch.map((item: BranchInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Brname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <p className="good-font">สาขาที่สังกัด</p>
+                            <Autocomplete
+                                disablePortal
+                                id="BranchID"
+                                getOptionLabel={(item: BranchInterface) => `${item.Brname}`}
+                                options={branch}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { teacher.BranchID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="โปรดเลือกสาขา" />}
+                            />
                         </FormControl>
                     </Grid>
 
@@ -330,7 +317,7 @@ function TCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/TeacherShow" variant="contained">
-                            <div className="good-font">
+                            <div className="good-font-white">
                                 ย้อนกลับ
                             </div>
                         </Button>
@@ -340,7 +327,7 @@ function TCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            <div className="good-font">
+                            <div className="good-font-white">
                                 บันทึกข้อมูล
                             </div>
                         </Button>
