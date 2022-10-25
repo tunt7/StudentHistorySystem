@@ -26,9 +26,6 @@ type Student struct {
 	EQID                    *uint
 // 	Education_Qualification Education_Qualification
 
-	AcademyID *uint
-	Academy   Academy
-
 	BranchID *uint
 	Branch   Branch
 
