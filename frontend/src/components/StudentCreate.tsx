@@ -15,18 +15,17 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import { STDInterface } from "../models/IStudent";
 import { BTInterface } from "../models/IBlood_Type";
 import { ELInterface } from "../models/IEducation_Level";
 import { EQInterface } from "../models/IEducation_Qualification";
-import { AcademyInterface } from "../models/IAcademy";
 import { BranchInterface } from "../models/IBranch";
 import { TInterface } from "../models/ITeacher";
 import { AdminInterface } from "../models/IAdmin";
 import Student from "./Student";
-
-
+import Branch from "./Branch";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -44,7 +43,6 @@ function StudentCreate() {
     const [bloodType, setBloodType] = React.useState<BTInterface[]>([]);
     const [eLevel, setEl] = React.useState<ELInterface[]>([]);
     const [eQuali, setEq] = React.useState<EQInterface[]>([]);
-    const [academy, setAc] = React.useState<AcademyInterface[]>([]);
     const [branch, setBranch] = React.useState<BranchInterface[]>([]);
     const [teacher, setTeacher] = React.useState<TInterface[]>([]);
     const [std, setStd] = React.useState<STDInterface>({
@@ -135,18 +133,6 @@ function StudentCreate() {
             });
     };
 
-    const getAcadamy = async () => {
-        fetch(`${apiUrl}/academies`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setAc(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
-    };
-
     const getBranch = async () => {
         fetch(`${apiUrl}/branches`, requestOptions)
             .then((response) => response.json())
@@ -165,7 +151,6 @@ function StudentCreate() {
         getEducationQ();
         getTeacher();
         getBranch();
-        getAcadamy();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -189,7 +174,6 @@ function StudentCreate() {
             BTID: convertType(std.BTID),
             ELID: convertType(std.ELID),
             EQID: convertType(std.EQID),
-            AcademyID: convertType(std.AcademyID),
             BranchID: convertType(std.BranchID),
             TeacherID: convertType(std.TeacherID),
         };
@@ -486,47 +470,18 @@ function StudentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สำนักวิชา</p>
-                            <Select
-                                native
-                                value={std.AcademyID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "AcademyID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือกสำนักวิชา
-                                </option>
-                                {academy.map((item: AcademyInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Acaname}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
                             <p className="good-font">สาขาวิชา</p>
-                            <Select
-                                native
-                                value={std.BranchID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "BranchID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือกสาขาวิชา
-                                </option>
-                                {branch.map((item: BranchInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Brname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Autocomplete
+                                disablePortal
+                                id="BranchID"
+                                getOptionLabel={(item: BranchInterface) => `${item.Brname}`}
+                                options={branch}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { std.BranchID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสาขา" />}
+                            />
                         </FormControl>
                     </Grid>
 
