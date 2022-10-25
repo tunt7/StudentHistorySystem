@@ -64,7 +64,7 @@ function Teacher() {
                             gutterBottom
                         >
                             <div className="good-font">
-                            Teacher
+                            ข้อมูลอาจารย์
                             </div>
                         </Typography>
                     </Box>
@@ -76,7 +76,7 @@ function Teacher() {
                             color="primary"
                             sx={{ fontFamily: "‘Chonburi’, sans-serif" }}
                         >
-                            <div className="good-font">
+                            <div className="good-font-white">
                             เพิ่มอาจารย์
                             </div>
                         </Button>
