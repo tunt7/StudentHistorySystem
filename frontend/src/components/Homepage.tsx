@@ -7,16 +7,18 @@ function Homepage(): JSX.Element {
     return (
         <h1>
             <div className="header">
-                <h3>ยินดีต้อนรับสู่</h3>
-                <h1>ระบบประวัตินักศึกษา</h1>
-                <p>สมาชิก</p>
-
+                <br />
+                <div className="border">
+                    <h3>ยินดีต้อนรับสู่</h3>
+                    <h1>ระบบประวัตินักศึกษา</h1>
+                </div>
+                    <br/>
+                <div className="member">สมาชิก</div>
             </div>
-
             <div className="container">
                 <div className="column">
                     <a href="https://www.facebook.com/profile.php?id=100023727782783" className="fa">
-                        <img src="https://sv1.picz.in.th/images/2022/10/24/vkIj0V.png" alt="รถ" width="230" height="260" className="avatar"></img>
+                        <img src="https://i.pinimg.com/originals/a4/11/4f/a4114ffbc99e01069a7e188d927cf94d.gif" alt="รถ" width="270" height="260" className="avatar"></img>
                         <Button color="primary" variant="contained">
                             <Typography
                                 variant="button"
@@ -27,8 +29,8 @@ function Homepage(): JSX.Element {
                     </a>
                 </div>
                 <div className="column">
-                    <a href="https://www.facebook.com/teerawat3g/" className="fa">
-                        <img src="https://cdn.discordapp.com/attachments/996739649596821574/1034064629929885736/unknown.png" alt="เก่ง" width="230" height="260" className="avatar"></img>
+                    <a href="https://www.facebook.com/kengneeha" className="fa">
+                        <img src="https://cdn.discordapp.com/attachments/996739649596821574/1034382144010715176/meme-gif-pfp-1.gif" alt="เก่ง" width="270" height="260" className="avatar"></img>
                         <Button color="primary" variant="contained">
                             <Typography
                                 variant="button"
@@ -41,7 +43,7 @@ function Homepage(): JSX.Element {
                 </div>
                 <div className="column">
                     <a href="https://www.facebook.com/poln.jongketkam" className="fa">
-                        <img src="https://sv1.picz.in.th/images/2022/10/24/vkmm8V.jpg" alt="พล" width="230" height="260" className="avatar"></img>
+                        <img src="https://media.tenor.com/LGCS8U0fTFkAAAAd/gojo-satoru-jjk.gif" alt="พล" width="270" height="260" className="avatar"></img>
                         <Button color="primary" variant="contained">
                             <Typography
                                 variant="button"
@@ -53,8 +55,8 @@ function Homepage(): JSX.Element {
                     </a>
                 </div>
                 <div className="column">
-                    <a href="https://www.facebook.com/profile.php?id=100002751064253" className="fa">
-                        <img src="https://sv1.img.in.th/7iGBu.jpg" alt="ฟิวส์" width="230" height="260" className="avatar"></img>
+                    <a href="https://www.facebook.com/gurocke.sus/" className="fa">
+                        <img src="https://64.media.tumblr.com/ba41c54bc2342048c76ab1f04b7207d9/1cdf0f61bb8cf4e6-97/s500x750/61bde33934c020b9407225bdab9fad3b83fe3f2d.gif" alt="ฟิวส์" width="270" height="260" className="avatar"></img>
                         <Button color="primary" variant="contained">
                             <Typography
                                 variant="button"
@@ -67,7 +69,7 @@ function Homepage(): JSX.Element {
                 </div>
                 <div className="column">
                     <a href="https://www.facebook.com/profile.php?id=100007795003184" className="fa">
-                        <img src="https://cdn.discordapp.com/attachments/1008950151068532797/1034075266122797136/FB_IMG_1625732381864.jpg" alt="เฟิร์น" width="230" height="260" className="avatar"></img>
+                        <img src="https://media.tenor.com/vKk3Mb2hAVcAAAAC/fgo-fgo-learing-with-manga.gif" alt="เฟิร์น" width="270" height="260" className="avatar"></img>
                         <Button color="primary" variant="contained">
                             <Typography
                                 variant="button"
@@ -78,8 +80,8 @@ function Homepage(): JSX.Element {
                     </a>
                 </div>
                 <div className="column">
-                    <a href="https://www.facebook.com/gurocke.sus/" className="fa">
-                        <img src="https://m.media-amazon.com/images/I/71NelQtDtmL._AC_SL1500_.jpg" alt="กัปตัน" width="230" height="260" className="avatar"></img>
+                    <a href="https://www.facebook.com/profile.php?id=100002751064253" className="fa">
+                        <img src="https://media.tenor.com/sydpTQRcX6kAAAAd/beast-titan-titan.gif" alt="กัปตัน" width="270" height="260" className="avatar"></img>
                         <Button color="primary" variant="contained">
                             <Typography
                                 variant="button"
@@ -89,11 +91,11 @@ function Homepage(): JSX.Element {
                         </Button>
                     </a>
                 </div>
-                <h1> <br/></h1>
+                <h1> <br /></h1>
             </div>
-            
+
         </h1>
-        
+
     )
 
 
