@@ -80,7 +80,7 @@ function SignIn() {
                 >
                     <Alert onClose={handleClose} severity="success" 
                     sx={{width: 200, height: 60, alignItems: "center", alignSelf: "center",}}>
-                         <div className="good-font" > เข้าสู่ระบบสำเร็จ </div> 
+                         <div className="good-font"> เข้าสู่ระบบสำเร็จ </div> 
                     </Alert>
                 </Snackbar>
                 <Snackbar 
@@ -91,19 +91,20 @@ function SignIn() {
                 >
                     <Alert  onClose={handleClose} severity="error" 
                     sx={{width: 280, height: 60, alignItems: "center", alignSelf: "center",}}>
-                        <div className="good-font" > อีเมลหรือรหัสผ่านไม่ถูกต้อง </div>
+                        <div className="good-font"> อีเมลหรือรหัสผ่านไม่ถูกต้อง </div>
                     </Alert>
                 </Snackbar>
 
                 <CssBaseline />
-                    <Grid item xs={6.7}> <Paper elevation={0} /> </Grid>
-                    <Grid item xs={5.5} sm={8} md={4} component={Paper} elevation={6} square container spacing={2}
-                    sx ={{my: 20,width: 300, height: 420,borderRadius: 2}}>
+                    <Grid item xs={8}> <Paper elevation={0} /> </Grid>
+                    <Grid item xs={5} sm={8} md={4} component={Paper} elevation={6} square container spacing={2} 
+                    sx ={{my: 'auto',mx: '-10%',width: 300, height: 420,borderRadius: 2 ,alignItems: "center", alignSelf: "center",}}>
                     
-                    <Avatar sx={{ my: 4, bgcolor: "#03a9f4" ,mx: 6 ,width: 56, height: 56}}> <LockOutlinedIcon /> </Avatar>
-                    <Typography component="h1" variant="h4" sx ={{my: 5}}> Sign in to website </Typography>
-                    <Box
-                        sx={{ mx: 5,display: "flex",flexDirection: "column",alignItems: "center", alignSelf: "center",}}>
+                    <Typography component="h1" variant="h4" sx ={{m: 'auto'}}> 
+                        <Avatar sx={{ mx: 'auto',my: '5%', bgcolor: "#03a9f4" ,width: 56, height: 56}}> <LockOutlinedIcon /> </Avatar>
+                        <div className="good-font"> Sign in to website </div> 
+                    </Typography>
+                    <Box sx={{ mx: 5,display: "flex",flexDirection: "column",alignItems: "center", alignSelf: "center",}}>
                         <Box sx={{ mt: 0 }}>
                             <TextField 
                                 margin="normal"
@@ -155,7 +156,7 @@ function SignIn() {
                                 onClick={submit}
                                 endIcon={<LoginIcon />}
                             >
-                                Sign In
+                                <div className="good-font" > Sign In </div>
                             </Button>
                         </Box>
                     </Box> 
