@@ -5,13 +5,14 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid"; 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Autocomplete from "@mui/material/Autocomplete";
 
 
 import { GetCurrentAdmin } from "../services/HttpClientService"
@@ -19,7 +20,6 @@ import { AdminInterface } from "../models/IAdmin";
 import { BranchInterface } from "../models/IBranch";
 import { RoomInterface } from "../models/IRoom";
 import { AcademyInterface } from "../models/IAcademy";
-import { Avatar } from "@mui/material";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -187,11 +187,11 @@ function BrCreate() {
                         <Typography
                             component="h2"
                             variant="h6"
-                            color="primary"
+                            color="primary" 
                             gutterBottom
                         >
                             <div className="good-font">
-                                สาขา
+                                เพิ่มข้อมูลสาขา
                             </div>
                         </Typography>
                     </Box>
@@ -252,50 +252,36 @@ function BrCreate() {
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">สำนักวิชา</p>
-                            <Select
-                                native
-                                value={branch.AcademyID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "AcademyID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือกสำนักวิชา
-                                </option>
-                                {academy.map((item: AcademyInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Acaname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Autocomplete
+                                disablePortal
+                                id="AcademyID"
+                                getOptionLabel={(item: AcademyInterface) => `${item.Acaname}`}
+                                options={academy}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { branch.AcademyID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสำนักวิชา" />}
+                            />
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ห้องประจำสาขา</p>
-                            <Select
-                                native
-                                value={branch.RoomID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "RoomID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือกห้องประจำสาขา
-                                </option>
-                                {room.map((item: RoomInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Rname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Autocomplete
+                                disablePortal
+                                id="RoomID"
+                                getOptionLabel={(item: RoomInterface) => `${item.Rname}`}
+                                options={room}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { branch.RoomID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกห้องประจำสาขา" />}
+                            />
                         </FormControl>
                     </Grid>
-
-
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Branch" variant="contained">
