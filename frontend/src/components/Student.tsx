@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { STDInterface } from "../models/IStudent";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef , GridValueGetterParams} from "@mui/x-data-grid";
 
 function Student() {
     const [std, setStd] = React.useState<STDInterface[]>([]);
@@ -33,9 +33,16 @@ function Student() {
 
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 50 },
-        { field: "sfirstname", headerName: "ชื่อ", width: 200 },
-        { field: "slastname", headerName: "นามสกุล", width: 200 },
+        { field: 'fullName',
+            headerName: 'ชื่อนามสกุล',
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            width: 200,
+            valueGetter: (params: GridValueGetterParams) =>
+              `${params.row.sfirstname || ''} ${params.row.slastname || ''}`,
+          },
         { field: "elname", headerName: "ระดับการศึกษา", width: 200 },
+        
     ];
 
     useEffect(() => {
