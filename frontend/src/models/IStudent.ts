@@ -1,7 +1,6 @@
 import { BTInterface } from "./IBlood_Type";
 import { ELInterface } from "./IEducation_Level";
 import { EQInterface } from "./IEducation_Qualification";
-import { AcademyInterface } from "./IAcademy"
 import { BranchInterface } from "./IBranch"
 import { TInterface } from "./ITeacher"
 export interface STDInterface {
@@ -24,8 +23,6 @@ export interface STDInterface {
 	EQID?: number;
     Education_Qualification?:EQInterface;
 
-    AcademyID?: number;
-    Academy?:AcademyInterface;
     BranchID?: number;
     Branch?:BranchInterface;
     TeacherID?: number;
