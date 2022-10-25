@@ -79,7 +79,7 @@ function SignIn() {
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                     <Alert onClose={handleClose} severity="success" 
-                    sx={{width: 200, height: 60, alignItems: "center", alignSelf: "center",}}>
+                    sx={{width: 240, height: 60, alignItems: "center", alignSelf: "center",}}>
                          <div className="good-font"> เข้าสู่ระบบสำเร็จ </div> 
                     </Alert>
                 </Snackbar>
@@ -90,7 +90,7 @@ function SignIn() {
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                     <Alert  onClose={handleClose} severity="error" 
-                    sx={{width: 280, height: 60, alignItems: "center", alignSelf: "center",}}>
+                    sx={{width: 320, height: 60, alignItems: "center", alignSelf: "center",}}>
                         <div className="good-font"> อีเมลหรือรหัสผ่านไม่ถูกต้อง </div>
                     </Alert>
                 </Snackbar>
