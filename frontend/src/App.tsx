@@ -37,13 +37,16 @@ import TCreate from "./components/TCreate";
 import Teacher from "./components/TeacherShow";
 import Ac_hisCreate from "./components/Ac_hisCreate";
 import Activity_His from "./components/AcHis";
+
 import BrCreate from "./components/BranchCreate";
 import Branch from "./components/Branch";
+
 
 import StudentCreate from "./components/StudentCreate";
 import Student from "./components/Student";
 
 import { GetCurrentAdmin } from "./services/HttpClientService"
+import Activity_His_sum from "./components/Ac_his_sum";
 
 import "./styles.css"
 
@@ -259,6 +262,7 @@ export default function App() {
                   <Route path="/Activity" element={<Activity />} />
                   <Route path="/ActivityCreate" element={<ActivityCreate />} />
                   <Route path="/Ac_his" element={<Activity_His />} />
+                  <Route path="/Ac_his_sum" element={<Activity_His_sum />} />
                   <Route path="/Ac_hisCreate" element={<Ac_hisCreate />} />
                   <Route path="/Behavior_points" element={<Behavior_Points />} />
                   <Route path="/Behavior_pointsCreate" element={<Behavior_PointCreate />} />
