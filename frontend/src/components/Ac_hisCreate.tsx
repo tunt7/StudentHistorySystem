@@ -21,6 +21,7 @@ import { AcInterface } from "../models/IActivity";
 import { AdminInterface } from "../models/IAdmin";
 import { AcHisInterface } from "../models/IAc_his";
 import { GetCurrentAdmin } from "../services/HttpClientService";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -38,15 +39,14 @@ function Ac_hisCreate() {
     const [admin, setAdmin] = React.useState<AdminInterface>();
     const [student, setStudent] = React.useState<STDInterface[]>([]);
     const [activity, setActivity] = React.useState<AcInterface[]>([]);
-    const [activityHis, setActivityHis] = React.useState<AcHisInterface>({});
-
+    const [activityHis, setActivityHis] = React.useState<AcHisInterface>({ });
+    
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: {
+        headers: { 
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json"
-        },
+            "Content-Type": "application/json" },
     };
 
     const handleClose = (
@@ -87,7 +87,7 @@ function Ac_hisCreate() {
                 else { console.log("NO DATA") }
             });
     };
-
+    
     const getActivity = async () => {
         fetch(`${apiUrl}/Activities`, requestOptions)
             .then((response) => response.json())
@@ -126,17 +126,16 @@ function Ac_hisCreate() {
             ADMINID: convertType(activityHis.ADMIN_ID),
             StudentID: convertType(activityHis.STUDENT_ID),
             ACtivityID: convertType(activityHis.ACTIVITY_ID),
-
+            
         };
 
         console.log(data)
 
         const requestOptions = {
             method: "POST",
-            headers: {
+            headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
+                "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 
@@ -162,16 +161,12 @@ function Ac_hisCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    <div className="good-font">
-                        บันทึกข้อมูลสำเร็จ
-                    </div>
+                    บันทึกข้อมูลสำเร็จ
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    <div className="good-font">
-                        บันทึกข้อมูลไม่สำเร็จ
-                    </div>
+                    บันทึกข้อมูลไม่สำเร็จ
                 </Alert>
             </Snackbar>
             <Paper>
@@ -188,64 +183,52 @@ function Ac_hisCreate() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
-                                บันทึกกิจกรรม
-                            </div>
+                            บันทึกกิจกรรมนักศึกษา
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={12}>
+                <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Student</p>
-                            <Select
-                                native
-                                value={activityHis.STUDENT_ID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "STUDENT_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    --เลือกนักศึกษา--
-                                </option>
-                                {student.map((item: STDInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Sfirstname} {item.Slastname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <p>นักศึกษา</p>
+                            
+                            <Autocomplete
+                                disablePortal
+                                id="STUDENT_ID"
+                                getOptionLabel={(item: STDInterface) => `${item.Sfirstname} ${item.Slastname}`}
+                                options={student}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { activityHis.STUDENT_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกนักศึกษา" />}
+                            />
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Activity</p>
-                            <Select
-                                native
-                                value={activityHis.ACTIVITY_ID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "ACTIVITY_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    --เลือกกิจกรรม--
-                                </option>
-                                {activity.map((item: AcInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Acname}
-                                    </option>
-                                ))}
-                            </Select>
+                            <p>กิจกรรม</p>
+                            
+                            <Autocomplete
+                                disablePortal
+                                id="ACTIVITY_ID"
+                                getOptionLabel={(item: AcInterface) => `${item.Acname}`}
+                                options={activity}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { activityHis.ACTIVITY_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกกิจจกรรม" />}
+                            />
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Hour</p>
+                            <p>ชั่วโมง</p>
                             <TextField
                                 id="ACHOUR"
                                 variant="outlined"
@@ -261,11 +244,11 @@ function Ac_hisCreate() {
                         </FormControl>
                     </Grid>
 
-
+                    
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Admin</p>
+                            <p>ผู้บันทึก</p>
                             <Select
                                 native
                                 value={activityHis.ADMIN_ID + ""}
@@ -285,14 +268,13 @@ function Ac_hisCreate() {
                         </FormControl>
                     </Grid>
 
-
+                    
 
                     <Grid item xs={12}>
                         <Button color="primary" component={RouterLink} to="/Ac_his" variant="contained">
-                            <div className="good-font">
+                            <div className="good-font-white">
                                 กลับ
                             </div>
-
                         </Button>
 
                         <Button
@@ -301,7 +283,7 @@ function Ac_hisCreate() {
                             variant="contained"
                             color="primary"
                         >
-                            <div className="good-font">
+                            <div className="good-font-white">
                                 บันทึก
                             </div>
                         </Button>
