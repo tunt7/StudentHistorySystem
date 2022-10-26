@@ -71,7 +71,9 @@ function Activity() {
                             color="primary"
                             gutterBottom
                         >
-                            ข้อมูลกิจกรรม
+                            <div className="good-font">
+                                ข้อมูลกิจกรรม
+                            </div>
                         </Typography>
                     </Box>
                     <Box>
@@ -81,7 +83,9 @@ function Activity() {
                             variant="contained"
                             color="primary"
                         >
-                            เพิ่มกิจกรรม
+                            <div className="good-font-white">
+                                เพิ่มกิจกรรม
+                            </div>
                         </Button>
                     </Box>
                 </Box>
