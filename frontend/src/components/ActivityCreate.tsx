@@ -1,187 +1,70 @@
 import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-
-import { STDInterface } from "../models/IStudent";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import { AcInterface } from "../models/IActivity";
-import { AdminInterface } from "../models/IAdmin";
-import { AcHisInterface } from "../models/IAc_his";
-import { GetCurrentAdmin } from "../services/HttpClientService";
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import moment from 'moment'
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref
-) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+function Activity() {
+    const [activity, setAc] = React.useState<AcInterface[]>([]);
 
-function Ac_hisCreate() {
-    const [date, setDate] = React.useState<Date | null>(null);
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
-    const [errorMessage, setErrorMessage] = React.useState("");
-
-    const [admin, setAdmin] = React.useState<AdminInterface>();
-    const [student, setStudent] = React.useState<STDInterface[]>([]);
-    const [activity, setActivity] = React.useState<AcInterface[]>([]);
-    const [activityHis, setActivityHis] = React.useState<AcHisInterface>({});
-
-    const apiUrl = "http://localhost:8080";
-    const requestOptions = {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json"
-        },
-    };
-
-    const handleClose = (
-        event?: React.SyntheticEvent | Event,
-        reason?: string
-    ) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        setSuccess(false);
-        setError(false);
-    };
-
-    const handleInputChange = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-    ) => {
-        const id = event.target.id as keyof typeof Ac_hisCreate;
-        const { value } = event.target;
-        setActivityHis({ ...activityHis, [id]: value });
-    };
-
-    const handleChange = (event: SelectChangeEvent) => {
-        const name = event.target.name as keyof typeof activityHis;
-        setActivityHis({
-            ...activityHis,
-            [name]: event.target.value,
-        });
-    };
-
-    const getStudent = async () => {
-        fetch(`${apiUrl}/students`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setStudent(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
-    };
-
-    const getActivity = async () => {
-        fetch(`${apiUrl}/Activities`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setActivity(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
-    };
-
-    const getAdmin = async () => {
-        let res = await GetCurrentAdmin();
-        activityHis.ADMIN_ID = res.ID;
-        if (res) {
-            setAdmin(res);
-            console.log(res)
-        }
-    };
-
-    useEffect(() => {
-        getStudent();
-        getActivity();
-        getAdmin();
-    }, []);
-
-    const convertType = (data: string | number | undefined) => {
-        let val = typeof data === "string" ? parseInt(data) : data;
-        return val;
-    };
-
-    async function submit() {
-        let data = {
-            ACHOUR: typeof activityHis.ACHOUR === "string" ? parseInt(activityHis.ACHOUR) : 0,
-            ADMINID: convertType(activityHis.ADMIN_ID),
-            StudentID: convertType(activityHis.STUDENT_ID),
-            ACtivityID: convertType(activityHis.ACTIVITY_ID),
-
-        };
-
-        console.log(data)
-
+    const getAc = async () => {
+        const apiUrl = "http://localhost:8080/Activities_show";
         const requestOptions = {
-            method: "POST",
+            method: "GET",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/Ac_his`, requestOptions)
+        await fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    setSuccess(true);
-                    setErrorMessage("")
-                } else {
-                    setError(true);
-                    setErrorMessage(res.error)
+                    console.log(res.data)
+                    setAc(res.data);
                 }
+                else {console.log("NO DATA")}
             });
-    }
+    };
+
+    const columns: GridColDef[] = [
+        { field: "id", headerName: "ID", width: 30 },
+        { field: "acname", headerName: "ชื่อกิจกรรม", width: 150 },
+        { field: "date_s", headerName: "วันเริ่มกิจกรรม", width: 200, 
+            renderCell:(params) => moment(params.row.date_s).format('yyyy-MM-DD-dd HH:mm')},
+        { field: "date_e", headerName: "วันสิ้นสุดกิจกรรม", width: 200,
+            renderCell:(params) => moment(params.row.date_e).format('yyyy-MM-DD-dd HH:mm')},
+        { field: "lname", headerName: "สถานที่", width: 120 },
+        { field: 'Full name',
+            headerName: 'อาจารย์ที่ดูแลกิจกรรม',
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            width: 160,
+            valueGetter: (params: GridValueGetterParams) =>
+              `${params.row.tfirst_name || ''} ${params.row.tlast_name || ''}`,},
+        { field: "aname", headerName: "ผู้บันทึก", width: 200 },
+        
+    ];
+
+    useEffect(() => {
+        getAc();
+    }, []);
 
     return (
-        <Container maxWidth="md">
-            <Snackbar
-                open={success}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-                <Alert onClose={handleClose} severity="success">
-                    <div className="good-font">
-                        บันทึกข้อมูลสำเร็จ
-                    </div>
-                </Alert>
-            </Snackbar>
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
-                    <div className="good-font">
-                        บันทึกข้อมูลไม่สำเร็จ
-                    </div>
-                </Alert>
-            </Snackbar>
-            <Paper>
+        <div>
+            <Container maxWidth="lg">
                 <Box
                     display="flex"
                     sx={{
                         marginTop: 2,
                     }}
                 >
-                    <Box sx={{ paddingX: 2, paddingY: 1 }}>
+                    <Box flexGrow={1}>
                         <Typography
                             component="h2"
                             variant="h6"
@@ -189,128 +72,35 @@ function Ac_hisCreate() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                บันทึกกิจกรรม
+                                ข้อมูลกิจกรรม
                             </div>
                         </Typography>
                     </Box>
-                </Box>
-                <Divider />
-                <Grid container spacing={3} sx={{ padding: 2 }}>
-
-                    <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Student</p>
-                            <Select
-                                native
-                                value={activityHis.STUDENT_ID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "STUDENT_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    --เลือกนักศึกษา--
-                                </option>
-                                {student.map((item: STDInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Sfirstname} {item.Slastname}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Activity</p>
-                            <Select
-                                native
-                                value={activityHis.ACTIVITY_ID + ""}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "ACTIVITY_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    --เลือกกิจกรรม--
-                                </option>
-                                {activity.map((item: AcInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Acname}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Hour</p>
-                            <TextField
-                                id="ACHOUR"
-                                variant="outlined"
-                                type="number"
-                                size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={activityHis.ACHOUR || ""}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-                    </Grid>
-
-
-
-                    <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Admin</p>
-                            <Select
-                                native
-                                value={activityHis.ADMIN_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "ADMIN_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    --เลือกผู้บันทึก--
-                                </option>
-                                <option value={admin?.ID} key={admin?.ID}>
-                                    {admin?.Aname}
-                                </option>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-
-
-                    <Grid item xs={12}>
-                        <Button color="primary" component={RouterLink} to="/Ac_his" variant="contained">
-                            <div className="good-font">
-                                กลับ
-                            </div>
-
-                        </Button>
-
+                    <Box>
                         <Button
-                            style={{ float: "right" }}
-                            onClick={submit}
+                            component={RouterLink}
+                            to="/Activitycreate"
                             variant="contained"
                             color="primary"
                         >
-                            <div className="good-font">
-                                บันทึก
+                            <div className="good-font-white">
+                                เพิ่มกิจกรรม
                             </div>
                         </Button>
-
-                    </Grid>
-                </Grid>
-            </Paper>
-        </Container>
+                    </Box>
+                </Box>
+                <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
+                    <DataGrid
+                        rows={activity}
+                        //getRowId={(row) => row.ID}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                    />
+                </div>
+            </Container>
+        </div>
     );
 }
 
-export default Ac_hisCreate;
+export default Activity;
