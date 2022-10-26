@@ -1,70 +1,194 @@
 import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
 import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Autocomplete from "@mui/material/Autocomplete";
+
+//npm install dayjs --save
+import { GetCurrentAdmin } from "../services/HttpClientService"
 import { AcInterface } from "../models/IActivity";
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import moment from 'moment'
+import { LInterface } from "../models/ILocation";
+import { TInterface } from "../models/ITeacher";
+import { AdminInterface } from "../models/IAdmin";
 
-function Activity() {
-    const [activity, setAc] = React.useState<AcInterface[]>([]);
 
-    const getAc = async () => {
-        const apiUrl = "http://localhost:8080/Activities_show";
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
-        };
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
-        await fetch(apiUrl, requestOptions)
+function ActivityCreate() {
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState("");
+
+    const [location, setLocation] = React.useState<LInterface[]>([]);
+    const [teacher, setTeacher] = React.useState<TInterface[]>([]);
+    const [admin, setAdmin] = React.useState<AdminInterface>();
+    const [activity, setActivity] = React.useState<AcInterface>({ 
+      Date_s: new Date(),
+      Date_e: new Date(),
+    });
+
+    const apiUrl = "http://localhost:8080";
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
+    };
+
+    const handleClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setSuccess(false);
+        setError(false);
+    };
+
+    const handleInputChange = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+    ) => {
+        const id = event.target.id as keyof typeof ActivityCreate;
+        const { value } = event.target;
+        setActivity({ ...activity, [id]: value });
+    };
+
+    const handleChange = (event: SelectChangeEvent) => {
+        const name = event.target.name as keyof typeof activity;
+        setActivity({
+            ...activity,
+            [name]: event.target.value,
+        });
+    };
+
+    const getLocation = async () => {
+        fetch(`${apiUrl}/Locations`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setAc(res.data);
+                    setLocation(res.data);
                 }
-                else {console.log("NO DATA")}
+                else { console.log("NO DATA") }
+            });
+    };
+    
+    const getT = async () => {
+        fetch(`${apiUrl}/Teachers`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setTeacher(res.data);
+                }
+                else { console.log("NO DATA") }
             });
     };
 
-    const columns: GridColDef[] = [
-        { field: "id", headerName: "ID", width: 30 },
-        { field: "acname", headerName: "ชื่อกิจกรรม", width: 150 },
-        { field: "date_s", headerName: "วันเริ่มกิจกรรม", width: 200, 
-            renderCell:(params) => moment(params.row.date_s).format('yyyy-MM-DD-dd HH:mm')},
-        { field: "date_e", headerName: "วันสิ้นสุดกิจกรรม", width: 200,
-            renderCell:(params) => moment(params.row.date_e).format('yyyy-MM-DD-dd HH:mm')},
-        { field: "lname", headerName: "สถานที่", width: 120 },
-        { field: 'Full name',
-            headerName: 'อาจารย์ที่ดูแลกิจกรรม',
-            description: 'This column has a value getter and is not sortable.',
-            sortable: false,
-            width: 160,
-            valueGetter: (params: GridValueGetterParams) =>
-              `${params.row.tfirst_name || ''} ${params.row.tlast_name || ''}`,},
-        { field: "aname", headerName: "ผู้บันทึก", width: 200 },
-        
-    ];
+    const getAdmin = async () => {
+        let res = await GetCurrentAdmin();
+        activity.AdminID = res.ID;
+        if (res) {
+            setAdmin(res);
+            console.log(res)
+        }
+    };
 
     useEffect(() => {
-        getAc();
+        getLocation();
+        getT();
+        getAdmin();
     }, []);
 
+    const convertType = (data: string | number | undefined) => {
+        let val = typeof data === "string" ? parseInt(data) : data;
+        return val;
+    };
+
+    async function submit() {
+        let data = {
+            Acname: activity.Acname ?? "",
+            Date_s:  activity.Date_s,
+            Date_e: activity.Date_e,
+            LocationID: convertType(activity.LocationID),
+            TeacherID: convertType(activity.TeacherID),
+            AdminID: convertType(activity.AdminID),
+
+        };
+
+        console.log(data)
+
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/Activities`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setSuccess(true);
+                    setErrorMessage("")
+                } else {
+                    setError(true);
+                    setErrorMessage(res.error)
+                }
+            });
+    }
+
     return (
-        <div>
-            <Container maxWidth="lg">
+        <Container maxWidth="md">
+            <Snackbar
+                open={success}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+                <Alert onClose={handleClose} severity="success">
+                    <div className="good-font">
+                        บันทึกข้อมูลไม่สำเร็จ
+                    </div>
+                </Alert>
+            </Snackbar>
+            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    <div className="good-font">
+                        บันทึกข้อมูลสำเร็จ
+                    </div>
+                </Alert>
+            </Snackbar>
+            <Paper>
                 <Box
                     display="flex"
                     sx={{
                         marginTop: 2,
                     }}
                 >
-                    <Box flexGrow={1}>
+                    <Box sx={{ paddingX: 2, paddingY: 1 }}>
                         <Typography
                             component="h2"
                             variant="h6"
@@ -72,35 +196,144 @@ function Activity() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                ข้อมูลกิจกรรม
+                                เพิ่มกิจกรรม
                             </div>
                         </Typography>
                     </Box>
-                    <Box>
+                </Box>
+                <Divider />
+                <Grid container spacing={3} sx={{ padding: 2 }}>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">ชื่อกิจกรรม</p>
+                            <TextField
+                                id="Acname"
+                                variant="outlined"
+                                type="string"
+                                size="medium"
+                                value={activity.Acname}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">ผู้บันทึก</p>
+                            <Select
+                                native
+                                value={activity.AdminID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "AdminID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    เลือก
+                                </option>
+                                <option value={admin?.ID} key={admin?.ID}>
+                                    {admin?.Aname}
+                                </option>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">สถานที่</p>
+                            <Autocomplete
+                                disablePortal
+                                id="LocationID"
+                                getOptionLabel={(item: LInterface) => `${item.Lname}`}
+                                options={location}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { activity.LocationID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสถานที่" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">อาจารย์ที่ดูแลกิจกรรม</p>
+                            <Autocomplete
+                                disablePortal
+                                id="TeacherID"
+                                getOptionLabel={(item: TInterface) => `${item.TfirstName} ${item.TlastName}`}
+                                options={teacher}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { activity.TeacherID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกอาจารย์" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                   
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">วันเวลาเริ่มกิจกรรม</p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    value={activity.Date_s}
+                                    onChange={(newValue) => {
+                                        setActivity({
+                                          ...activity,
+                                          Date_s: newValue,
+                                        });
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">วันเวลาสิ้นสุดกิจกรรม</p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    value={activity.Date_e}
+                                    onChange={(newValue) => {
+                                        setActivity({
+                                          ...activity,
+                                          Date_e: newValue,
+                                        });
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+
+
+                    <Grid item xs={12}>
+                        <Button component={RouterLink} to="/Activity" variant="contained">
+                            <div className="good-font-white">
+                                กลับ
+                            </div>
+                        </Button>
                         <Button
-                            component={RouterLink}
-                            to="/Activitycreate"
+                            style={{ float: "right" }}
+                            onClick={submit}
                             variant="contained"
                             color="primary"
                         >
                             <div className="good-font-white">
-                                เพิ่มกิจกรรม
+                                บันทึกข้อมูล
                             </div>
                         </Button>
-                    </Box>
-                </Box>
-                <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
-                    <DataGrid
-                        rows={activity}
-                        //getRowId={(row) => row.ID}
-                        columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                    />
-                </div>
-            </Container>
-        </div>
+                    </Grid>
+                </Grid>
+            </Paper>
+        </Container>
     );
 }
 
-export default Activity;
+export default ActivityCreate;
